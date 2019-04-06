@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace是接口的全类名 -->
+<mapper namespace="com.dorm.admin.dao.AdminMapper">
+
+	<select id="getAdmin" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT count(*) FROM ADMIN where aname = #{aname} and apassword = #{apassword}
+	</select>
+
+</mapper>

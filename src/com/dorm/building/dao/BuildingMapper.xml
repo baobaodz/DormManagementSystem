@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace是接口的全类名 -->
+<mapper namespace="com.dorm.building.dao.BuildingMapper">
+
+	<!--查询所有楼宇 -->
+	<select id="queryBuilding" resultType="com.dorm.building.model.Building">
+		SELECT bid,bname,attribute,location，description FROM BUILDING
+	</select>
+	<!--查询指定楼宇 -->
+	<select id="getBuilding" parameterType="int" resultType="com.dorm.building.model.Building">
+		SELECT * FROM BUILDING where bid = #{bid}
+	</select>
+	<!--添加指定楼宇 -->
+	<insert id="saveBuilding" parameterType="com.dorm.building.model.Building">
+		insert into BUILDING(bid,bname,attribute,location，description,imageinfo) 
+		values (#{bid},#{bname},#{attribute},#{location},#{description},#{imageinfo})
+	</insert>
+	<update id="modifyBuilding" parameterType="com.dorm.building.model.Building">
+		UPDATE BUILDING SET 
+		BNAME=#{bname},ATTRIBUTE=#{attribute},LOCATION=#{location},
+		DESCRIPTION=#{description},IMAGEINFO=#{imageinfo}
+		WHERE BID = #{bid}	
+	</update>
+	<!--删除指定楼宇 -->
+	<delete id="deleteBuilding" parameterType="int">
+		DELETE FROM BUILDING WHERE bid=#{bid}
+	</delete>
+
+</mapper>
