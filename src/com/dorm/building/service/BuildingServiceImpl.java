@@ -1,6 +1,7 @@
 package com.dorm.building.service;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,13 @@ public class BuildingServiceImpl implements BuildingService{
 	@Override
 	public void saveBuilding(Building building) {
 		
-		
+		buildingMapper.saveBuilding(building);
+	}
+
+	@Override
+	public List<Building> queryBuilding() {
+		List<Building> buildings = buildingMapper.queryBuilding();
+		return buildings;
 	}
 		
 		

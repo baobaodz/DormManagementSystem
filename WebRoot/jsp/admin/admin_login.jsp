@@ -71,7 +71,7 @@
      				success:function(data){
      					sessionStorage.setItem("name", aname);
      					sessionStorage.setItem("password", apassword);
-     					window.location.href = "<%=request.getContextPath()%>/jsp/admin/admin_main.jsp";
+     					window.location.href = "<%=request.getContextPath()%>/jsp/admin/admin_index.jsp";
      				},
      				error:function(data){
      				

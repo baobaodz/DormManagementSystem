@@ -15,6 +15,7 @@
 	<context:component-scan base-package="com.dorm.admin.controller"></context:component-scan>
 	<context:component-scan base-package="com.dorm.dormadmin.controller"></context:component-scan>
 	<context:component-scan base-package="com.dorm.student.controller"></context:component-scan>
+	<context:component-scan base-package="com.dorm.building.controller"></context:component-scan>
 	<!-- 设置默认配置方案 -->
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<!-- 使用默认的Servlet来响应静态文件 -->

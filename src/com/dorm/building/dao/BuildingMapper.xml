@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--查询所有楼宇 -->
 	<select id="queryBuilding" resultType="com.dorm.building.model.Building">
-		SELECT bid,bname,attribute,location，description FROM BUILDING
+		SELECT * FROM BUILDING
 	</select>
 	<!--查询指定楼宇 -->
 	<select id="getBuilding" parameterType="int" resultType="com.dorm.building.model.Building">
@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!--添加指定楼宇 -->
 	<insert id="saveBuilding" parameterType="com.dorm.building.model.Building">
-		insert into BUILDING(bid,bname,attribute,location，description,imageinfo) 
+		insert into BUILDING(bid,bname,attribute,location,description,imageinfo) 
 		values (#{bid},#{bname},#{attribute},#{location},#{description},#{imageinfo})
 	</insert>
 	<update id="modifyBuilding" parameterType="com.dorm.building.model.Building">

@@ -118,42 +118,92 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">Panels</h3>
+					<h3 class="page-title">楼宇管理</h3>
 					<div class="row">
-						<div class="col-md-8">
-							<!-- PANEL HEADLINE -->
-							<div class="panel panel-headline">
-								<div class="panel-heading">
-									<h3 class="panel-title">Panel Headline</h3>
-									<p class="panel-subtitle">Panel to display most important information</p>
-								</div>
-								<div class="panel-body">
-									<h4>Panel Content</h4>
-									<p>Objectively network visionary methodologies via best-of-breed users. Phosfluorescently initiate go forward leadership skills before an expanded array of infomediaries. Monotonectally incubate web-enabled communities rather than process-centric.</p>
-								</div>
-							</div>
-							<!-- END PANEL HEADLINE -->
-						</div>
-						<div class="col-md-4">
-							<!-- PANEL NO PADDING -->
+						<div class="col-md-12">
+							<!-- TABLE HOVER -->
 							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Panel No Padding</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-										<button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
-									</div>
+								<div class="panel-body">
+									<p class="demo-button">
+										<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBuilding"><i class="fa fa-plus-square"></i> 添加 </button>
+										<button type="button" class="btn btn-primary"><i class="fa fa-edit"></i> 修改 </button>
+										<button type="button" class="btn btn-info"><i class="fa fa-trash-alt"></i> 删除 </button>
+										<button type="button" class="btn btn-info"><i class="fa fa-refresh"></i> 刷新 </button>
+										<button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-refresh fa-spin"></i> Refreshing...</button>
+									</p>
 								</div>
-								<div class="panel-body no-padding bg-primary text-center">
-									<div class="padding-top-30 padding-bottom-30">
-										<i class="fa fa-thumbs-o-up fa-5x"></i>
-										<h3>No Content Padding</h3>
-									</div>
+								<!-- 模态框（Modal） -->
+								<div class="modal fade" id="addBuilding" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="myModalLabel">楼宇管理  / 添加楼宇</h4>
+											</div>
+											<!--内容 -->
+											<div class="modal-body">
+												<span>宿舍楼号</span><input type="text" class="form-control bid" placeholder="请填写">
+												<br>
+												<span>楼宇名称</span><input type="text" class="form-control bname" placeholder="请填写">
+												<br>
+
+												<span>楼宇类别</span>
+												<select class="form-control attribute">
+													<option value="男生宿舍楼">男生宿舍楼</option>
+													<option value="女生宿舍楼">女生宿舍楼</option>
+													<option value="混合宿舍楼">混合宿舍楼</option>
+												</select>
+												<br>
+												<span>楼宇位置</span><input type="text" class="form-control location" placeholder="">
+												<br>
+												<textarea class="form-control description" placeholder="楼宇描述" rows="4"></textarea>
+												<br>				
+												<span>图片描述</span><input type="text" class="form-control imageinfo" placeholder="">								
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+												<button type="button" class="btn btn-primary" id="save">保存</button>			
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->
+								
+								<div class="panel-body">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>楼号</th>
+												<th>楼宇名</th>
+												<th>性质</th>
+												<th>位置</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>Steve</td>
+												<td>Jobs</td>
+												<td>@steve</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td>Simon</td>
+												<td>Philips</td>
+												<td>@simon</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td>Jane</td>
+												<td>Doe</td>
+												<td>@jane</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
-							<!-- END PANEL NO PADDING -->
+							<!-- END TABLE HOVER -->
 						</div>
-					</div>
+					</div>>
 					<div class="row">
 						<div class="col-md-4">
 							<!-- PANEL DEFAULT -->
@@ -262,22 +312,59 @@
 		
 			});
         }	
-        $(".admin-info,.profile-info h4").text(aname);
+        //$(".admin-info,.profile-info h4").text(aname);
 		// 刚进来获取文章动态加载列表
-		$.ajax({
-			url: "<%=request.getContextPath()%>/queryAllArticle",
-     		type: "post",
-     		dataType : "json",
-     		contentType: "application/json;charset=utf-8",
-     		data:JSON.stringify({
-     			"pageNumber": 0
-     		}),
-     		success:function(data){
+		$("#save").click(function(){
+			var bid =$(".bid").val();
+			var bname =$(".bname").val();
+			var attribute =$(".attribute").val();
+			var location =$(".location").val();
+			var description =$(".description").val();
+			var imageinfo =$(".imageinfo").val();
+			
+			alert(bid+bname+attribute+location+description+imageinfo);
+			$.ajax({
+				url: "<%=request.getContextPath()%>/saveBuilding",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"bid": bid,
+     				"bname": bname,
+     				"attribute": attribute,
+     				"location": location,
+     				"description": description,
+     				"imageinfo": imageinfo
+     			}),
+     			success:function(data){
      			
-     			 for(var i =0; i<data.length; i++){
-     			    data[i].draft==0?action = "已发布":action = "待发布";
-     			    var ptime = new Date(data[i].ptime).toLocaleString();
-			     	$(".articlelist").append("<tr><td>" + data[i].aid+"</td><td>"+
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
+				 	clickModifyButton();
+				 	clickDeleteButton();
+				 	clickPublishButton();
+				 
+     			}
+			
+			});	
+		})
+		queryAllBuilding();
+		function queryAllBuilding(){
+		
+			$.ajax({
+				url: "<%=request.getContextPath()%>/queryBuilding",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({}),
+     			success:function(data){
+     			
+     				alert("ok");
+     			 	for(var i =0; i<data.length; i++){
+     			    	alert(data[i].bid+data[i].bname+data[i].attribute+data[i].location+data[i].description+data[i].imageinfo);
+     			    
+     			    	data[i].draft==0?action = "已发布":action = "待发布";
+     			    	var ptime = new Date(data[i].ptime).toLocaleString();
+			     		$(".articlelist").append("<tr><td>" + data[i].aid+"</td><td>"+
 			     			  data[i].title+"</td><td>"+
 			     			  data[i].category_id+"</td><td>"+
 			     			  ptime+"</td><td>"+
@@ -285,14 +372,11 @@
 			     			  "</td><td><button type='button' class='btn btn-primary modify'>修改</button>"+
 			     			  "</td><td><button type='button' class='btn btn-danger delete'>删除</button>"+
 			     			  	"</td><td><button type='button' class='btn btn-info publish'>"+action+"</button></td></tr>");
-				 }
-				 clickModifyButton();
-				 clickDeleteButton();
-				 clickPublishButton();
-				 
-     		}
-			
-		});
+				 	}
+				 }	
+		 	});
+		}
+		
 		//点击修改按钮时传入id并返回一个article对象
 		function clickModifyButton(){
 		

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.dorm.admin.model.Admin;
 import com.dorm.building.model.Building;
 import com.dorm.building.service.BuildingService;
@@ -43,6 +44,14 @@ public class BuildingController {
 		Building building = new Building(bid,bname,attribute,location,description,imageinfo);
 		buildingService.saveBuilding(building);
 		return map;
+	}
+	@RequestMapping(value="queryBuilding",method = RequestMethod.POST)
+	@ResponseBody
+	public String queryBuilding(@RequestBody Map<String,Object> map,HttpSession session){
+		
+		List<Building> buildings = buildingService.queryBuilding();
+		
+		return JSON.toJSON(buildings).toString();
 	}
 	
 	
