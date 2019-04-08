@@ -54,5 +54,20 @@ public class BuildingController {
 		return JSON.toJSON(buildings).toString();
 	}
 	
-	
+	@RequestMapping(value="modifyBuilding",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> modifyBuilding(@RequestBody Map<String,Object> map,HttpSession session){
+		
+		
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
+		String bname = String.valueOf(map.get("bname"));
+		String attribute = String.valueOf(map.get("attribute"));
+		String location = String.valueOf(map.get("location"));
+		String description = String.valueOf(map.get("description"));
+		String imageinfo = String.valueOf(map.get("imageinfo"));
+		
+		Building building = new Building(bid,bname,attribute,location,description,imageinfo);
+		buildingService.modifyBuilding(building);
+		return map;
+	}	
 }

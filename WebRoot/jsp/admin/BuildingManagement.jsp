@@ -86,32 +86,7 @@
 		</nav>
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
-		<div id="sidebar-nav" class="sidebar">
-			<div class="sidebar-scroll">
-				<nav>
-					<ul class="nav">
-						<li><a href="index.html" class=""><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
-						<li><a href="elements.html" class=""><i class="lnr lnr-code"></i> <span>Elements</span></a></li>
-						<li><a href="charts.html" class=""><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a></li>
-						<li><a href="panels.html" class="active"><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
-						<li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li>
-						<li>
-							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-							<div id="subPages" class="collapse ">
-								<ul class="nav">
-									<li><a href="page-profile.html" class="">Profile</a></li>
-									<li><a href="page-login.html" class="">Login</a></li>
-									<li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
-								</ul>
-							</div>
-						</li>
-						<li><a href="tables.html" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>
-						<li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>Typography</span></a></li>
-						<li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+        <jsp:include page="common/sidebar.jsp"></jsp:include>
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
 		<div class="main">
@@ -168,35 +143,63 @@
 									</div><!-- /.modal-dialog -->
 								</div><!-- /.modal -->
 								
+								<!-- 修改楼宇模态框（Modal） -->
+								<div class="modal fade" id="modifyBuilding" tabindex="-1" role="dialog" aria-labelledby="modifyModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="modifyModalLabel">楼宇管理  / 修改楼宇</h4>
+											</div>
+											<!--内容 -->
+											<div class="modal-body">
+												<span>宿舍楼号</span><input type="text" class="form-control bid" placeholder="请填写">
+												<br>
+												<span>楼宇名称</span><input type="text" class="form-control bname" placeholder="请填写">
+												<br>
+
+												<span>楼宇类别</span>
+												<select class="form-control attribute">
+													<option value="男生宿舍楼">男生宿舍楼</option>
+													<option value="女生宿舍楼">女生宿舍楼</option>
+													<option value="混合宿舍楼">混合宿舍楼</option>
+												</select>
+												<br>
+												<span>楼宇位置</span><input type="text" class="form-control location" placeholder="">
+												<br>
+												<textarea class="form-control description" placeholder="楼宇描述" rows="4"></textarea>
+												<br>				
+												<span>图片描述</span><input type="text" class="form-control imageinfo" placeholder="">								
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+												<button type="button" class="btn btn-primary" id="confirm">确定</button>			
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->
+								
 								<div class="panel-body">
 									<table class="table table-hover">
 										<thead>
 											<tr>
+												<th>
+													<label class="fancy-checkbox checkbox-control">
+														<input type="checkbox" name="ifAll">
+														<span></span>
+													</label>
+												</th>
 												<th>楼号</th>
 												<th>楼宇名</th>
 												<th>性质</th>
 												<th>位置</th>
+												<th></th>
+												<th>操作</th>
+												
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Steve</td>
-												<td>Jobs</td>
-												<td>@steve</td>
-											</tr>
-											<tr>
-												<td>2</td>
-												<td>Simon</td>
-												<td>Philips</td>
-												<td>@simon</td>
-											</tr>
-											<tr>
-												<td>3</td>
-												<td>Jane</td>
-												<td>Doe</td>
-												<td>@jane</td>
-											</tr>
+										<tbody class="buildinglist">
+											
 										</tbody>
 									</table>
 								</div>
@@ -312,8 +315,66 @@
 		
 			});
         }	
-        //$(".admin-info,.profile-info h4").text(aname);
-		// 刚进来获取文章动态加载列表
+        
+		queryAllBuilding();
+		
+		function queryAllBuilding(){
+		
+			$.ajax({
+				url: "<%=request.getContextPath()%>/queryBuilding",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({}),
+     			success:function(data){
+     			
+     			
+     			 	for(var i =0; i<data.length; i++){
+     			    	//data[i].draft==0?action = "已发布":action = "待发布";
+     			    	//var ptime = new Date(data[i].ptime).toLocaleString();
+			     		$(".buildinglist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox'><span></span></label></td><td>"+
+							  data[i].bid+"</td><td>"+
+			     			  data[i].bname+"</td><td>"+
+			     			  data[i].attribute+"</td><td>"+
+			     			  data[i].location+"</td><td>"+"</td><td>"+
+			     			  "<button type='button' class='modify' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
+			     			  "<button type='button' class='more'>详情</button></td></tr>");
+			     			  	
+				 	}
+				 	
+				 	clickModifyBuilding(data);
+				 	clickMoreInfoe(data);
+				 }	
+		 	});
+		}
+		
+		//点击修改按钮时弹出模态框
+		function clickModifyBuilding(data){
+		
+			$(".modify").click(function(){ 
+			
+				//获取点击当前按钮所在行的第一列值，即楼宇编号
+				//var aid = $(this).parent().parent().children("td:first-Child").text();
+				//var aid = $(this).parents().children("td").eq(0).text();
+				var bid = $(this).parent().parent().find("td").eq(1).text();
+				alert(bid);
+				for(var i =0; i<data.length; i++){
+					if(bid==data[i].bid){
+						
+						$("#modifyBuilding .bid").val(bid);
+						$("#modifyBuilding .bname").val(data[i].bname);
+						$("#modifyBuilding .attribute").val(data[i].attribute);
+						$("#modifyBuilding .location").val(data[i].location);
+						$("#modifyBuilding .description").val(data[i].description);
+						$("#modifyBuilding .imageinfo").val(data[i].imageinfo);
+						
+					}
+				
+				}
+				
+			 });
+		}
+		//点击保存，提交新建请求
 		$("#save").click(function(){
 			var bid =$(".bid").val();
 			var bname =$(".bname").val();
@@ -339,57 +400,32 @@
      			success:function(data){
      			
 				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
-				 	clickModifyButton();
-				 	clickDeleteButton();
-				 	clickPublishButton();
 				 
      			}
 			
 			});	
 		})
-		queryAllBuilding();
-		function queryAllBuilding(){
+		//点击详情按钮跳转到BuildingInfo页面
+		function clickModifyBuilding(data){
 		
-			$.ajax({
-				url: "<%=request.getContextPath()%>/queryBuilding",
-     			type: "post",
-     			dataType : "json",
-     			contentType: "application/json;charset=utf-8",
-     			data:JSON.stringify({}),
-     			success:function(data){
-     			
-     				alert("ok");
-     			 	for(var i =0; i<data.length; i++){
-     			    	alert(data[i].bid+data[i].bname+data[i].attribute+data[i].location+data[i].description+data[i].imageinfo);
-     			    
-     			    	data[i].draft==0?action = "已发布":action = "待发布";
-     			    	var ptime = new Date(data[i].ptime).toLocaleString();
-			     		$(".articlelist").append("<tr><td>" + data[i].aid+"</td><td>"+
-			     			  data[i].title+"</td><td>"+
-			     			  data[i].category_id+"</td><td>"+
-			     			  ptime+"</td><td>"+
-			     			  data[i].draft+
-			     			  "</td><td><button type='button' class='btn btn-primary modify'>修改</button>"+
-			     			  "</td><td><button type='button' class='btn btn-danger delete'>删除</button>"+
-			     			  	"</td><td><button type='button' class='btn btn-info publish'>"+action+"</button></td></tr>");
-				 	}
-				 }	
-		 	});
-		}
-		
-		//点击修改按钮时传入id并返回一个article对象
-		function clickModifyButton(){
-		
-			$(".modify").click(function(){ 
+			$(".more").click(function(){ 
 			
-				//获取点击当前按钮所在行的第一列值，即文章编号
-				//var aid = $(this).parent().parent().children("td:first-Child").text();
-				//var aid = $(this).parents().children("td").eq(0).text();
-				var aid = $(this).parent().parent().find("td:first-Child").text();
-				alert(aid);
-				window.location.href = "<%=request.getContextPath()%>/jsp/admin_creation.jsp?aid="+aid;
+				var bid = $(this).parent().parent().find("td").eq(1).text();
+				window.location.href = "<%=request.getContextPath()%>/jsp/BuildingInfo.jsp?bid="+bid;
 			 });
 		}
+		
+		//复选框全选、反选
+    	$(".checkbox-control").click(function(){ 
+        	$("input[type='checkbox']").each(function(){//反选 
+            	if($(this).attr("checked")){ 
+            	
+               		$(this).prop("checked",""); 
+            	}else{ 
+                	$(this).prop("checked",true); 
+            	} 
+        	}) 
+    	}) 		
 		function clickDeleteButton(){
 		
 			$(".delete").click(function(){ 
@@ -417,6 +453,37 @@
 			 });
 		
 		 }
+		//点击确认按钮，提交修改
+		$("#confirm").click(function(){
+			var bid =$("#modifyBuilding .bid").val();
+			var bname =$("#modifyBuilding .bname").val();
+			var attribute =$("#modifyBuilding .attribute").val();
+			var location =$("#modifyBuilding .location").val();
+			var description =$("#modifyBuilding .description").val();
+			var imageinfo =$("#modifyBuilding .imageinfo").val();
+			
+			alert(bid+bname+attribute+location+description+imageinfo);
+			$.ajax({
+				url: "<%=request.getContextPath()%>/modifyBuilding",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"bid": bid,
+     				"bname": bname,
+     				"attribute": attribute,
+     				"location": location,
+     				"description": description,
+     				"imageinfo": imageinfo
+     			}),
+     			success:function(data){
+     			
+     				alert("修改成功");
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
+     			}
+			
+			});	
+		})		 
 		  //一键发布或者取消发布
 		  function clickPublishButton(){
 		  

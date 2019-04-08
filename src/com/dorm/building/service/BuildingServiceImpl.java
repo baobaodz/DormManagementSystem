@@ -34,6 +34,13 @@ public class BuildingServiceImpl implements BuildingService{
 		List<Building> buildings = buildingMapper.queryBuilding();
 		return buildings;
 	}
+
+	@Override
+	public void modifyBuilding(Building building) {
+
+		buildingMapper.modifyBuilding(building);
+		
+	}
 		
 		
 	

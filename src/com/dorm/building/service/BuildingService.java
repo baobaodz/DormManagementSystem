@@ -11,5 +11,6 @@ public interface BuildingService {
 
 	public int getAdmin(Map<String,Object> map);
 	public void saveBuilding(Building building);
+	public void modifyBuilding(Building building);
 	public List<Building> queryBuilding();
 }
