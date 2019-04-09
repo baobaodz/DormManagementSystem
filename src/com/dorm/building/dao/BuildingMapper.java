@@ -12,4 +12,5 @@ public interface BuildingMapper {
 		public void saveBuilding(Building building);
 		public List<Building> queryBuilding();
 		public void modifyBuilding(Building building);
+		public Building getBuilding(int bid);
 }

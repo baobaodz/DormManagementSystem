@@ -101,7 +101,7 @@
 								<div class="panel-body">
 									<p class="demo-button">
 										<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBuilding"><i class="fa fa-plus-square"></i> 添加 </button>
-										<button type="button" class="btn btn-primary"><i class="fa fa-edit"></i> 修改 </button>
+										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 修改 </button>
 										<button type="button" class="btn btn-info"><i class="fa fa-trash-alt"></i> 删除 </button>
 										<button type="button" class="btn btn-info"><i class="fa fa-refresh"></i> 刷新 </button>
 										<button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-refresh fa-spin"></i> Refreshing...</button>
@@ -332,48 +332,83 @@
      			 	for(var i =0; i<data.length; i++){
      			    	//data[i].draft==0?action = "已发布":action = "待发布";
      			    	//var ptime = new Date(data[i].ptime).toLocaleString();
-			     		$(".buildinglist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox'><span></span></label></td><td>"+
+			     		$(".buildinglist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>"+
 							  data[i].bid+"</td><td>"+
 			     			  data[i].bname+"</td><td>"+
 			     			  data[i].attribute+"</td><td>"+
 			     			  data[i].location+"</td><td>"+"</td><td>"+
-			     			  "<button type='button' class='modify' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
+			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
 			     			  "<button type='button' class='more'>详情</button></td></tr>");
 			     			  	
 				 	}
 				 	
 				 	clickModifyBuilding(data);
-				 	clickMoreInfoe(data);
+				 	clickMoreInfo(data);
 				 }	
 		 	});
 		}
 		
 		//点击修改按钮时弹出模态框
 		function clickModifyBuilding(data){
-		
-			$(".modify").click(function(){ 
-			
-				//获取点击当前按钮所在行的第一列值，即楼宇编号
+			var modifyup = $(".modify-up");
+			var bid = getTableBid(modifyup);
+			alert(bid);
+			showBuilding(data,bid);
+        	
+        	$(".modify-right").click(function(){ 
+        	
+ 				//获取点击当前按钮所在行的第一列值，即楼宇编号
 				//var aid = $(this).parent().parent().children("td:first-Child").text();
-				//var aid = $(this).parents().children("td").eq(0).text();
-				var bid = $(this).parent().parent().find("td").eq(1).text();
-				alert(bid);
-				for(var i =0; i<data.length; i++){
-					if(bid==data[i].bid){
+				//var aid = $(this).parents().children("td").eq(0).text();       	
+        		var bid = $(this).parent().parent().find("td").eq(1).text();
+        		showBuilding(data,bid);
+        		
+        	})
+		}
+		function getTableBid(element){
+			
+			element.click(function(){
+				var i=0;
+				$("input[name='choose']").each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		i++;
+                	}
+        		}) 
+        		if(i==0||i>1){
+        			alert("请选择一个");
+        			return false;
+        		}
+        		$("input[name='choose']").each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		var tableBid = $(this).parent().parent().parent().find("td").eq(1).text();
+                		
+                	}
+            	
+        		})			
+			
+			})
+		}
+		function showBuilding(data,bid){
+			alert(bid);
+			for(var i = 0; i<data.length; i++){
+				if(bid==data[i].bid){
 						
-						$("#modifyBuilding .bid").val(bid);
-						$("#modifyBuilding .bname").val(data[i].bname);
-						$("#modifyBuilding .attribute").val(data[i].attribute);
-						$("#modifyBuilding .location").val(data[i].location);
-						$("#modifyBuilding .description").val(data[i].description);
-						$("#modifyBuilding .imageinfo").val(data[i].imageinfo);
+					$("#modifyBuilding .bid").val(bid);
+					$("#modifyBuilding .bname").val(data[i].bname);
+					$("#modifyBuilding .attribute").val(data[i].attribute);
+					$("#modifyBuilding .location").val(data[i].location);
+					$("#modifyBuilding .description").val(data[i].description);
+					$("#modifyBuilding .imageinfo").val(data[i].imageinfo);
 						
-					}
-				
 				}
 				
-			 });
+			}
+						
 		}
+				
+
 		//点击保存，提交新建请求
 		$("#save").click(function(){
 			var bid =$(".bid").val();
@@ -406,7 +441,7 @@
 			});	
 		})
 		//点击详情按钮跳转到BuildingInfo页面
-		function clickModifyBuilding(data){
+		function clickMoreInfo(data){
 		
 			$(".more").click(function(){ 
 			
@@ -416,16 +451,29 @@
 		}
 		
 		//复选框全选、反选
-    	$(".checkbox-control").click(function(){ 
-        	$("input[type='checkbox']").each(function(){//反选 
-            	if($(this).attr("checked")){ 
+    	$("input[name='ifAll']").click(function(){ 
+    		
+    		if($(this).prop("checked")){
+    		
+    			
+    			$("input[name='choose']").each(function(){//反选 
             	
-               		$(this).prop("checked",""); 
-            	}else{ 
                 	$(this).prop("checked",true); 
-            	} 
-        	}) 
-    	}) 		
+            	
+        		}) 
+    			
+    		}else{
+    			
+    			$("input[name='choose']").each(function(){//反选 
+            	
+                	$(this).prop("checked",false); 
+            		
+        		})     		
+    		
+    		}
+        	
+    	}) 	
+
 		function clickDeleteButton(){
 		
 			$(".delete").click(function(){ 
@@ -516,8 +564,25 @@
 		  	});
 		  
 		  }
+		  $("#sidebar-nav .nav").find("li").eq(0).removeClass();
+		  
+		  
 	});
-
+	//页面全部加载完后执行
+	window.onload = function(){
+    	$(".buildinglist tr").click(function(){
+    		
+    		var isChecked = $(this).find("input[type='checkbox']").prop("checked");
+    		if(isChecked){
+    			$(this).find("input[type='checkbox']").prop("checked",false);
+    		
+    		}else{
+    			$(this).find("input[type='checkbox']").prop("checked",true);
+    		}
+    		
+    	
+    	})
+	}	
 </script>
 </body>
 

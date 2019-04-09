@@ -9,6 +9,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<!-- VENDOR CSS -->
+	
 	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../assets/vendor/linearicons/style.css">
@@ -100,8 +101,14 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="metric">
-										<span class="imageinfo"><img src="http://"></span>
+										<span class="imageinfo" style="width:300px;height:190px;">
+											<img src="http://resource.baobaodz.com/image/preview/articlepreview13.jpg" style="width:300px;height:190px;float:left;">
+										</span>
 										<p>
+											<span class="number">1,252</span>
+											<span class="title">Downloads</span>
+											<span class="number">1,252</span>
+											<span class="title">Downloads</span>
 											<span class="number">1,252</span>
 											<span class="title">Downloads</span>
 										</p>
@@ -150,10 +157,10 @@
 
 	<!-- END WRAPPER -->
 	<!-- Javascript -->
-	<script src="../../assets/vendor/jquery/jquery.min.js"></script>
-	<script src="../../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="../../assets/scripts/klorofil-common.js"></script>
+	<script src="../assets/vendor/jquery/jquery.min.js"></script>
+	<script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../assets/scripts/klorofil-common.js"></script>
 
 
     <script type="text/javascript">
@@ -180,7 +187,29 @@
 			});
         }	
         
-       
+		 var bidParameter = window.location.search;//?bid=
+		 if(bidParameter!=null&&bidParameter!=""){
+		 	var bid = bidParameter.substr(5,5);
+		 	$.ajax({
+		 		url:"<%=request.getContextPath()%>/getBuilding",
+				type : "post",
+				dataType : "json",
+				contentType : "application/json;charset=utf-8",
+				data : JSON.stringify({
+					"bid" : bid
+				}),
+				success : function(data) {
+
+					alert(data.bid+data.bname+data.imageinfo);
+					$("input[type='text']").val(data.title);
+					$(".selectcat").val(data.category_id);
+					$(".summarytext").text(data.summary);
+					$(".editormd-markdown-textarea").text(data.content);
+
+				}
+
+			});
+		}       
 
 		// 刚进来获取文章动态加载列表
 		$("#save").click(function(){

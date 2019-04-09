@@ -69,5 +69,14 @@ public class BuildingController {
 		Building building = new Building(bid,bname,attribute,location,description,imageinfo);
 		buildingService.modifyBuilding(building);
 		return map;
-	}	
+	}
+	@RequestMapping(value="getBuilding",method = RequestMethod.POST)
+	@ResponseBody
+	public String getBuilding(@RequestBody Map<String,Object> map,HttpSession session){
+		
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
+		Building  building = buildingService.getBuilding(bid);
+		
+		return JSON.toJSON(building).toString();
+	}
 }

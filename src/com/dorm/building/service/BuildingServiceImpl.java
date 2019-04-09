@@ -41,6 +41,12 @@ public class BuildingServiceImpl implements BuildingService{
 		buildingMapper.modifyBuilding(building);
 		
 	}
+
+	@Override
+	public Building getBuilding(int bid) {
+		
+		return buildingMapper.getBuilding(bid);
+	}
 		
 		
 	

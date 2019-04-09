@@ -13,4 +13,5 @@ public interface BuildingService {
 	public void saveBuilding(Building building);
 	public void modifyBuilding(Building building);
 	public List<Building> queryBuilding();
+	public Building getBuilding(int bid);
 }
