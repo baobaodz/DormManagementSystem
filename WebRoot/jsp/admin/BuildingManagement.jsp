@@ -102,7 +102,7 @@
 									<p class="demo-button">
 										<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBuilding"><i class="fa fa-plus-square"></i> 添加 </button>
 										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 修改 </button>
-										<button type="button" class="btn btn-info"><i class="fa fa-trash-alt"></i> 删除 </button>
+										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash-alt"></i> 删除 </button>
 										<button type="button" class="btn btn-info"><i class="fa fa-refresh"></i> 刷新 </button>
 										<button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-refresh fa-spin"></i> Refreshing...</button>
 									</p>
@@ -344,17 +344,17 @@
 				 	
 				 	clickModifyBuilding(data);
 				 	clickMoreInfo(data);
+				 	clickDeleteBuilding(data);
 				 }	
 		 	});
 		}
 		
 		//点击修改按钮时弹出模态框
 		function clickModifyBuilding(data){
-			var modifyup = $(".modify-up");
-			var bid = getTableBid(modifyup);
-			alert(bid);
-			showBuilding(data,bid);
-        	
+		
+			
+			judgeAndChoose($(".modify-up"),data);
+			
         	$(".modify-right").click(function(){ 
         	
  				//获取点击当前按钮所在行的第一列值，即楼宇编号
@@ -365,11 +365,17 @@
         		
         	})
 		}
-		function getTableBid(element){
+		function clickDeleteBuilding(data){
+		
+			var e = $(".delete-up");
+			judgeAndChoose(e,data);
 			
-			element.click(function(){
-				var i=0;
-				$("input[name='choose']").each(function(){//反选 
+		}
+        function judgeAndChoose(e,data){
+        	
+        	e.click(function(){
+				var i=0,checbox = $("input[name='choose']");
+				checbox.each(function(){//反选 
             	
                 	if($(this).prop("checked")){
                 		i++;
@@ -379,17 +385,19 @@
         			alert("请选择一个");
         			return false;
         		}
-        		$("input[name='choose']").each(function(){//反选 
+        		checbox.each(function(){//反选 
             	
                 	if($(this).prop("checked")){
-                		var tableBid = $(this).parent().parent().parent().find("td").eq(1).text();
+                		var bid = $(this).parent().parent().parent().find("td").eq(1).text();
+                		if(e.hasClass("modify-up")) showBuilding(data,bid);
+                		if(e.hasClass("delete-up")) deleteBuilding(bid); 
                 		
+                			
                 	}
             	
-        		})			
-			
-			})
-		}
+        		})	
+        	})		
+		}		
 		function showBuilding(data,bid){
 			alert(bid);
 			for(var i = 0; i<data.length; i++){
@@ -455,7 +463,6 @@
     		
     		if($(this).prop("checked")){
     		
-    			
     			$("input[name='choose']").each(function(){//反选 
             	
                 	$(this).prop("checked",true); 
@@ -469,25 +476,20 @@
                 	$(this).prop("checked",false); 
             		
         		})     		
-    		
     		}
-        	
     	}) 	
 
-		function clickDeleteButton(){
+		function deleteBuilding(bid){
 		
-			$(".delete").click(function(){ 
-			
-				if(confirm("确认删除吗？")){
-					//获取点击当前按钮所在行的第一列值，即文章编号
-					var aid = $(this).parent().parent().find("td:first-Child").text();
+				if(confirm("确认删除 "+bid+" 吗？")){
+					
 					$.ajax({
-						url: "<%=request.getContextPath()%>/deleteSpecificArticle",
+						url: "<%=request.getContextPath()%>/deleteBuilding",
      					type: "post",
      					dataType : "json",
      					contentType: "application/json;charset=utf-8",
      					data:JSON.stringify({
-     						"aid": aid
+     						"bid": bid
      					}),
      					success:function(data){
      						alert("删除成功！");
@@ -498,7 +500,7 @@
 					return false;
 				}
 				
-			 });
+			 
 		
 		 }
 		//点击确认按钮，提交修改
