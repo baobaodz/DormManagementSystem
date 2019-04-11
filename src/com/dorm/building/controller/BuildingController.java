@@ -28,7 +28,12 @@ public class BuildingController {
 	@Qualifier("BuildingService")
 	private BuildingService buildingService;
 	
-	
+
+	/**
+	 * 保存楼宇
+	 * @param map
+	 * @return 
+	 */
 	@RequestMapping(value="saveBuilding",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> saveBuilding(@RequestBody Map<String,Object> map,HttpSession session){
@@ -45,6 +50,12 @@ public class BuildingController {
 		buildingService.saveBuilding(building);
 		return map;
 	}
+	
+	/**
+	 * 查询所有楼宇
+	 * @param map
+	 * @return buildings
+	 */
 	@RequestMapping(value="queryBuilding",method = RequestMethod.POST)
 	@ResponseBody
 	public String queryBuilding(@RequestBody Map<String,Object> map,HttpSession session){
@@ -54,9 +65,14 @@ public class BuildingController {
 		return JSON.toJSON(buildings).toString();
 	}
 	
+	/**
+	 * 修改楼宇
+	 * @param map
+	 * @return map
+	 */
 	@RequestMapping(value="modifyBuilding",method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> modifyBuilding(@RequestBody Map<String,Object> map,HttpSession session){
+	public Map<String,Object> modifyBuilding(@RequestBody Map<String,Object> map){
 		
 		
 		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
@@ -70,9 +86,30 @@ public class BuildingController {
 		buildingService.modifyBuilding(building);
 		return map;
 	}
+	
+	/**
+	 * 查询指定楼宇
+	 * @param bid
+	 * @return building
+	 */
+	@RequestMapping(value="deleteBuilding",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> deleteBuilding(@RequestBody Map<String,Object> map){
+		
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
+		
+		buildingService.deleteBuilding(bid);
+		
+		return map;
+	}
+	/**
+	 * 删除指定楼宇
+	 * @param bid
+	 * @return 
+	 */
 	@RequestMapping(value="getBuilding",method = RequestMethod.POST)
 	@ResponseBody
-	public String getBuilding(@RequestBody Map<String,Object> map,HttpSession session){
+	public String getBuilding(@RequestBody Map<String,Object> map){
 		
 		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
 		Building  building = buildingService.getBuilding(bid);

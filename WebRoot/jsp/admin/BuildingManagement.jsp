@@ -103,7 +103,7 @@
 										<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBuilding"><i class="fa fa-plus-square"></i> 添加 </button>
 										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 修改 </button>
 										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash-alt"></i> 删除 </button>
-										<button type="button" class="btn btn-info"><i class="fa fa-refresh"></i> 刷新 </button>
+										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
 										<button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-refresh fa-spin"></i> Refreshing...</button>
 									</p>
 								</div>
@@ -342,38 +342,20 @@
 			     			  	
 				 	}
 				 	
-				 	clickModifyBuilding(data);
-				 	clickMoreInfo(data);
-				 	clickDeleteBuilding(data);
 				 }	
 		 	});
 		}
 		
+		clickModifyBuilding();
+		clickRefreshBuilding();
+		clickDeleteBuilding();		
+		clickMoreInfo();
+		
 		//点击修改按钮时弹出模态框
-		function clickModifyBuilding(data){
+		function clickModifyBuilding(){
 		
+			$(".modify-up").click(function(){
 			
-			judgeAndChoose($(".modify-up"),data);
-			
-        	$(".modify-right").click(function(){ 
-        	
- 				//获取点击当前按钮所在行的第一列值，即楼宇编号
-				//var aid = $(this).parent().parent().children("td:first-Child").text();
-				//var aid = $(this).parents().children("td").eq(0).text();       	
-        		var bid = $(this).parent().parent().find("td").eq(1).text();
-        		showBuilding(data,bid);
-        		
-        	})
-		}
-		function clickDeleteBuilding(data){
-		
-			var e = $(".delete-up");
-			judgeAndChoose(e,data);
-			
-		}
-        function judgeAndChoose(e,data){
-        	
-        	e.click(function(){
 				var i=0,checbox = $("input[name='choose']");
 				checbox.each(function(){//反选 
             	
@@ -389,31 +371,71 @@
             	
                 	if($(this).prop("checked")){
                 		var bid = $(this).parent().parent().parent().find("td").eq(1).text();
-                		if(e.hasClass("modify-up")) showBuilding(data,bid);
-                		if(e.hasClass("delete-up")) deleteBuilding(bid); 
-                		
-                			
+                		showBuilding(bid);
                 	}
             	
         		})	
-        	})		
-		}		
-		function showBuilding(data,bid){
-			alert(bid);
-			for(var i = 0; i<data.length; i++){
-				if(bid==data[i].bid){
-						
+        						
+			})
+        	$(".modify-right").click(function(){ 
+        	
+ 				//获取点击当前按钮所在行的第一列值，即楼宇编号
+				//var aid = $(this).parent().parent().children("td:first-Child").text();
+				//var aid = $(this).parents().children("td").eq(0).text();       	
+        		var bid = $(this).parent().parent().find("td").eq(1).text();
+        		showBuilding(bid);
+        		
+        	})
+		}
+		function clickDeleteBuilding(){
+		
+			$(".delete-up").click(function(){
+			
+				var i=0,checbox = $("input[name='choose']");
+				checbox.each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		i++;
+                	}
+        		}) 
+        		if(i==0){
+        			alert("请选择一个");
+        			return false;
+        		}
+        		checbox.each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		var bid = $(this).parent().parent().parent().find("td").eq(1).text();
+                		deleteBuilding(bid);
+                	}
+            	
+        		})	
+			})
+		}
+ 
+		//模态框显示选定楼宇
+		function showBuilding(bid){
+		
+			$.ajax({
+				url: "<%=request.getContextPath()%>/getBuilding",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"bid": bid
+     			}),
+     			success:function(data){
+     			
 					$("#modifyBuilding .bid").val(bid);
-					$("#modifyBuilding .bname").val(data[i].bname);
-					$("#modifyBuilding .attribute").val(data[i].attribute);
-					$("#modifyBuilding .location").val(data[i].location);
-					$("#modifyBuilding .description").val(data[i].description);
-					$("#modifyBuilding .imageinfo").val(data[i].imageinfo);
-						
-				}
-				
-			}
-						
+					$("#modifyBuilding .bname").val(data.bname);
+					$("#modifyBuilding .attribute").val(data.attribute);
+					$("#modifyBuilding .location").val(data.location);
+					$("#modifyBuilding .description").val(data.description);
+					$("#modifyBuilding .imageinfo").val(data.imageinfo);     			
+				 
+     			}
+			
+			});			
 		}
 				
 
@@ -448,8 +470,9 @@
 			
 			});	
 		})
+		
 		//点击详情按钮跳转到BuildingInfo页面
-		function clickMoreInfo(data){
+		function clickMoreInfo(){
 		
 			$(".more").click(function(){ 
 			
@@ -481,7 +504,7 @@
 
 		function deleteBuilding(bid){
 		
-				if(confirm("确认删除 "+bid+" 吗？")){
+				if(confirm("确认删除学生宿舍"+bid+"栋吗？")){
 					
 					$.ajax({
 						url: "<%=request.getContextPath()%>/deleteBuilding",
@@ -500,8 +523,6 @@
 					return false;
 				}
 				
-			 
-		
 		 }
 		//点击确认按钮，提交修改
 		$("#confirm").click(function(){
@@ -533,7 +554,16 @@
      			}
 			
 			});	
-		})		 
+		})	
+		function clickRefreshBuilding(){
+		
+			$(".refresh").click(function(){
+		
+				$(".buildinglist").empty();
+				queryAllBuilding();
+			}) 
+		}
+		
 		  //一键发布或者取消发布
 		  function clickPublishButton(){
 		  

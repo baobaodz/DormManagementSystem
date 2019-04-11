@@ -13,4 +13,5 @@ public interface BuildingMapper {
 		public List<Building> queryBuilding();
 		public void modifyBuilding(Building building);
 		public Building getBuilding(int bid);
+		public void deleteBuilding(int bid);
 }

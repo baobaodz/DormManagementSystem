@@ -47,6 +47,12 @@ public class BuildingServiceImpl implements BuildingService{
 		
 		return buildingMapper.getBuilding(bid);
 	}
+
+	@Override
+	public void deleteBuilding(int bid) {
+		buildingMapper.deleteBuilding(bid);
+		
+	}
 		
 		
 	
