@@ -341,16 +341,16 @@
 			     			  "<button type='button' class='more'>详情</button></td></tr>");
 			     			  	
 				 	}
+					clickModifyBuilding();
+					clickMoreInfo();				 	
 				 	
 				 }	
 		 	});
 		}
 		
-		clickModifyBuilding();
+
 		clickRefreshBuilding();
-		clickDeleteBuilding();		
-		clickMoreInfo();
-		
+		clickDeleteBuilding();
 		//点击修改按钮时弹出模态框
 		function clickModifyBuilding(){
 		
