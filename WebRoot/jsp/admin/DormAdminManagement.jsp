@@ -118,54 +118,75 @@
 											</div>
 											<!--内容 -->
 											<div class="modal-body">
-											<form role="form" style="padding:8px;">
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-user"></i>&nbsp; 工号</span>
-													<input class="form-control daid" placeholder="username" type="text">
-												</div>
-												<br>
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-key"></i> 密码</span>
-													<input class="form-control dapassword" placeholder="password" type="text">
-												</div>
-												<br>
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-id-badge"></i>&nbsp;&nbsp;姓名</span>
-													<input class="form-control truename" placeholder="truename" type="text">
-												</div>
-												<br>
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-phone"></i>&nbsp; 电话</span>
-													<input class="form-control workphone" placeholder="workphone" type="text">
-												</div>
-												<input type="text" class="form-control role" placeholder="" style="display:none">
-												<br>												
-												<textarea class="form-control description" placeholder="description" rows="4"></textarea>
-												<br>	
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-venus-mars"></i>&nbsp; 性别</span>
-													<label class="fancy-radio" style="float:left;margin:7px;">
-															<input name="gender" value="男" type="radio">
-															<span><i></i>男</span>
-														</label>
+												<ul id="myTab" class="nav nav-tabs nav-pills nav-justified">
+													<li class="active">
+														<a href="#info" data-toggle="tab">基础信息</a>
+													</li>
+													<li><a href="#distribution" data-toggle="tab">楼宇分配</a></li>
+												</ul>
+												<div id="myTabContent" class="tab-content">
+													<div class="tab-pane fade in active" id="info">
+														<form role="form" style="padding:8px;">
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-user"></i>&nbsp; 工号</span>
+																<input class="form-control daid" placeholder="username" type="text">
+															</div>
+															<br>
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-key"></i> 密码</span>
+																<input class="form-control dapassword" placeholder="password" type="text">
+															</div>
+															<br>
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-id-badge"></i>&nbsp;&nbsp;姓名</span>
+																<input class="form-control truename" placeholder="truename" type="text">
+															</div>
+															<br>
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-phone"></i>&nbsp; 电话</span>
+																<input class="form-control workphone" placeholder="workphone" type="text">
+															</div>
+															<input type="text" class="form-control role" placeholder="" style="display:none" value="dorm_admin">
+															<br>												
+															<textarea class="form-control description" placeholder="description" rows="4"></textarea>
+															<br>	
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-venus-mars"></i>&nbsp; 性别</span>
+																<label class="fancy-radio" style="float:left;margin:7px;">
+																	<input name="gender" value="男" type="radio" class="sex">
+																	<span><i></i>男</span>
+																</label>
 													
-														<label class="fancy-radio" style="float:left;margin: 7px;">
-															<input name="gender" value="女" type="radio">
-															<span><i></i>女</span>
-														</label>
+																<label class="fancy-radio" style="float:left;margin: 7px;">
+																	<input name="gender" value="女" type="radio" class="sex">
+																	<span><i></i>女</span>
+																</label>
 													
-												 </div>
-												 <br>
-												 <div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-image"></i>&nbsp; 照片</span>
-													<input type="file" id="inputfile" class="form-control picture">
-												 </div>	
-											</form>		
+												 			</div>
+												 			<br>
+												 			<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-image"></i>&nbsp; 照片</span>
+																<input type="file" id="inputfile" class="form-control picture">
+												 			</div>	
+														</form>		
+													
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+															<button type="button" class="btn btn-primary" id="next">下一步</button>			
+															<button type="button" class="btn btn-primary" id="save">保存</button>			
+														</div>														
+													</div>
+												<div class="tab-pane fade" id="distribution">
+													
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+															<button type="button" class="btn btn-primary" id="previous">上一步</button>			
+															<button type="button" class="btn btn-primary" id="save">保存</button>			
+														</div>	
+												</div>
 											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-												<button type="button" class="btn btn-primary" id="save">保存</button>			
 											</div>
+
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
 								</div><!-- /.modal -->
@@ -495,30 +516,53 @@
 
 		//点击保存，提交新建请求
 		$("#save").click(function(){
-			var bid =$(".bid").val();
-			var bname =$(".bname").val();
-			var attribute =$(".attribute").val();
-			var location =$(".location").val();
+			var daid =$(".daid").val();
+			var dapassword =$(".dapassword").val();
+			var role =$(".role").val();
+			var truename =$(".truename").val();
+			var sex=$("input:radio[name='gender']:checked").val();
+            if(sex==null){
+                 alert("什么也没选中!");
+                 return false;
+            }
+            
+			var workphone =$(".workphone").val();
 			var description =$(".description").val();
-			var imageinfo =$(".imageinfo").val();
+			var picture =$(".picture").val();
 			
-			alert(bid+bname+attribute+location+description+imageinfo);
+			var url = null;  
+			var fileObj = document.getElementById("inputfile").files[0];
+			if (window.createObjcectURL != undefined) {  
+    			url = window.createOjcectURL(fileObj);  
+			} else if (window.URL != undefined) {  
+    			url = window.URL.createObjectURL(fileObj);  
+			} else if (window.webkitURL != undefined) {  
+   				url = window.webkitURL.createObjectURL(fileObj);  
+   				
+			}
+			console.log(url);
+			alert(url);
+			alert(daid+dapassword+role+truename+sex+workphone+description+picture);
+			
 			$.ajax({
-				url: "<%=request.getContextPath()%>/saveBuilding",
+				url: "<%=request.getContextPath()%>/saveDormAdmin",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
-     				"bid": bid,
-     				"bname": bname,
-     				"attribute": attribute,
-     				"location": location,
+     				"daid": daid,
+     				"dapassword": dapassword,
+     				"role": role,
+     				"truename": truename,
+     				"sex": sex,
+     				"workphone": workphone,
      				"description": description,
-     				"imageinfo": imageinfo
+     				"picture": "blob:http://localhost:8089/370cd3d6-ae79-4d3a-87bc-66f3a784a0ef",
+     				"bid":"1"
      			}),
      			success:function(data){
      			
-				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/DormAdminManagement.jsp";
 				 
      			}
 			
@@ -651,6 +695,14 @@
 		  
 		  }
 		  $("#sidebar-nav .nav").find("li").eq(0).removeClass();
+		  $("#next").click(function(){
+		  
+		  		$("#myTab li:eq(1) a").tab("show");
+		  })
+		  $("#previous").click(function(){
+		  
+		  		$("#myTab li:eq(0) a").tab("show");
+		  })
 		  
 		  
 	});
