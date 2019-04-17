@@ -167,6 +167,7 @@
 												 			<div class="input-group">
 																<span class="input-group-addon"><i class="fa fa-image"></i>&nbsp; 照片</span>
 																<input type="file" id="inputfile" class="form-control picture">
+																<input type="hidden" id="hidefile" name="file" />
 												 			</div>	
 														</form>		
 													
@@ -530,20 +531,34 @@
 			var description =$(".description").val();
 			var picture =$(".picture").val();
 			
-			var url = null;  
-			var fileObj = document.getElementById("inputfile").files[0];
-			if (window.createObjcectURL != undefined) {  
-    			url = window.createOjcectURL(fileObj);  
-			} else if (window.URL != undefined) {  
-    			url = window.URL.createObjectURL(fileObj);  
-			} else if (window.webkitURL != undefined) {  
-   				url = window.webkitURL.createObjectURL(fileObj);  
-   				
-			}
-			console.log(url);
-			alert(url);
-			alert(daid+dapassword+role+truename+sex+workphone+description+picture);
-			
+
+		var src = null;
+		
+    			var oFReader = new FileReader();
+    			var file = document.getElementById("inputfile").files[0];
+    			oFReader.readAsDataURL(file);
+    			oFReader.onloadend = function(oFRevent){
+        			src = oFRevent.target.result;
+        			$("#hidefile").val(src);
+        			console.log(src);
+					alert(src);
+    			}
+
+		
+
+		var obj = document.getElementById("inputfile");
+	   
+		//判断图片格式
+		 var fileName=obj.value;  
+		 var suffixIndex=fileName.lastIndexOf(".");  
+		 var suffix=fileName.substring(suffixIndex+1).toUpperCase();  
+		 if(suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF"){  
+		    alert( "请上传图片（格式BMP、JPG、JPEG、PNG、GIF等）!");  
+		 }  
+		alert("第二个"+src);
+			alert(daid+dapassword+role+truename+sex+workphone+description+src);
+			imagebase64 = $("#hidefile").val();
+			alert(imagebase64);
 			$.ajax({
 				url: "<%=request.getContextPath()%>/saveDormAdmin",
      			type: "post",
@@ -557,7 +572,7 @@
      				"sex": sex,
      				"workphone": workphone,
      				"description": description,
-     				"picture": "blob:http://localhost:8089/370cd3d6-ae79-4d3a-87bc-66f3a784a0ef",
+     				"picture": imagebase64,
      				"bid":"1"
      			}),
      			success:function(data){
