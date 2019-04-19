@@ -15,13 +15,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!--添加指定楼宇 -->
 	<insert id="saveBuilding" parameterType="com.dorm.building.model.Building">
-		insert into BUILDING(bid,bname,attribute,location,description,imageinfo) 
-		values (#{bid},#{bname},#{attribute},#{location},#{description},#{imageinfo})
+		insert into BUILDING(bid,bname,attribute,location,description,imageinfo,managernumber) 
+		values (#{bid},#{bname},#{attribute},#{location},#{description},#{imageinfo},#{managernumber})
 	</insert>
 	<update id="modifyBuilding" parameterType="com.dorm.building.model.Building">
 		UPDATE BUILDING SET 
 		BNAME=#{bname},ATTRIBUTE=#{attribute},LOCATION=#{location},
-		DESCRIPTION=#{description},IMAGEINFO=#{imageinfo}
+		DESCRIPTION=#{description},IMAGEINFO=#{imageinfo},MANAGERNUMBER=#{managernumber}
 		WHERE BID = #{bid}	
 	</update>
 	<!--删除指定楼宇 -->

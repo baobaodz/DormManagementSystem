@@ -132,6 +132,13 @@
 												<span>楼宇位置</span><input type="text" class="form-control location" placeholder="">
 												<br>
 												<textarea class="form-control description" placeholder="楼宇描述" rows="4"></textarea>
+												<br>
+												<span>宿管人数</span>
+												<select class="form-control managernumber">
+													<option value="2">2人</option>
+													<option value="3">3人</option>
+													<option value="4">4人</option>
+												</select>
 												<br>				
 												<span>图片描述</span><input type="text" class="form-control imageinfo" placeholder="">								
 											</div>
@@ -168,7 +175,14 @@
 												<span>楼宇位置</span><input type="text" class="form-control location" placeholder="">
 												<br>
 												<textarea class="form-control description" placeholder="楼宇描述" rows="4"></textarea>
-												<br>				
+												<br>
+												<span>宿管人数</span>
+												<select class="form-control managernumber">
+													<option value="2">2人</option>
+													<option value="3">3人</option>
+													<option value="4">4人</option>
+												</select>
+												<br>															
 												<span>图片描述</span><input type="text" class="form-control imageinfo" placeholder="">								
 											</div>
 											<div class="modal-footer">
@@ -193,7 +207,7 @@
 												<th>楼宇名</th>
 												<th>性质</th>
 												<th>位置</th>
-												<th></th>
+												<th>宿管人数</th>
 												<th>操作</th>
 												
 											</tr>
@@ -336,7 +350,8 @@
 							  data[i].bid+"</td><td>"+
 			     			  data[i].bname+"</td><td>"+
 			     			  data[i].attribute+"</td><td>"+
-			     			  data[i].location+"</td><td>"+"</td><td>"+
+			     			  data[i].location+"</td><td>"+
+			     			  data[i].managernumber+"</td><td>"+
 			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
 			     			  "<button type='button' class='more'>详情</button></td></tr>");
 			     			  	
@@ -432,6 +447,7 @@
 					$("#modifyBuilding .location").val(data.location);
 					$("#modifyBuilding .description").val(data.description);
 					$("#modifyBuilding .imageinfo").val(data.imageinfo);     			
+					$("#modifyBuilding .managernumber").val(data.managernumber);     			
 				 
      			}
 			
@@ -441,14 +457,16 @@
 
 		//点击保存，提交新建请求
 		$("#save").click(function(){
+		
 			var bid =$(".bid").val();
 			var bname =$(".bname").val();
 			var attribute =$(".attribute").val();
 			var location =$(".location").val();
 			var description =$(".description").val();
 			var imageinfo =$(".imageinfo").val();
+			var managernumber =$(".managernumber").val();
 			
-			alert(bid+bname+attribute+location+description+imageinfo);
+			alert(bid+bname+attribute+location+description+imageinfo+managernumber);
 			$.ajax({
 				url: "<%=request.getContextPath()%>/saveBuilding",
      			type: "post",
@@ -460,7 +478,8 @@
      				"attribute": attribute,
      				"location": location,
      				"description": description,
-     				"imageinfo": imageinfo
+     				"imageinfo": imageinfo,
+     				"managernumber":managernumber
      			}),
      			success:function(data){
      			
@@ -532,6 +551,7 @@
 			var location =$("#modifyBuilding .location").val();
 			var description =$("#modifyBuilding .description").val();
 			var imageinfo =$("#modifyBuilding .imageinfo").val();
+			var managernumber =$("#modifyBuilding .managernumber").val();
 			
 			alert(bid+bname+attribute+location+description+imageinfo);
 			$.ajax({
@@ -545,7 +565,8 @@
      				"attribute": attribute,
      				"location": location,
      				"description": description,
-     				"imageinfo": imageinfo
+     				"imageinfo": imageinfo,
+     				"managernumber":managernumber
      			}),
      			success:function(data){
      			
@@ -564,38 +585,7 @@
 			}) 
 		}
 		
-		  //一键发布或者取消发布
-		  function clickPublishButton(){
-		  
-		  	$(".publish").click(function(){ 
-		  	
-		  		var draft = $(this).parent().parent().find("td").eq(4).text();
-		  		var aid = $(this).parent().parent().find("td").eq(0).text();
-		  		draft==0?operation="取消发布":operation="发布";
-		  		if(confirm("确定"+operation+"吗?")){
-		  			
-		  			$.ajax({
-						url: "<%=request.getContextPath()%>/publishOrAbolish",
-     					type: "post",
-     					dataType : "json",
-     					contentType: "application/json;charset=utf-8",
-     					data:JSON.stringify({
-     						"aid": aid,
-     						"draft": draft
-     					}),
-     					success:function(data){
-     						alert(operation+"成功！");
-							window.location.href = "<%=request.getContextPath()%>/jsp/admin_manage.jsp";
-						}
-					});
-		  	
-		  		}else{
-		  			return false;
-		  		}
-		  	
-		  	});
-		  
-		  }
+
 		  $("#sidebar-nav .nav").find("li").eq(0).removeClass();
 		  
 		  

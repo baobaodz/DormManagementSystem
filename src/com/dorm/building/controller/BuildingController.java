@@ -45,8 +45,9 @@ public class BuildingController {
 		String location = String.valueOf(map.get("location"));
 		String description = String.valueOf(map.get("description"));
 		String imageinfo = String.valueOf(map.get("imageinfo"));
+		String managernumber = String.valueOf(map.get("managernumber"));
 		
-		Building building = new Building(bid,bname,attribute,location,description,imageinfo);
+		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber);
 		buildingService.saveBuilding(building);
 		return map;
 	}
@@ -81,8 +82,10 @@ public class BuildingController {
 		String location = String.valueOf(map.get("location"));
 		String description = String.valueOf(map.get("description"));
 		String imageinfo = String.valueOf(map.get("imageinfo"));
+		String managernumber = String.valueOf(map.get("managernumber"));
 		
-		Building building = new Building(bid,bname,attribute,location,description,imageinfo);
+		
+		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber);
 		buildingService.modifyBuilding(building);
 		return map;
 	}

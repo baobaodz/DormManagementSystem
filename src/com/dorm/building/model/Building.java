@@ -8,6 +8,7 @@ public class Building {
 	private String location;
 	private String description;
 	private String imageinfo;
+	private String managernumber;
 	
 	
 	public int getBid() {
@@ -69,12 +70,23 @@ public class Building {
 		this.imageinfo = imageinfo;
 	}
 
+	
+	public String getManagernumber() {
+		return managernumber;
+	}
+
+
+	public void setManagernumber(String managernumber) {
+		this.managernumber = managernumber;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Building [bid=" + bid + ", bname=" + bname + ", attribute="
 				+ attribute + ", location=" + location + ", description="
-				+ description + ", imageinfo=" + imageinfo + "]";
+				+ description + ", imageinfo=" + imageinfo + ", managernumber="
+				+ managernumber + "]";
 	}
 
 	
@@ -88,9 +100,9 @@ public class Building {
 		this.description = description;
 	}
 	
-
+	
 	public Building(int bid, String bname, String attribute, String location,
-			String description, String imageinfo) {
+			String description, String imageinfo, String managernumber) {
 		super();
 		this.bid = bid;
 		this.bname = bname;
@@ -98,6 +110,17 @@ public class Building {
 		this.location = location;
 		this.description = description;
 		this.imageinfo = imageinfo;
+		this.managernumber = managernumber;
+	}
+
+	
+	public Building(int bid, String bname, String attribute,
+			String managernumber) {
+		super();
+		this.bid = bid;
+		this.bname = bname;
+		this.attribute = attribute;
+		this.managernumber = managernumber;
 	}
 
 

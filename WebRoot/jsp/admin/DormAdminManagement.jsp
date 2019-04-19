@@ -426,7 +426,7 @@
 		
 
 		clickRefreshBuilding();
-		clickDeleteBuilding();
+		clickDeleteDormAdmin();
 		//点击修改按钮时弹出模态框
 		function clickModifyBuilding(){
 		
@@ -443,7 +443,7 @@
         			alert("请选择一个");
         			return false;
         		}
-        		checbox.each(function(){//反选 
+        		checbox.each(function(){ 
             	
                 	if($(this).prop("checked")){
                 		var bid = $(this).parent().parent().parent().find("td").eq(1).text();
@@ -463,7 +463,7 @@
         		
         	})
 		}
-		function clickDeleteBuilding(){
+		function clickDeleteDormAdmin(){
 		
 			$(".delete-up").click(function(){
 			
@@ -478,14 +478,17 @@
         			alert("请选择一个");
         			return false;
         		}
-        		checbox.each(function(){//反选 
+        		var checkedId = "";
+        		checbox.each(function(e){//反选 
             	
                 	if($(this).prop("checked")){
-                		var bid = $(this).parent().parent().parent().find("td").eq(1).text();
-                		deleteBuilding(bid);
+                		var daid = $(this).parent().parent().parent().find("td").eq(1).text();
+                		checkedId +="," + daid;
+                		
                 	}
             	
-        		})	
+        		})
+        		deleteDormAdmin(checkedId);	
 			})
 		}
  
@@ -513,7 +516,21 @@
 			
 			});			
 		}
-				
+		var src = null;
+		$("#inputfile").change(function(e) {
+       		console.info(e.target.files[0]);//图片文件
+        	var dom =$("input[id='inputfile']")[0];
+        	console.log(e.target.value);//这个也是文件的路径和上面的dom.value是一样的
+        	var reader = new FileReader();
+        	reader.onload = (function (file) {
+            	return function (e) {
+               	console.info(this.result); 
+               	alert(this.result);//这个就是base64的数据了
+               	src = this.result;
+            	};
+        	})(e.target.files[0]);
+        		reader.readAsDataURL(e.target.files[0]);
+			});				
 
 		//点击保存，提交新建请求
 		$("#save").click(function(){
@@ -530,24 +547,11 @@
 			var workphone =$(".workphone").val();
 			var description =$(".description").val();
 			var picture =$(".picture").val();
-			
-
-		var src = null;
-		
-    			var oFReader = new FileReader();
-    			var file = document.getElementById("inputfile").files[0];
-    			oFReader.readAsDataURL(file);
-    			oFReader.onloadend = function(oFRevent){
-        			src = oFRevent.target.result;
-        			$("#hidefile").val(src);
-        			console.log(src);
-					alert(src);
-    			}
-
+			alert("第二个"+src);
 		
 
-		var obj = document.getElementById("inputfile");
-	   
+
+		var obj = document.getElementById("inputfile");	   
 		//判断图片格式
 		 var fileName=obj.value;  
 		 var suffixIndex=fileName.lastIndexOf(".");  
@@ -555,10 +559,8 @@
 		 if(suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF"){  
 		    alert( "请上传图片（格式BMP、JPG、JPEG、PNG、GIF等）!");  
 		 }  
-		alert("第二个"+src);
-			alert(daid+dapassword+role+truename+sex+workphone+description+src);
-			imagebase64 = $("#hidefile").val();
-			alert(imagebase64);
+		alert(daid+dapassword+role+truename+sex+workphone+description);
+
 			$.ajax({
 				url: "<%=request.getContextPath()%>/saveDormAdmin",
      			type: "post",
@@ -572,7 +574,7 @@
      				"sex": sex,
      				"workphone": workphone,
      				"description": description,
-     				"picture": imagebase64,
+     				"picture": src,
      				"bid":"1"
      			}),
      			success:function(data){
@@ -584,13 +586,14 @@
 			});	
 		})
 		
-		//点击详情按钮跳转到BuildingInfo页面
+		//点击详情按钮跳转到DormAdmin页面
 		function clickMoreInfo(){
 		
 			$(".more").click(function(){ 
 			
-				var bid = $(this).parent().parent().find("td").eq(1).text();
-				window.location.href = "<%=request.getContextPath()%>/jsp/BuildingInfo.jsp?bid="+bid;
+				var daid = $(this).parent().parent().find("td").eq(1).text();
+				window.location.href = "<%=request.getContextPath()%>/jsp/DormAdminInfo.jsp?daid="+daid;
+				
 			 });
 		}
 		
@@ -615,21 +618,22 @@
     		}
     	}) 	
 
-		function deleteBuilding(bid){
+		function deleteDormAdmin(checkedId){
 		
-				if(confirm("确认删除学生宿舍"+bid+"栋吗？")){
+				if(confirm("确定删除吗？")){
 					
 					$.ajax({
-						url: "<%=request.getContextPath()%>/deleteBuilding",
+						url: "<%=request.getContextPath()%>/deleteDormAdmin",
      					type: "post",
      					dataType : "json",
      					contentType: "application/json;charset=utf-8",
      					data:JSON.stringify({
-     						"bid": bid
+     						"checkedId": checkedId
      					}),
      					success:function(data){
      						alert("删除成功！");
-							window.location.reload();
+				 			window.location.href = "<%=request.getContextPath()%>/jsp/admin/DormAdminManagement.jsp";
+
 						}
 					});
 				}else{
