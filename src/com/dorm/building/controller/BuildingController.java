@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.dorm.admin.model.Admin;
 import com.dorm.building.model.Building;
 import com.dorm.building.service.BuildingService;
+import com.dorm.dormadmin.service.DormAdminService;
 
 @Controller
 public class BuildingController {
@@ -27,6 +28,7 @@ public class BuildingController {
 	@Autowired
 	@Qualifier("BuildingService")
 	private BuildingService buildingService;
+	private DormAdminService dormadminService;
 	
 
 	/**
@@ -45,9 +47,10 @@ public class BuildingController {
 		String location = String.valueOf(map.get("location"));
 		String description = String.valueOf(map.get("description"));
 		String imageinfo = String.valueOf(map.get("imageinfo"));
-		String managernumber = String.valueOf(map.get("managernumber"));
-		
-		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber);
+		int managernumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
+		int availablenumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
+
+		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber,availablenumber);
 		buildingService.saveBuilding(building);
 		return map;
 	}
@@ -82,10 +85,17 @@ public class BuildingController {
 		String location = String.valueOf(map.get("location"));
 		String description = String.valueOf(map.get("description"));
 		String imageinfo = String.valueOf(map.get("imageinfo"));
-		String managernumber = String.valueOf(map.get("managernumber"));
+		int managernumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
 		
+		int availablenumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
 		
-		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber);
+		int num = dormadminService.getDormAdminNumber(bid);
+		
+		if(managernumber>=num){
+			
+			availablenumber = managernumber - num;
+		}
+		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber,availablenumber);
 		buildingService.modifyBuilding(building);
 		return map;
 	}

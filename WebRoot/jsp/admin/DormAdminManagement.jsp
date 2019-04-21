@@ -153,7 +153,7 @@
 															<div class="input-group">
 																<span class="input-group-addon"><i class="fa fa-venus-mars"></i>&nbsp; 性别</span>
 																<label class="fancy-radio" style="float:left;margin:7px;">
-																	<input name="gender" value="男" type="radio" class="sex">
+																	<input name="gender" value="男" type="radio" class="sex" checked>
 																	<span><i></i>男</span>
 																</label>
 													
@@ -167,8 +167,9 @@
 												 			<div class="input-group">
 																<span class="input-group-addon"><i class="fa fa-image"></i>&nbsp; 照片</span>
 																<input type="file" id="inputfile" class="form-control picture">
-																<input type="hidden" id="hidefile" name="file" />
+																 
 												 			</div>	
+												 			<input type="hidden" class="hideworkstate" name="state" />
 														</form>		
 													
 														<div class="modal-footer">
@@ -179,6 +180,27 @@
 													</div>
 												<div class="tab-pane fade" id="distribution">
 													
+														<div class="modal-body">
+															<table class="table table-hover">
+																<thead>
+																	<tr>
+																		<th>楼号</th>
+																		<th>名称</th>
+																		<th>性质</th>
+																		<th>人数</th>
+																		<th>
+																			<label class="fancy-checkbox checkbox-control">
+																				<input type="checkbox" name="ifAll">
+																				<span></span>
+																			</label>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody class="Buildinglist">
+											
+																</tbody>
+															</table>				
+														</div>	
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 															<button type="button" class="btn btn-primary" id="previous">上一步</button>			
@@ -243,6 +265,8 @@
 													<span class="input-group-addon"><i class="fa fa-image"></i>&nbsp; 照片</span>
 													<input type="file" id="inputfile" class="form-control picture">
 												 </div>	
+												 
+												 <input type="hidden" class="hideworkstate" name="state" />
 											</form>		
 											</div>
 											<div class="modal-footer">
@@ -269,6 +293,7 @@
 												<th>性别</th>
 												<th>电话</th>
 												<th>介绍</th>
+												<th>状态</th>
 												<th>操作</th>
 												
 											</tr>
@@ -412,7 +437,8 @@
 			     			  data[i].truename+"</td><td>"+
 			     			  data[i].sex+"</td><td>"+
 			     			  data[i].workphone+"</td><td>"+
-			     			  data[i].description+"</td><td>"+"</td><td>"+
+			     			  data[i].description+"</td><td>"+
+			     			  data[i].workstate+"</td><td>"+
 			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
 			     			  "<button type='button' class='more'>详情</button></td></tr>");
 			     			  	
@@ -545,6 +571,8 @@
             }
             
 			var workphone =$(".workphone").val();
+			$(".hideworkstate").val("在职");
+			var workstate = $(".hideworkstate").val();
 			var description =$(".description").val();
 			var picture =$(".picture").val();
 			alert("第二个"+src);
@@ -573,6 +601,7 @@
      				"truename": truename,
      				"sex": sex,
      				"workphone": workphone,
+     				"workstate": workstate,
      				"description": description,
      				"picture": src,
      				"bid":"1"

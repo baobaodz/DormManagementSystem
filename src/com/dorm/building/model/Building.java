@@ -8,7 +8,8 @@ public class Building {
 	private String location;
 	private String description;
 	private String imageinfo;
-	private String managernumber;
+	private int managernumber;
+	private int availablenumber;
 	
 	
 	public int getBid() {
@@ -71,13 +72,23 @@ public class Building {
 	}
 
 	
-	public String getManagernumber() {
+	public int getManagernumber() {
 		return managernumber;
 	}
 
 
-	public void setManagernumber(String managernumber) {
+	public void setManagernumber(int managernumber) {
 		this.managernumber = managernumber;
+	}
+
+	
+	public int getAvailablenumber() {
+		return availablenumber;
+	}
+
+
+	public void setAvailablenumber(int availablenumber) {
+		this.availablenumber = availablenumber;
 	}
 
 
@@ -86,23 +97,16 @@ public class Building {
 		return "Building [bid=" + bid + ", bname=" + bname + ", attribute="
 				+ attribute + ", location=" + location + ", description="
 				+ description + ", imageinfo=" + imageinfo + ", managernumber="
-				+ managernumber + "]";
+				+ managernumber + ", availablenumber=" + availablenumber + "]";
 	}
+
+
+	
 
 	
 	public Building(int bid, String bname, String attribute, String location,
-			String description) {
-		super();
-		this.bid = bid;
-		this.bname = bname;
-		this.attribute = attribute;
-		this.location = location;
-		this.description = description;
-	}
-	
-	
-	public Building(int bid, String bname, String attribute, String location,
-			String description, String imageinfo, String managernumber) {
+			String description, String imageinfo, int managernumber,
+			int availablenumber) {
 		super();
 		this.bid = bid;
 		this.bname = bname;
@@ -111,17 +115,21 @@ public class Building {
 		this.description = description;
 		this.imageinfo = imageinfo;
 		this.managernumber = managernumber;
+		this.availablenumber = availablenumber;
 	}
 
-	
+
 	public Building(int bid, String bname, String attribute,
-			String managernumber) {
+			int managernumber, int availablenumber) {
 		super();
 		this.bid = bid;
 		this.bname = bname;
 		this.attribute = attribute;
 		this.managernumber = managernumber;
+		this.availablenumber = availablenumber;
 	}
+
+
 
 
 	public Building() {

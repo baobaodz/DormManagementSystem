@@ -15,8 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!--添加指定楼宇 -->
 	<insert id="saveBuilding" parameterType="com.dorm.building.model.Building">
-		insert into BUILDING(bid,bname,attribute,location,description,imageinfo,managernumber) 
-		values (#{bid},#{bname},#{attribute},#{location},#{description},#{imageinfo},#{managernumber})
+		insert into BUILDING(bid,bname,attribute,location,description,imageinfo,managernumber,availablenumber) 
+		values (#{bid},#{bname},#{attribute},#{location},#{description},#{imageinfo},#{managernumber},#{managernumber})
 	</insert>
 	<update id="modifyBuilding" parameterType="com.dorm.building.model.Building">
 		UPDATE BUILDING SET 
