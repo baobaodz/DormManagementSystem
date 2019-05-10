@@ -100,7 +100,7 @@
 							<div class="panel">
 								<div class="panel-body">
 									<p class="demo-button">
-										<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addDormAdmin"><i class="fa fa-plus-square"></i> 添加 </button>
+										<button type="button" class="btn btn-default new" data-toggle="modal" data-target="#addDormAdmin"><i class="fa fa-plus-square"></i> 添加 </button>
 										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyDormAdmin"><i class="fa fa-edit"></i> 修改 </button>
 										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash"></i> 删除 </button>
 										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
@@ -181,19 +181,16 @@
 												<div class="tab-pane fade" id="distribution">
 													
 														<div class="modal-body">
+															<span>注意：男性管理员不能分配到女生宿舍</span>
 															<table class="table table-hover">
-																<thead>
+																<thead class="distr-building">
 																	<tr>
 																		<th>楼号</th>
 																		<th>名称</th>
 																		<th>性质</th>
-																		<th>人数</th>
-																		<th>
-																			<label class="fancy-checkbox checkbox-control">
-																				<input type="checkbox" name="ifAll">
-																				<span></span>
-																			</label>
-																		</th>
+																		<th>已分配/总数</th>
+																		<th>选择</th>
+																		
 																	</tr>
 																</thead>
 																<tbody class="Buildinglist">
@@ -202,7 +199,7 @@
 															</table>				
 														</div>	
 														<div class="modal-footer">
-															<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+															<button type="button" class="btn btn-default close-down" data-dismiss="modal">取消</button>
 															<button type="button" class="btn btn-primary" id="previous">上一步</button>			
 															<button type="button" class="btn btn-primary" id="save">保存</button>			
 														</div>	
@@ -453,6 +450,41 @@
 
 		clickRefreshBuilding();
 		clickDeleteDormAdmin();
+		clicknewDormAdmin();
+		clickcloseModel();
+		
+		//点击新建按钮在模态框中显示待分配楼宇
+		function clicknewDormAdmin(){
+			$(".new").click(function(){
+				var isDistr = "0";
+				$.ajax({
+					url: "<%=request.getContextPath()%>/queryBuilding",
+     				type: "post",
+     				dataType : "json",
+     				contentType: "application/json;charset=utf-8",
+     				data:JSON.stringify({
+     					isDistr:"0"
+     				}),
+     				success:function(data){
+     			
+     			 		for(var i =0; i<data.length; i++){
+
+			     			$(".distr-building").append("<tr><td>"+
+																		
+							  	data[i].bid+"</td><td>"+
+			     			  	data[i].bname+"</td><td>"+
+			     			  	data[i].attribute+"</td><td>"+
+			     			  	data[i].dormadmins+"<span>/"+data[i].managernumber+"</span></td><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td></tr>");
+			     			  	
+				 		}
+				 	}	
+		 		});	
+		
+		
+			})
+
+		}
+		
 		//点击修改按钮时弹出模态框
 		function clickModifyBuilding(){
 		
@@ -646,7 +678,16 @@
         		})     		
     		}
     	}) 	
-
+		function clickcloseModel(){
+			$(".close,.close-down").click(function(){
+				$(".distr-building").removeClass();
+			
+			
+			})
+			
+		
+		
+		}
 		function deleteDormAdmin(checkedId){
 		
 				if(confirm("确定删除吗？")){
@@ -710,38 +751,6 @@
 			}) 
 		}
 		
-		  //一键发布或者取消发布
-		  function clickPublishButton(){
-		  
-		  	$(".publish").click(function(){ 
-		  	
-		  		var draft = $(this).parent().parent().find("td").eq(4).text();
-		  		var aid = $(this).parent().parent().find("td").eq(0).text();
-		  		draft==0?operation="取消发布":operation="发布";
-		  		if(confirm("确定"+operation+"吗?")){
-		  			
-		  			$.ajax({
-						url: "<%=request.getContextPath()%>/publishOrAbolish",
-     					type: "post",
-     					dataType : "json",
-     					contentType: "application/json;charset=utf-8",
-     					data:JSON.stringify({
-     						"aid": aid,
-     						"draft": draft
-     					}),
-     					success:function(data){
-     						alert(operation+"成功！");
-							window.location.href = "<%=request.getContextPath()%>/jsp/admin_manage.jsp";
-						}
-					});
-		  	
-		  		}else{
-		  			return false;
-		  		}
-		  	
-		  	});
-		  
-		  }
 		  $("#sidebar-nav .nav").find("li").eq(0).removeClass();
 		  $("#next").click(function(){
 		  
@@ -750,6 +759,7 @@
 		  $("#previous").click(function(){
 		  
 		  		$("#myTab li:eq(0) a").tab("show");
+		  		
 		  })
 		  
 		  

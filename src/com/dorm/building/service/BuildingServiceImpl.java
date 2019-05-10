@@ -53,6 +53,12 @@ public class BuildingServiceImpl implements BuildingService{
 		buildingMapper.deleteBuilding(bid);
 		
 	}
+
+	@Override
+	public int getDormAdminNumber(int bid) {
+		// TODO Auto-generated method stub
+		return buildingMapper.getDormAdminNumber(bid);
+	}
 		
 		
 	

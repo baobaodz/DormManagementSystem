@@ -5,18 +5,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace是接口的全类名 -->
 <mapper namespace="com.dorm.building.dao.BuildingMapper">
 
+
+	<resultMap type="com.dorm.building.model.Building" id="BuildingResultMap">
+		<id property="bid" column="bid" />
+		<result property="bname" column="bname" />
+		<result property="attribute" column="attribute" />
+		<result property="location" column="location" />
+		<result property="description" column="description" />
+		<result property="imageinfo" column="imageinfo" />
+		<result property="managernumber" column="managernumber" />
+		<!-- ofType指定dormadmins集合中的对象类型 -->
+		<collection property="dormadmins" ofType="com.dorm.dormadmin.model.DormAdmin">
+			<id property="daid" column="daid" />
+			<result property="dapassword" column="dapassword" />
+			<result property="role" column="role" />
+			<result property="truename" column="truename" />
+			<result property="sex" column="sex" />
+			<result property="workphone" column="workphone" />
+			<result property="workstate" column="workstate" />
+			<result property="description" column="description" />
+		</collection>
+	</resultMap>
+
 	<!--查询所有楼宇 -->
-	<select id="queryBuilding" resultType="com.dorm.building.model.Building">
-		SELECT * FROM BUILDING
+	<select id="queryBuilding" resultMap="BuildingResultMap">
+		SELECT * FROM BUILDING B
+			LEFT JOIN DORMADMIN D 
+		ON B.BID = D.BUILDING_ID
 	</select>
+<!--  	<select id="queryByDistr" resultType="java.util.Map"> -->
+<!--  		SELECT BID,BNAME,attribute,* FROM BUILDING  -->
+<!-- 	</select> -->
 	<!--查询指定楼宇 -->
-	<select id="getBuilding" parameterType="int" resultType="com.dorm.building.model.Building">
-		SELECT * FROM BUILDING where bid = #{bid}
+	<select id="getBuilding" parameterType="int" resultMap="BuildingResultMap">
+		SELECT * FROM BUILDING B,DORMADMIN D where B.BID=D.BUILDING_ID AND B.BID = #{bid}
 	</select>
+	
+
 	<!--添加指定楼宇 -->
 	<insert id="saveBuilding" parameterType="com.dorm.building.model.Building">
-		insert into BUILDING(bid,bname,attribute,location,description,imageinfo,managernumber,availablenumber) 
-		values (#{bid},#{bname},#{attribute},#{location},#{description},#{imageinfo},#{managernumber},#{managernumber})
+		insert into BUILDING(bid,bname,attribute,location,description,imageinfo,managernumber) 
+		values (#{bid},#{bname},#{attribute},#{location},#{description},#{imageinfo},#{managernumber})
 	</insert>
 	<update id="modifyBuilding" parameterType="com.dorm.building.model.Building">
 		UPDATE BUILDING SET 
@@ -28,5 +57,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteBuilding" parameterType="int">
 		DELETE FROM BUILDING WHERE bid=#{bid}
 	</delete>
+	<select id="getDormAdminNumber" parameterType="int" resultType="int">
+		select count(*) from DORMADMIN where bid = #{bid}
+	</select>
+	<select id="getDormAdmins" parameterType="int" resultType="com.dorm.dormadmin.model.DormAdmin">
+		select 
+			da.daid,
+			da.truename,
+			da.sex
+			da.workstate
+		from dormadmin DA
+		where building_id = #{id}
+	</select>
 
 </mapper>

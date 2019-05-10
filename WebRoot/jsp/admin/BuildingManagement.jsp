@@ -333,13 +333,15 @@
 		queryAllBuilding();
 		
 		function queryAllBuilding(){
-		
+			var isDistr = "1";
 			$.ajax({
 				url: "<%=request.getContextPath()%>/queryBuilding",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
-     			data:JSON.stringify({}),
+     			data:JSON.stringify({
+     				isDistr:"1"
+     			}),
      			success:function(data){
      			
      			

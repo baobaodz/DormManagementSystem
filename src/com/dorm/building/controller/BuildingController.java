@@ -1,6 +1,7 @@
 package com.dorm.building.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,6 @@ public class BuildingController {
 	@Autowired
 	@Qualifier("BuildingService")
 	private BuildingService buildingService;
-	private DormAdminService dormadminService;
 	
 
 	/**
@@ -48,9 +48,8 @@ public class BuildingController {
 		String description = String.valueOf(map.get("description"));
 		String imageinfo = String.valueOf(map.get("imageinfo"));
 		int managernumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
-		int availablenumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
 
-		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber,availablenumber);
+		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber);
 		buildingService.saveBuilding(building);
 		return map;
 	}
@@ -64,9 +63,30 @@ public class BuildingController {
 	@ResponseBody
 	public String queryBuilding(@RequestBody Map<String,Object> map,HttpSession session){
 		
-		List<Building> buildings = buildingService.queryBuilding();
 		
-		return JSON.toJSON(buildings).toString();
+		int isDistr = Integer.parseInt(String.valueOf(map.get("isDistr")));
+		if(isDistr==0){
+			
+			List<Building> buildings = buildingService.queryBuilding();
+			System.out.println("buildings:"+buildings);
+			Map<Object, Object> buildingsMap = new HashMap<Object,Object>();
+			for(int i=0;i<buildings.size();i++){
+				
+				buildingsMap.put("bid",buildings.get(i).getBid());
+				buildingsMap.put("bname",buildings.get(i).getBname());
+				buildingsMap.put("attribute",buildings.get(i).getAttribute());
+				buildingsMap.put("existing",buildings.get(i).getDormadmin().size());
+				buildingsMap.put("managernumber",buildings.get(i).getManagernumber());
+			}
+			System.out.println("buildingsMap:"+buildingsMap);
+			return JSON.toJSON(buildingsMap).toString();
+		}else{
+			
+			List<Building> buildings = buildingService.queryBuilding();
+			return JSON.toJSON(buildings).toString();
+			
+		}
+		
 	}
 	
 	/**
@@ -76,7 +96,7 @@ public class BuildingController {
 	 */
 	@RequestMapping(value="modifyBuilding",method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> modifyBuilding(@RequestBody Map<String,Object> map){
+	public String modifyBuilding(@RequestBody Map<String,Object> map){
 		
 		
 		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
@@ -87,17 +107,17 @@ public class BuildingController {
 		String imageinfo = String.valueOf(map.get("imageinfo"));
 		int managernumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
 		
-		int availablenumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
 		
-		int num = dormadminService.getDormAdminNumber(bid);
+		int num = buildingService.getBuilding(bid).getDormadmin().size();
 		
-		if(managernumber>=num){
+		if(managernumber<=num){
 			
-			availablenumber = managernumber - num;
+			System.out.println("error");
 		}
-		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber,availablenumber);
+		Building building = new Building(bid,bname,attribute,location,description,imageinfo,managernumber);
+		
 		buildingService.modifyBuilding(building);
-		return map;
+		return JSON.toJSON(map).toString();
 	}
 	
 	/**
@@ -126,7 +146,7 @@ public class BuildingController {
 		
 		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
 		Building  building = buildingService.getBuilding(bid);
-		
+		System.out.print(building);
 		return JSON.toJSON(building).toString();
 	}
 }

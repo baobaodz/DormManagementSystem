@@ -14,4 +14,5 @@ public interface BuildingMapper {
 		public void modifyBuilding(Building building);
 		public Building getBuilding(int bid);
 		public void deleteBuilding(int bid);
+		public int getDormAdminNumber(int bid);
 }
