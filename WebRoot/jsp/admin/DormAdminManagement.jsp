@@ -175,13 +175,13 @@
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 															<button type="button" class="btn btn-primary" id="next">下一步</button>			
-															<button type="button" class="btn btn-primary" id="save">保存</button>			
 														</div>														
 													</div>
 												<div class="tab-pane fade" id="distribution">
 													
 														<div class="modal-body">
 															<span>注意：男性管理员不能分配到女生宿舍</span>
+															<br>
 															<table class="table table-hover">
 																<thead class="distr-building">
 																	<tr>
@@ -242,17 +242,17 @@
 												</div>
 												<input type="text" class="form-control role" placeholder="" style="display:none">
 												<br>												
-												<textarea class="form-control description" placeholder="description" rows="4"></textarea>
+												<textarea class="form-control introduction" placeholder="introduction" rows="4"></textarea>
 												<br>	
 												<div class="input-group">
 													<span class="input-group-addon"><i class="fa fa-venus-mars"></i>&nbsp; 性别</span>
 													<label class="fancy-radio" style="float:left;margin:7px;">
-															<input name="gender" value="男" type="radio">
+															<input name="gender" value="男" type="radio" class="gender">
 															<span><i></i>男</span>
 														</label>
 													
 														<label class="fancy-radio" style="float:left;margin: 7px;">
-															<input name="gender" value="女" type="radio">
+															<input name="gender" value="女" type="radio" class="gender">
 															<span><i></i>女</span>
 														</label>
 													
@@ -290,6 +290,7 @@
 												<th>性别</th>
 												<th>电话</th>
 												<th>介绍</th>
+												<th>负责楼宇</th>
 												<th>状态</th>
 												<th>操作</th>
 												
@@ -434,13 +435,14 @@
 			     			  data[i].truename+"</td><td>"+
 			     			  data[i].sex+"</td><td>"+
 			     			  data[i].workphone+"</td><td>"+
-			     			  data[i].description+"</td><td>"+
+			     			  data[i].introduction+"</td><td>"+
+			     			  data[i].building.bid+"</td><td>"+
 			     			  data[i].workstate+"</td><td>"+
-			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
+			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyDormAdmin'>修改</button>"+
 			     			  "<button type='button' class='more'>详情</button></td></tr>");
 			     			  	
 				 	}
-					clickModifyBuilding();
+					clickModifyDormAdmin();
 					clickMoreInfo();				 	
 				 	
 				 }	
@@ -448,7 +450,7 @@
 		}
 		
 
-		clickRefreshBuilding();
+		clickRefreshDormAdmin();
 		clickDeleteDormAdmin();
 		clicknewDormAdmin();
 		clickcloseModel();
@@ -474,9 +476,11 @@
 							  	data[i].bid+"</td><td>"+
 			     			  	data[i].bname+"</td><td>"+
 			     			  	data[i].attribute+"</td><td>"+
-			     			  	data[i].dormadmins+"<span>/"+data[i].managernumber+"</span></td><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td></tr>");
+			     			  	data[i].existing+"<span>/"+data[i].managernumber+"</span></td>"+
+			     			  	"<td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td></tr>");
 			     			  	
 				 		}
+				 		
 				 	}	
 		 		});	
 		
@@ -486,16 +490,13 @@
 		}
 		
 		//点击修改按钮时弹出模态框
-		function clickModifyBuilding(){
+		function clickModifyDormAdmin(){
 		
 			$(".modify-up").click(function(){
 			
 				var i=0,checbox = $("input[name='choose']");
 				checbox.each(function(){//反选 
-            	
-                	if($(this).prop("checked")){
-                		i++;
-                	}
+                	if($(this).prop("checked")) {i++;}
         		}) 
         		if(i==0||i>1){
         			alert("请选择一个");
@@ -504,8 +505,8 @@
         		checbox.each(function(){ 
             	
                 	if($(this).prop("checked")){
-                		var bid = $(this).parent().parent().parent().find("td").eq(1).text();
-                		showBuilding(bid);
+                		var daid = $(this).parent().parent().parent().find("td").eq(1).text();
+                		showDormAdmin(daid);
                 	}
             	
         		})	
@@ -513,11 +514,8 @@
 			})
         	$(".modify-right").click(function(){ 
         	
- 				//获取点击当前按钮所在行的第一列值，即楼宇编号
-				//var aid = $(this).parent().parent().children("td:first-Child").text();
-				//var aid = $(this).parents().children("td").eq(0).text();       	
-        		var bid = $(this).parent().parent().find("td").eq(1).text();
-        		showBuilding(bid);
+        		var daid = $(this).parent().parent().find("td").eq(1).text();
+        		showDormAdmin(daid);
         		
         	})
 		}
@@ -527,10 +525,7 @@
 			
 				var i=0,checbox = $("input[name='choose']");
 				checbox.each(function(){//反选 
-            	
-                	if($(this).prop("checked")){
-                		i++;
-                	}
+                	if($(this).prop("checked")) i++;
         		}) 
         		if(i==0){
         			alert("请选择一个");
@@ -542,7 +537,6 @@
                 	if($(this).prop("checked")){
                 		var daid = $(this).parent().parent().parent().find("td").eq(1).text();
                 		checkedId +="," + daid;
-                		
                 	}
             	
         		})
@@ -551,32 +545,44 @@
 		}
  
 		//模态框显示选定楼宇
-		function showBuilding(bid){
+		function showDormAdmin(daid){
 		
 			$.ajax({
-				url: "<%=request.getContextPath()%>/getBuilding",
+				url: "<%=request.getContextPath()%>/getDormAdmin",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
-     				"bid": bid
+     				"daid": daid
      			}),
      			success:function(data){
      			
-					$("#modifyBuilding .bid").val(bid);
-					$("#modifyBuilding .bname").val(data.bname);
-					$("#modifyBuilding .attribute").val(data.attribute);
-					$("#modifyBuilding .location").val(data.location);
-					$("#modifyBuilding .description").val(data.description);
-					$("#modifyBuilding .imageinfo").val(data.imageinfo);     			
-				 
+					$("#modifyDormAdmin .daid").val(daid);
+					$("#modifyDormAdmin .dapassword").val(data.dapassword);
+					$("#modifyDormAdmin .truename").val(data.truename);
+					$("input:radio[name='gender']").each(function(){
+						if($(this).val()==data.sex) $(this).prop("checked",true);
+					})
+					$("#modifyDormAdmin .workphone").val(data.workphone);
+					$("#modifyDormAdmin .introduction").val(data.introduction);     			
      			}
-			
 			});			
 		}
+		//获取上传图片的base64路径
 		var src = null;
 		$("#inputfile").change(function(e) {
+
+			//判断图片格式
+		 	var obj = document.getElementById("inputfile");	   
+		 	var fileName=obj.value;  
+		 	var suffixIndex=fileName.lastIndexOf(".");  
+		 	var suffix=fileName.substring(suffixIndex+1).toUpperCase();  
+		 	if(suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF"){  
+		    	alert( "请上传图片（格式BMP、JPG、JPEG、PNG、GIF等）!"); 
+				$("#inputfile").attr("value","");
+		 	}  
        		console.info(e.target.files[0]);//图片文件
+       		
         	var dom =$("input[id='inputfile']")[0];
         	console.log(e.target.value);//这个也是文件的路径和上面的dom.value是一样的
         	var reader = new FileReader();
@@ -587,9 +593,10 @@
                	src = this.result;
             	};
         	})(e.target.files[0]);
-        		reader.readAsDataURL(e.target.files[0]);
-			});				
+        	reader.readAsDataURL(e.target.files[0]);
 
+		});	
+		
 		//点击保存，提交新建请求
 		$("#save").click(function(){
 			var daid =$(".daid").val();
@@ -597,29 +604,31 @@
 			var role =$(".role").val();
 			var truename =$(".truename").val();
 			var sex=$("input:radio[name='gender']:checked").val();
-            if(sex==null){
-                 alert("什么也没选中!");
-                 return false;
-            }
-            
 			var workphone =$(".workphone").val();
 			$(".hideworkstate").val("在职");
 			var workstate = $(".hideworkstate").val();
-			var description =$(".description").val();
-			var picture =$(".picture").val();
-			alert("第二个"+src);
-		
-
-
-		var obj = document.getElementById("inputfile");	   
-		//判断图片格式
-		 var fileName=obj.value;  
-		 var suffixIndex=fileName.lastIndexOf(".");  
-		 var suffix=fileName.substring(suffixIndex+1).toUpperCase();  
-		 if(suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF"){  
-		    alert( "请上传图片（格式BMP、JPG、JPEG、PNG、GIF等）!");  
-		 }  
-		alert(daid+dapassword+role+truename+sex+workphone+description);
+			var introduction =$(".description").val();
+			alert("第二个第二个第二个:"+src);
+			var building_id = 1;
+			
+			var i=0,checbox = $("input[name='choose']");
+			checbox.each(function(){
+            	
+            	if($(this).prop("checked")) {i++;}
+        		if(i==0||i>1){
+        			alert("请选择一个");
+        			return false;
+        		}
+        		checbox.each(function(){ 
+            	
+                	if($(this).prop("checked")){
+                		building_id = $(this).parent().parent().parent().find("td").eq(0).text();
+                		alert(building_id);
+                		
+                	}
+        		})	
+			})
+		alert(daid+dapassword+role+truename+sex+workphone+introduction+building_id);
 
 			$.ajax({
 				url: "<%=request.getContextPath()%>/saveDormAdmin",
@@ -634,12 +643,13 @@
      				"sex": sex,
      				"workphone": workphone,
      				"workstate": workstate,
-     				"description": description,
+     				"introduction": introduction,
      				"picture": src,
-     				"bid":"1"
+     				"building_id":building_id
      			}),
      			success:function(data){
      			
+     				alert("新增成功");
 				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/DormAdminManagement.jsp";
 				 
      			}
@@ -684,9 +694,6 @@
 			
 			
 			})
-			
-		
-		
 		}
 		function deleteDormAdmin(checkedId){
 		
@@ -717,7 +724,7 @@
 			var bname =$("#modifyBuilding .bname").val();
 			var attribute =$("#modifyBuilding .attribute").val();
 			var location =$("#modifyBuilding .location").val();
-			var description =$("#modifyBuilding .description").val();
+			var introduction =$("#modifyBuilding .description").val();
 			var imageinfo =$("#modifyBuilding .imageinfo").val();
 			
 			alert(bid+bname+attribute+location+description+imageinfo);
@@ -731,7 +738,7 @@
      				"bname": bname,
      				"attribute": attribute,
      				"location": location,
-     				"description": description,
+     				"introduction": introduction,
      				"imageinfo": imageinfo
      			}),
      			success:function(data){
@@ -742,12 +749,12 @@
 			
 			});	
 		})	
-		function clickRefreshBuilding(){
+		function clickRefreshDormAdmin(){
 		
 			$(".refresh").click(function(){
 		
-				$(".buildinglist").empty();
-				queryAllBuilding();
+				$(".dormadminlist").empty();
+				queryAllDormAdmin();
 			}) 
 		}
 		

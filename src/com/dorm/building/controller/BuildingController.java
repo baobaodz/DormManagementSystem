@@ -1,5 +1,6 @@
 package com.dorm.building.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.dorm.admin.model.Admin;
 import com.dorm.building.model.Building;
+import com.dorm.building.model.DistrBuilding;
 import com.dorm.building.service.BuildingService;
 import com.dorm.dormadmin.service.DormAdminService;
 
@@ -69,17 +71,19 @@ public class BuildingController {
 			
 			List<Building> buildings = buildingService.queryBuilding();
 			System.out.println("buildings:"+buildings);
-			Map<Object, Object> buildingsMap = new HashMap<Object,Object>();
+			List<DistrBuilding> distrBuildingList = new ArrayList<DistrBuilding>();
 			for(int i=0;i<buildings.size();i++){
 				
-				buildingsMap.put("bid",buildings.get(i).getBid());
-				buildingsMap.put("bname",buildings.get(i).getBname());
-				buildingsMap.put("attribute",buildings.get(i).getAttribute());
-				buildingsMap.put("existing",buildings.get(i).getDormadmin().size());
-				buildingsMap.put("managernumber",buildings.get(i).getManagernumber());
+				DistrBuilding distrBuilding = new DistrBuilding(buildings.get(i).getBid(),
+						buildings.get(i).getBname(),
+						buildings.get(i).getAttribute(),
+						buildings.get(i).getDormadmin().size(),
+						buildings.get(i).getManagernumber());
+				distrBuildingList.add(distrBuilding);
+				
 			}
-			System.out.println("buildingsMap:"+buildingsMap);
-			return JSON.toJSON(buildingsMap).toString();
+			System.out.println("distrBuildingList:"+distrBuildingList);
+			return JSON.toJSON(distrBuildingList).toString();
 		}else{
 			
 			List<Building> buildings = buildingService.queryBuilding();
@@ -108,7 +112,7 @@ public class BuildingController {
 		int managernumber = Integer.parseInt(String.valueOf(map.get("managernumber")));
 		
 		
-		int num = buildingService.getBuilding(bid).getDormadmin().size();
+		int num = buildingService.getDormAdmins(bid).size();
 		
 		if(managernumber<=num){
 			
@@ -145,7 +149,8 @@ public class BuildingController {
 	public String getBuilding(@RequestBody Map<String,Object> map){
 		
 		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
-		Building  building = buildingService.getBuilding(bid);
+		int listSize = buildingService.getDormAdmins(bid).size();
+		Building  building = buildingService.getBuilding(bid,listSize);
 		System.out.print(building);
 		return JSON.toJSON(building).toString();
 	}

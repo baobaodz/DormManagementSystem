@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dorm.building.model.Building;
+import com.dorm.dormadmin.model.DormAdmin;
 
 
 public interface BuildingService {
@@ -13,7 +14,8 @@ public interface BuildingService {
 	public void saveBuilding(Building building);
 	public void modifyBuilding(Building building);
 	public List<Building> queryBuilding();
-	public Building getBuilding(int bid);
+	public Building getBuilding(int bid,int listSize);
 	public void deleteBuilding(int bid);
 	public int getDormAdminNumber(int bid);
+	public List<DormAdmin> getDormAdmins(int bid);
 }

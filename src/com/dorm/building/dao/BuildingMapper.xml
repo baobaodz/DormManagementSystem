@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result property="sex" column="sex" />
 			<result property="workphone" column="workphone" />
 			<result property="workstate" column="workstate" />
-			<result property="description" column="description" />
+			<result property="introduction" column="introduction" />
 		</collection>
 	</resultMap>
 
@@ -37,8 +37,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--  		SELECT BID,BNAME,attribute,* FROM BUILDING  -->
 <!-- 	</select> -->
 	<!--查询指定楼宇 -->
-	<select id="getBuilding" parameterType="int" resultMap="BuildingResultMap">
-		SELECT * FROM BUILDING B,DORMADMIN D where B.BID=D.BUILDING_ID AND B.BID = #{bid}
+	<select id="getBuilding" resultMap="BuildingResultMap">
+		SELECT * FROM BUILDING B 
+		<if test="listSize!=0">
+			RIGHT JOIN DORMADMIN D ON B.BID=D.BUILDING_ID
+		</if>
+		  WHERE 1=1 AND B.BID = #{bid}
 	</select>
 	
 
@@ -61,13 +65,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from DORMADMIN where bid = #{bid}
 	</select>
 	<select id="getDormAdmins" parameterType="int" resultType="com.dorm.dormadmin.model.DormAdmin">
-		select 
-			da.daid,
-			da.truename,
-			da.sex
-			da.workstate
-		from dormadmin DA
-		where building_id = #{id}
+		SELECT 
+			D.daid,
+			D.truename,
+			D.sex,
+			D.workstate
+		FROM DORMADMIN D
+		WHERE building_id = #{bid}
 	</select>
 
 </mapper>

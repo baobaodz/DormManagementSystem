@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dorm.building.dao.BuildingMapper;
 import com.dorm.building.model.Building;
+import com.dorm.dormadmin.model.DormAdmin;
 
 @Service("BuildingService")
 public class BuildingServiceImpl implements BuildingService{
@@ -43,9 +44,9 @@ public class BuildingServiceImpl implements BuildingService{
 	}
 
 	@Override
-	public Building getBuilding(int bid) {
+	public Building getBuilding(int bid,int listSize) {
 		
-		return buildingMapper.getBuilding(bid);
+		return buildingMapper.getBuilding(bid,listSize);
 	}
 
 	@Override
@@ -58,6 +59,12 @@ public class BuildingServiceImpl implements BuildingService{
 	public int getDormAdminNumber(int bid) {
 		// TODO Auto-generated method stub
 		return buildingMapper.getDormAdminNumber(bid);
+	}
+
+	@Override
+	public List<DormAdmin> getDormAdmins(int bid) {
+
+		return buildingMapper.getDormAdmins(bid);
 	}
 		
 		
