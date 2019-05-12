@@ -118,14 +118,14 @@
 											</div>
 											<!--内容 -->
 											<div class="modal-body">
-												<ul id="myTab" class="nav nav-tabs nav-pills nav-justified">
+												<ul id="addTab" class="nav nav-tabs nav-pills nav-justified">
 													<li class="active">
-														<a href="#info" data-toggle="tab">基础信息</a>
+														<a href="#add-info" data-toggle="tab">基础信息</a>
 													</li>
-													<li><a href="#distribution" data-toggle="tab">楼宇分配</a></li>
+													<li><a href="#add-distribution" data-toggle="tab">楼宇分配</a></li>
 												</ul>
 												<div id="myTabContent" class="tab-content">
-													<div class="tab-pane fade in active" id="info">
+													<div class="tab-pane fade in active" id="add-info">
 														<form role="form" style="padding:8px;">
 															<div class="input-group">
 																<span class="input-group-addon"><i class="fa fa-user"></i>&nbsp; 工号</span>
@@ -177,7 +177,7 @@
 															<button type="button" class="btn btn-primary" id="next">下一步</button>			
 														</div>														
 													</div>
-												<div class="tab-pane fade" id="distribution">
+												<div class="tab-pane fade" id="add-distribution">
 													
 														<div class="modal-body">
 															<span>注意：男性管理员不能分配到女生宿舍</span>
@@ -193,7 +193,7 @@
 																		
 																	</tr>
 																</thead>
-																<tbody class="Buildinglist">
+																<tbody class="building-list">
 											
 																</tbody>
 															</table>				
@@ -216,60 +216,94 @@
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-												<h4 class="modal-title" id="myModalLabel">宿舍管理员管理  / 修改管理员信息</h4>
+												<h4 class="modal-title" id="myModalLabel">宿舍管理员管理  / 修改</h4>
 											</div>
 											<!--内容 -->
 											<div class="modal-body">
-											<form role="form" style="padding:8px;">
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-user"></i>&nbsp; 工号</span>
-													<input class="form-control daid" placeholder="username" type="text">
-												</div>
-												<br>
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-key"></i> 密码</span>
-													<input class="form-control dapassword" placeholder="password" type="text">
-												</div>
-												<br>
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-id-badge"></i>&nbsp;&nbsp;姓名</span>
-													<input class="form-control truename" placeholder="truename" type="text">
-												</div>
-												<br>
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-phone"></i>&nbsp; 电话</span>
-													<input class="form-control workphone" placeholder="workphone" type="text">
-												</div>
-												<input type="text" class="form-control role" placeholder="" style="display:none">
-												<br>												
-												<textarea class="form-control introduction" placeholder="introduction" rows="4"></textarea>
-												<br>	
-												<div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-venus-mars"></i>&nbsp; 性别</span>
-													<label class="fancy-radio" style="float:left;margin:7px;">
-															<input name="gender" value="男" type="radio" class="gender">
-															<span><i></i>男</span>
-														</label>
+												<ul id="modifyTab" class="nav nav-tabs nav-pills nav-justified">
+													<li class="active">
+														<a href="#modify-info" data-toggle="tab">基础信息</a>
+													</li>
+													<li><a href="#modify-distribution" data-toggle="tab">楼宇分配</a></li>
+												</ul>
+												<div id="myTabContent" class="tab-content">
+													<div class="tab-pane fade in active" id="modify-info">
+														<form role="form" style="padding:8px;">
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-user"></i>&nbsp; 工号</span>
+																<input class="form-control daid" placeholder="username" type="text">
+															</div>
+															<br>
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-key"></i> 密码</span>
+																<input class="form-control dapassword" placeholder="password" type="text">
+															</div>
+															<br>
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-id-badge"></i>&nbsp;&nbsp;姓名</span>
+																<input class="form-control truename" placeholder="truename" type="text">
+															</div>
+															<br>
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-phone"></i>&nbsp; 电话</span>
+																<input class="form-control workphone" placeholder="workphone" type="text">
+															</div>
+															<input type="text" class="form-control role" placeholder="" style="display:none" value="dorm_admin">
+															<br>												
+															<textarea class="form-control introduction" placeholder="introduction" rows="4"></textarea>
+															<br>	
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-venus-mars"></i>&nbsp; 性别</span>
+																<label class="fancy-radio" style="float:left;margin:7px;">
+																	<input name="gender" value="男" type="radio" class="sex" checked>
+																	<span><i></i>男</span>
+																</label>
 													
-														<label class="fancy-radio" style="float:left;margin: 7px;">
-															<input name="gender" value="女" type="radio" class="gender">
-															<span><i></i>女</span>
-														</label>
+																<label class="fancy-radio" style="float:left;margin: 7px;">
+																	<input name="gender" value="女" type="radio" class="sex">
+																	<span><i></i>女</span>
+																</label>
 													
-												 </div>
-												 <br>
-												 <div class="input-group">
-													<span class="input-group-addon"><i class="fa fa-image"></i>&nbsp; 照片</span>
-													<input type="file" id="inputfile" class="form-control picture">
-												 </div>	
-												 
-												 <input type="hidden" class="hideworkstate" name="state" />
-											</form>		
+												 			</div>
+												 			<br>
+												 			<input type="hidden" class="hideworkstate" name="state" />
+														</form>		
+													
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+															<button type="button" class="btn btn-primary modify-next">下一步</button>			
+														</div>														
+													</div>
+												<div class="tab-pane fade" id="modify-distribution">
+													
+														<div class="modal-body">
+															<span>注意：男性管理员不能分配到女生宿舍</span>
+															<br>
+															<table class="table table-hover">
+																<thead class="distr-building">
+																	<tr>
+																		<th>楼号</th>
+																		<th>名称</th>
+																		<th>性质</th>
+																		<th>已分配/总数</th>
+																		<th>选择</th>
+																		
+																	</tr>
+																</thead>
+																<tbody class="building-list">
+											
+																</tbody>
+															</table>				
+														</div>	
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default close-down" data-dismiss="modal">取消</button>
+															<button type="button" class="btn btn-primary modify-previous" >上一步</button>			
+															<button type="button" class="btn btn-primary" id="confirm">确认</button>			
+														</div>	
+												</div>
 											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-												<button type="button" class="btn btn-primary" id="save">保存</button>			
 											</div>
+
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
 								</div><!-- /.modal -->
@@ -414,8 +448,8 @@
 			});
         }	
         
+        //查询所有的管理员
 		queryAllDormAdmin();
-		
 		function queryAllDormAdmin(){
 		
 			$.ajax({
@@ -436,7 +470,7 @@
 			     			  data[i].sex+"</td><td>"+
 			     			  data[i].workphone+"</td><td>"+
 			     			  data[i].introduction+"</td><td>"+
-			     			  data[i].building.bid+"</td><td>"+
+			     			  data[i].building.bname+"</td><td>"+
 			     			  data[i].workstate+"</td><td>"+
 			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyDormAdmin'>修改</button>"+
 			     			  "<button type='button' class='more'>详情</button></td></tr>");
@@ -450,10 +484,10 @@
 		}
 		
 
-		clickRefreshDormAdmin();
-		clickDeleteDormAdmin();
-		clicknewDormAdmin();
-		clickcloseModel();
+		clickRefreshDormAdmin();  	//刷新
+		clickDeleteDormAdmin();		//删除
+		clicknewDormAdmin();		//新建
+		clickcloseModel();			//取消
 		
 		//点击新建按钮在模态框中显示待分配楼宇
 		function clicknewDormAdmin(){
@@ -471,7 +505,7 @@
      			
      			 		for(var i =0; i<data.length; i++){
 
-			     			$(".distr-building").append("<tr><td>"+
+			     			$(".building-list").append("<tr><td>"+
 																		
 							  	data[i].bid+"</td><td>"+
 			     			  	data[i].bname+"</td><td>"+
@@ -519,6 +553,7 @@
         		
         	})
 		}
+		//点击删除按钮，可批量删除
 		function clickDeleteDormAdmin(){
 		
 			$(".delete-up").click(function(){
@@ -532,7 +567,7 @@
         			return false;
         		}
         		var checkedId = "";
-        		checbox.each(function(e){//反选 
+        		checbox.each(function(e){
             	
                 	if($(this).prop("checked")){
                 		var daid = $(this).parent().parent().parent().find("td").eq(1).text();
@@ -564,10 +599,57 @@
 						if($(this).val()==data.sex) $(this).prop("checked",true);
 					})
 					$("#modifyDormAdmin .workphone").val(data.workphone);
-					$("#modifyDormAdmin .introduction").val(data.introduction);     			
+					$("#modifyDormAdmin .introduction").val(data.introduction); 					
+
+					queryDistrBuiding(data);//显示待分配楼宇
      			}
-			});			
+     			
+			});	
 		}
+		
+		//查询待分配楼宇
+		function queryDistrBuiding(data){
+		
+			$.ajax({
+				url: "<%=request.getContextPath()%>/queryBuilding",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				isDistr:"0"
+     			}),
+     			success:function(buildingData){
+     			
+     			 	for(var i = 0; i<buildingData.length; i++){
+
+			     		$(".building-list").append("<tr><td>"+
+																		
+							  buildingData[i].bid+"</td><td>"+
+			     			  buildingData[i].bname+"</td><td>"+
+			     			  buildingData[i].attribute+"</td><td>"+
+			     			  buildingData[i].existing+"<span>/"+buildingData[i].managernumber+"</span></td>"+
+			     			  "<td><label class='fancy-checkbox distr-checkbox' id='"+buildingData[i].bid+"'><input type='checkbox' name='chooseDistr'><span></span></label></td></tr>");
+			     			  	
+				 	}
+				 	
+				 	choose(data);//赋值
+
+				 		
+				 }	
+		 	});
+		}
+		
+		function choose(data){
+				 	
+			$(".building-list .distr-checkbox").each(function(e){
+				var building_id = $(this).attr("id");
+				if(building_id==data.building.bid) {$(this).children().prop("checked",true);}
+			})				 			
+		
+		}
+		
+		
+		
 		//获取上传图片的base64路径
 		var src = null;
 		$("#inputfile").change(function(e) {
@@ -596,6 +678,19 @@
         	reader.readAsDataURL(e.target.files[0]);
 
 		});	
+		function isChecked(e){
+			var i=0;
+			e.each(function(){
+            	
+            	if(e.prop("checked")) {i++;}
+        		if(i==0||i>1){
+        			alert("请选择一个");
+        			return false;
+        		}
+			})		
+		
+		
+		}
 		
 		//点击保存，提交新建请求
 		$("#save").click(function(){
@@ -611,24 +706,12 @@
 			alert("第二个第二个第二个:"+src);
 			var building_id = 1;
 			
-			var i=0,checbox = $("input[name='choose']");
-			checbox.each(function(){
-            	
-            	if($(this).prop("checked")) {i++;}
-        		if(i==0||i>1){
-        			alert("请选择一个");
-        			return false;
-        		}
-        		checbox.each(function(){ 
-            	
-                	if($(this).prop("checked")){
-                		building_id = $(this).parent().parent().parent().find("td").eq(0).text();
-                		alert(building_id);
-                		
-                	}
-        		})	
-			})
-		alert(daid+dapassword+role+truename+sex+workphone+introduction+building_id);
+			var checkBox = $("input[name='choose']");
+			var checkedBox = $("input[name='chooseDistr']:checked");
+// 			isChecked(checkBox);
+			
+			var building_id = checkedBox.parent().parent().parent().find("td").eq(0).text();
+			alert(building_id);
 
 			$.ajax({
 				url: "<%=request.getContextPath()%>/saveDormAdmin",
@@ -688,9 +771,10 @@
         		})     		
     		}
     	}) 	
+    	//关闭模态框后清除building
 		function clickcloseModel(){
 			$(".close,.close-down").click(function(){
-				$(".distr-building").removeClass();
+				$(".building-list").empty();
 			
 			
 			})
@@ -718,33 +802,50 @@
 				}
 				
 		 }
+		 
+		 
 		//点击确认按钮，提交修改
 		$("#confirm").click(function(){
-			var bid =$("#modifyBuilding .bid").val();
-			var bname =$("#modifyBuilding .bname").val();
-			var attribute =$("#modifyBuilding .attribute").val();
-			var location =$("#modifyBuilding .location").val();
-			var introduction =$("#modifyBuilding .description").val();
-			var imageinfo =$("#modifyBuilding .imageinfo").val();
+		
+		
+			var daid =$("#modifyDormAdmin .daid").val();
+			alert(daid);
+			var dapassword =$("#modifyDormAdmin .dapassword").val();
+			var truename =$("#modifyDormAdmin .truename").val();
+			var sex =$("#modifyDormAdmin .sex").val();
+			var workphone =$("#modifyDormAdmin .workphone").val();
+			var introduction =$("#modifyDormAdmin .introduction").val();
 			
-			alert(bid+bname+attribute+location+description+imageinfo);
+			var checkedBox = $("input[name='chooseDistr']:checked");
+			
+			var checkBox = $(".distr-checkbox");
+			var building_id = "";
+       		checkBox.each(function(e){
+            	
+                	if($(this).children().prop("checked")){
+                		building_id = $(this).attr("id");
+                	}
+            	
+        		})
+			alert("building_id:"+building_id);
 			$.ajax({
-				url: "<%=request.getContextPath()%>/modifyBuilding",
+				url: "<%=request.getContextPath()%>/modifyDormAdmin",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
-     				"bid": bid,
-     				"bname": bname,
-     				"attribute": attribute,
-     				"location": location,
+     				"daid": daid,
+     				"dapassword": dapassword,
+     				"truename": truename,
+     				"sex": sex,
+     				"workphone": workphone,
      				"introduction": introduction,
-     				"imageinfo": imageinfo
+     				"building_id": building_id
      			}),
      			success:function(data){
      			
      				alert("修改成功");
-				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/DormAdminManagement.jsp";
      			}
 			
 			});	
@@ -761,31 +862,28 @@
 		  $("#sidebar-nav .nav").find("li").eq(0).removeClass();
 		  $("#next").click(function(){
 		  
-		  		$("#myTab li:eq(1) a").tab("show");
+		  		$("#addTab li:eq(1) a").tab("show");
+		  		$("#modifyTab li:eq(1) a").tab("show");
 		  })
 		  $("#previous").click(function(){
 		  
-		  		$("#myTab li:eq(0) a").tab("show");
+		  		$("#addTab li:eq(0) a").tab("show");
+		  		$("#modifyTab li:eq(0) a").tab("show");
+		  		
+		  })
+		  $(".modify-next").click(function(){
+		  
+		  		$("#modifyTab li:eq(1) a").tab("show");
+		  })
+		  $(".modify-previous").click(function(){
+		  
+		  		$("#modifyTab li:eq(0) a").tab("show");
 		  		
 		  })
 		  
 		  
 	});
 	//页面全部加载完后执行
-	window.onload = function(){
-    	$(".buildinglist tr").click(function(){
-    		
-    		var isChecked = $(this).find("input[type='checkbox']").prop("checked");
-    		if(isChecked){
-    			$(this).find("input[type='checkbox']").prop("checked",false);
-    		
-    		}else{
-    			$(this).find("input[type='checkbox']").prop("checked",true);
-    		}
-    		
-    	
-    	})
-	}	
 </script>
 </body>
 

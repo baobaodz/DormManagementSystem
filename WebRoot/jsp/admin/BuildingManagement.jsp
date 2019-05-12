@@ -21,6 +21,15 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="../../assets/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="../../assets/img/favicon.png">
+	<style type="text/css">
+		.more{
+			background-color:#F5F5F9;
+			height:24px;
+		
+		}
+	
+	
+	</style>
 </head>
 
 	<!-- WRAPPER -->
@@ -102,7 +111,7 @@
 									<p class="demo-button">
 										<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBuilding"><i class="fa fa-plus-square"></i> 添加 </button>
 										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 修改 </button>
-										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash-alt"></i> 删除 </button>
+										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash"></i> 删除 </button>
 										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
 										<button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-refresh fa-spin"></i> Refreshing...</button>
 									</p>
@@ -117,31 +126,53 @@
 											</div>
 											<!--内容 -->
 											<div class="modal-body">
-												<span>宿舍楼号</span><input type="text" class="form-control bid" placeholder="请填写">
-												<br>
-												<span>楼宇名称</span><input type="text" class="form-control bname" placeholder="请填写">
-												<br>
-
-												<span>楼宇类别</span>
-												<select class="form-control attribute">
-													<option value="男生宿舍楼">男生宿舍楼</option>
-													<option value="女生宿舍楼">女生宿舍楼</option>
-													<option value="混合宿舍楼">混合宿舍楼</option>
-												</select>
-												<br>
-												<span>楼宇位置</span><input type="text" class="form-control location" placeholder="">
-												<br>
-												<textarea class="form-control description" placeholder="楼宇描述" rows="4"></textarea>
-												<br>
-												<span>宿管人数</span>
-												<select class="form-control managernumber">
-													<option value="2">2人</option>
-													<option value="3">3人</option>
-													<option value="4">4人</option>
-												</select>
-												<br>				
-												<span>图片描述</span><input type="text" class="form-control imageinfo" placeholder="">								
-											</div>
+											
+												<form role="form" style="padding:8px;">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-building">&nbsp;</i> 宿舍楼号</span>
+														<input class="form-control bid" placeholder="bid" type="text">
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-flag">&nbsp;</i> 楼宇名称</span>
+														<input class="form-control bname" placeholder="bname" type="text">
+														
+													</div>
+													<br>
+													
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-venus-mars">&nbsp;</i>楼宇类别</span>
+														<select class="form-control attribute">
+															<option value="男生宿舍楼">男生宿舍楼</option>
+															<option value="女生宿舍楼">女生宿舍楼</option>
+															<option value="混合宿舍楼">混合宿舍楼</option>
+														</select>
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-map-marker">&nbsp;</i>&nbsp; 楼宇位置</span>
+														<input class="form-control location" placeholder="location" type="text">
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-user">&nbsp;</i> 宿管人数</span>
+														<select class="form-control managernumber">
+															<option value="2">2人</option>
+															<option value="3">3人</option>
+															<option value="4">4人</option>
+														</select>
+													</div>
+													<br>
+																								
+													<textarea class="form-control description" placeholder="description" rows="4"></textarea>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-image">&nbsp;</i> 图片描述</span>
+														<input class="form-control imageinfo" placeholder="imageinfo" type="text">
+													</div>
+													<br>	
+												</form>	
+											</div>											
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 												<button type="button" class="btn btn-primary" id="save">保存</button>			
@@ -160,30 +191,51 @@
 											</div>
 											<!--内容 -->
 											<div class="modal-body">
-												<span>宿舍楼号</span><input type="text" class="form-control bid" placeholder="请填写">
-												<br>
-												<span>楼宇名称</span><input type="text" class="form-control bname" placeholder="请填写">
-												<br>
-
-												<span>楼宇类别</span>
-												<select class="form-control attribute">
-													<option value="男生宿舍楼">男生宿舍楼</option>
-													<option value="女生宿舍楼">女生宿舍楼</option>
-													<option value="混合宿舍楼">混合宿舍楼</option>
-												</select>
-												<br>
-												<span>楼宇位置</span><input type="text" class="form-control location" placeholder="">
-												<br>
-												<textarea class="form-control description" placeholder="楼宇描述" rows="4"></textarea>
-												<br>
-												<span>宿管人数</span>
-												<select class="form-control managernumber">
-													<option value="2">2人</option>
-													<option value="3">3人</option>
-													<option value="4">4人</option>
-												</select>
-												<br>															
-												<span>图片描述</span><input type="text" class="form-control imageinfo" placeholder="">								
+												<form role="form" style="padding:8px;">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-building">&nbsp;</i> 宿舍楼号</span>
+														<input class="form-control bid" placeholder="bid" type="text">
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-flag">&nbsp;</i> 楼宇名称</span>
+														<input class="form-control bname" placeholder="bname" type="text">
+														
+													</div>
+													<br>
+													
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-venus-mars">&nbsp;</i>楼宇类别</span>
+														<select class="form-control attribute">
+															<option value="男生宿舍楼">男生宿舍楼</option>
+															<option value="女生宿舍楼">女生宿舍楼</option>
+															<option value="混合宿舍楼">混合宿舍楼</option>
+														</select>
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-map-marker">&nbsp;</i>&nbsp; 楼宇位置</span>
+														<input class="form-control location" placeholder="location" type="text">
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-user">&nbsp;</i> 宿管人数</span>
+														<select class="form-control managernumber">
+															<option value="2">2人</option>
+															<option value="3">3人</option>
+															<option value="4">4人</option>
+														</select>
+													</div>
+													<br>
+																								
+													<textarea class="form-control description" placeholder="description" rows="4"></textarea>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-image">&nbsp;</i> 图片描述</span>
+														<input class="form-control imageinfo" placeholder="imageinfo" type="text">
+													</div>
+													<br>	
+												</form>	
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
