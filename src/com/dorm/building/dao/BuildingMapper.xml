@@ -25,6 +25,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result property="workstate" column="workstate" />
 			<result property="introduction" column="introduction" />
 		</collection>
+		<!-- ofType指定dormitories集合中的对象类型 -->
+		<collection property="dormitories" ofType="com.dorm.dormitory.model.Dormitory">
+			<id property="did" column="did" />
+			<result property="dno" column="dno" />
+			<result property="category" column="category" />
+			<result property="capacity" column="capacity" />
+			<result property="occupied" column="occupied" />
+			<result property="honor" column="honor" />
+			<result property="picdescription" column="picdescription" />
+			<result property="textdescription" column="textdescription" />
+		</collection>
 	</resultMap>
 
 	<!--查询所有楼宇 -->

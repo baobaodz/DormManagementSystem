@@ -16,20 +16,13 @@
 	<link rel="stylesheet" href="../../assets/css/main.css">
 	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
 	<link rel="stylesheet" href="../../assets/css/demo.css">
+	<link rel="stylesheet" href="../../css/flat.css">
 	<!-- GOOGLE FONTS -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="../../assets/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="../../assets/img/favicon.png">
-	<style type="text/css">
-		.more{
-			background-color:#F5F5F9;
-			height:24px;
-		
-		}
-	
-	
-	</style>
+
 </head>
 
 	<!-- WRAPPER -->
@@ -113,6 +106,7 @@
 										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 修改 </button>
 										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash"></i> 删除 </button>
 										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
+										<button type="button" class="btn btn-info newDormitory"><i class="fa fa-refresh"></i> 新增宿舍 </button>
 										<button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-refresh fa-spin"></i> Refreshing...</button>
 									</p>
 								</div>
@@ -537,13 +531,67 @@
      			}),
      			success:function(data){
      			
+     				alert("新增楼宇成功");
+     				saveDormitory(bid,attribute);
 				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
 				 
      			}
 			
-			});	
+			});
 		})
 		
+		
+		//点击保存，提交新建请求
+		$(".newDormitory").click(function(){
+		
+			$.ajax({
+				url: "<%=request.getContextPath()%>/saveDormitory",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"category": "男",
+     				"building_id": 1
+     			}),
+     			success:function(data){
+     			
+     				alert("新增宿舍成功");
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
+				 
+     			}
+			
+			});
+		})
+		function saveDormitory(bid,attribute){
+		
+			var category = attribute.substr(0,1)+"寝";
+			alert(category+bid);
+			$.ajax({
+				url: "<%=request.getContextPath()%>/saveDormitory",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"category": category,
+     				"building_id": bid
+     			}),
+     			success:function(data){
+     			
+     				alert("新增宿舍成功");
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
+				 
+     			}, error:function(jqXHR, textStatus, errorThrown) {
+ 					alert(jqXHR.status);//404
+ 					alert(jqXHR.readyState);//4
+ 					alert(jqXHR.responseText);//4
+ 					alert(jqXHR.statusText);//4
+ 					alert(textStatus);//error
+   				}
+     			
+			
+			});			
+			
+		}
 		//点击详情按钮跳转到BuildingInfo页面
 		function clickMoreInfo(){
 		
@@ -589,7 +637,8 @@
      					}),
      					success:function(data){
      						alert("删除成功！");
-							window.location.reload();
+							$(".buildinglist").empty();
+							queryAllBuilding();
 						}
 					});
 				}else{

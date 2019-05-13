@@ -3,6 +3,7 @@ package com.dorm.building.model;
 import java.util.List;
 
 import com.dorm.dormadmin.model.DormAdmin;
+import com.dorm.dormitory.model.Dormitory;
 
 public class Building {
 
@@ -15,7 +16,7 @@ public class Building {
 	private int managernumber;
 	
 	private List<DormAdmin> dormadmins;
-	
+	private List<Dormitory> dormitories;
 	
 	public int getBid() {
 		return bid;
@@ -97,13 +98,33 @@ public class Building {
 	}
 
 
+	public List<DormAdmin> getDormadmins() {
+		return dormadmins;
+	}
+
+
+	public void setDormadmins(List<DormAdmin> dormadmins) {
+		this.dormadmins = dormadmins;
+	}
+
+
+	public List<Dormitory> getDormitories() {
+		return dormitories;
+	}
+
+
+	public void setDormitories(List<Dormitory> dormitories) {
+		this.dormitories = dormitories;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Building [bid=" + bid + ", bname=" + bname + ", attribute="
 				+ attribute + ", location=" + location + ", description="
 				+ description + ", imageinfo=" + imageinfo + ", managernumber="
-				+ managernumber + ", dormadmins=" + dormadmins + "]";
-				
+				+ managernumber + ", dormadmins=" + dormadmins
+				+ ", dormitories=" + dormitories + "]";
 	}
 
 

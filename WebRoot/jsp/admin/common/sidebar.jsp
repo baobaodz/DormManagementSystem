@@ -15,6 +15,7 @@
 						<li><a href="<%=request.getContextPath()%>/jsp/admin/admin_index.jsp" class=""><i class="lnr lnr-home"></i> <span>系统设置</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp" class=""><i class="lnr lnr-code"></i> <span>楼宇管理</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/jsp/admin/DormAdminManagement.jsp" class=""><i class="lnr lnr-chart-bars"></i> <span>宿舍管理员管理</span></a></li>
+						<li><a href="<%=request.getContextPath()%>/jsp/admin/DormitoryManagement.jsp" class=""><i class="lnr lnr-chart-bars"></i> <span>宿舍管理</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/jsp/admin/DormStudentManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>学生管理</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/jsp/admin/AuthorityManagement.jsp" class=""><i class="lnr lnr-alarm"></i> <span>权限管理</span></a></li>
 						<li>
