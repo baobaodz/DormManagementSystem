@@ -66,6 +66,12 @@ public class BuildingServiceImpl implements BuildingService{
 
 		return buildingMapper.getDormAdmins(bid);
 	}
+
+	@Override
+	public List<Integer> getBuildingId() {
+		// TODO Auto-generated method stub
+		return buildingMapper.getBuildingId();
+	}
 		
 		
 	

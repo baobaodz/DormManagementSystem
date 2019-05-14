@@ -18,4 +18,5 @@ public interface BuildingService {
 	public void deleteBuilding(int bid);
 	public int getDormAdminNumber(int bid);
 	public List<DormAdmin> getDormAdmins(int bid);
+	public List<Integer> getBuildingId();
 }

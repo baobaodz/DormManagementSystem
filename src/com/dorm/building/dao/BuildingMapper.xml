@@ -73,7 +73,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM BUILDING WHERE bid=#{bid}
 	</delete>
 	<select id="getDormAdminNumber" parameterType="int" resultType="int">
-		select count(*) from DORMADMIN where bid = #{bid}
+		SELECT COUNT(*) FROM DORMADMIN WHERE BID = #{bid}
+	</select>
+	<select id="getBuildingId" resultType="java.lang.Integer">
+		SELECT BID FROM BUILDING GROUP BY BID ORDER BY BID ASC
 	</select>
 	<select id="getDormAdmins" parameterType="int" resultType="com.dorm.dormadmin.model.DormAdmin">
 		SELECT 

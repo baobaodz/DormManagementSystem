@@ -125,9 +125,9 @@ public class BuildingController {
 	}
 	
 	/**
-	 * 查询指定楼宇
+	 * 删除指定楼宇
 	 * @param bid
-	 * @return building
+	 * @return 
 	 */
 	@RequestMapping(value="deleteBuilding",method = RequestMethod.POST)
 	@ResponseBody
@@ -140,9 +140,9 @@ public class BuildingController {
 		return map;
 	}
 	/**
-	 * 删除指定楼宇
+	 * 获取指定楼宇
 	 * @param bid
-	 * @return 
+	 * @return building
 	 */
 	@RequestMapping(value="getBuilding",method = RequestMethod.POST)
 	@ResponseBody
@@ -153,5 +153,19 @@ public class BuildingController {
 		Building  building = buildingService.getBuilding(bid,listSize);
 		System.out.print(building);
 		return JSON.toJSON(building).toString();
+	}
+	
+	/**
+	 * 查询楼宇的各个ID
+	 * @param 
+	 * @return buildingIdList
+	 */	
+	@RequestMapping(value="getBuildingId",method = RequestMethod.POST)
+	@ResponseBody
+	public String getBuildingId(@RequestBody Map<String,Object> map){
+		
+		List<Integer> buildingIdList= buildingService.getBuildingId();
+		System.out.print(buildingIdList);
+		return JSON.toJSON(buildingIdList).toString();
 	}
 }
