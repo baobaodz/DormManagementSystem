@@ -53,4 +53,12 @@
             </list>  
         </property>  
     </bean>
+	<!-- 媒体解析器 -->
+	<bean id="multipartResolver"     
+       class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 上传文件的最大限制  -->
+		<property name="maxUploadSize" value="10485760"></property>
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
+
 </beans>
