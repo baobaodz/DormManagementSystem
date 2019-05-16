@@ -174,7 +174,7 @@
 														</form>		
 													
 														<div class="modal-footer">
-															<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+															<button type="button" class="btn btn-default close-down" data-dismiss="modal">取消</button>
 															<button type="button" class="btn btn-primary" id="next">下一步</button>			
 														</div>														
 													</div>
@@ -708,7 +708,7 @@
 			var building_id = 1;
 			
 			var checkBox = $("input[name='choose']");
-			var checkedBox = $("input[name='chooseDistr']:checked");
+			var checkedBox = $("input[name='choose']:checked");
 // 			isChecked(checkBox);
 			
 			var building_id = checkedBox.parent().parent().parent().find("td").eq(0).text();
@@ -774,9 +774,8 @@
     	}) 	
     	//关闭模态框后清除building
 		function clickcloseModel(){
-			$(".close,.close-down").click(function(){
+			$(".close-down").click(function(){
 				$(".building-list").empty();
-			
 			
 			})
 		}
