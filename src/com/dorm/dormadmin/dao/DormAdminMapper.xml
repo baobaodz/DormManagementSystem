@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace是接口的全类名 -->
+<mapper namespace="com.dorm.dormadmin.dao.DormAdminMapper">
+
+	<!-- 使用resultMap映射实体类和字段之间的一一对应关系 -->
+	<resultMap type="com.dorm.dormadmin.model.DormAdmin" id="DormAdminResultMap">
+		<id property="daid" column="daid" />
+		<result property="dapassword" column="dapassword" />
+		<result property="role" column="role" />
+		<result property="truename" column="truename" />
+		<result property="sex" column="sex" />
+		<result property="workphone" column="workphone" />
+		<result property="workstate" column="workstate" />
+		<result property="introduction" column="introduction" />
+		<result property="picture" column="picture" />
+		
+		<association property="building" javaType="com.dorm.building.model.Building">
+			<id property="bid" column="bid" />
+			<result property="bname" column="bname" />
+			<result property="attribute" column="attribute" />
+			<result property="location" column="location" />
+			<result property="description" column="description" />
+			<result property="imageinfo" column="imageinfo" />
+			<result property="managernumber" column="managernumber" />
+		</association>
+	</resultMap>
+
+	<!--查询所有楼宇 -->
+	<select id="queryDormAdmin" resultMap="DormAdminResultMap">
+		SELECT * 
+		FROM DORMADMIN D 
+		LEFT JOIN BUILDING B 
+		ON D.BUILDING_ID = B.BID
+	</select>
+	<!--查询指定楼宇 -->
+	<select id="getDormAdmin" parameterType="String" resultMap="DormAdminResultMap">
+		SELECT * FROM 
+		DORMADMIN D,BUILDING B 
+		WHERE 
+		D.BUILDING_ID=B.BID AND 
+		DAID = #{daid}
+	</select>
+	<!--添加指定楼宇 -->
+	<insert id="saveDormAdmin" parameterType="com.dorm.dormadmin.model.DormAdmin">
+		INSERT INTO 
+		DORMADMIN(DAID,DAPASSWORD,ROLE,TRUENAME,SEX,WORKPHONE,WORKSTATE,INTRODUCTION,PICTURE,BUILDING_ID) 
+		VALUES (
+			#{daid},
+			#{dapassword},
+			#{role},
+			#{truename},
+			#{sex},
+			#{workphone},
+			#{workstate},
+			#{introduction},
+			#{picture},
+			#{building_id})
+	</insert>
+	<update id="modifyDormAdmin" parameterType="com.dorm.dormadmin.model.DormAdmin">
+		UPDATE DORMADMIN SET 
+			DAPASSWORD=#{dapassword},
+			TRUENAME=#{truename},
+			SEX=#{sex},
+			WORKPHONE=#{workphone},
+			INTRODUCTION=#{introduction},
+			BUILDING_ID=#{building_id}
+		WHERE DAID = #{daid}	
+	</update>
+	<!--批量删除指定楼宇 -->
+	<delete id="deleteDormAdmin">
+		DELETE FROM DORMADMIN WHERE DAID IN
+		<foreach collection="array" item = "daid" open="(" separator="," close=")">
+   	   		#{daid}
+    	</foreach>  
+	</delete>
+	<select id="getDormAdminNumber" parameterType="int" resultType="int">
+		select count(*) from DORMADMIN where bid = #{bid}
+	</select>
+	<select id="isDormAdmin" resultType="int">
+		SELECT COUNT(*) 
+		FROM DORMADMIN 
+		WHERE DAID = #{daid} 
+		AND 
+		DAPASSWORD = #{dapassword}
+	</select>
+	<select id="verifyDormAdmin" resultType="com.dorm.dormadmin.model.DormAdmin">
+		SELECT *
+		FROM DORMADMIN 
+		WHERE DAID = #{daid} 
+		AND 
+		DAPASSWORD = #{dapassword}
+	</select>
+	<update id="modifyPwd">
+		UPDATE DORMADMIN 
+		SET 
+		DAPASSWORD = #{dapassword} 
+		WHERE DAID = #{daid}
+	</update>
+
+</mapper>

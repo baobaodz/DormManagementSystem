@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace是接口的全类名 -->
+<mapper namespace="com.dorm.dormitory.dao.DormitoryMapper">
+
+	<!-- 使用resultMap映射实体类和字段之间的一一对应关系 -->
+	<resultMap type="com.dorm.dormitory.model.Dormitory" id="DormitoryResultMap">
+		<id property="did" column="did" />
+		<result property="dno" column="dno" />
+		<result property="category" column="category" />
+		<result property="capacity" column="capacity" />
+		<result property="occupied" column="occupied" />
+		<result property="honor" column="honor" />
+		<result property="picdescription" column="picdescription" />
+		<result property="textdescription" column="textdescription" />
+		<result property="building_id" column="building_id" />
+		
+		<association property="building" javaType="com.dorm.building.model.Building">
+			<id property="bid" column="bid" />
+			<result property="bname" column="bname" />
+			<result property="attribute" column="attribute" />
+			<result property="location" column="location" />
+			<result property="description" column="description" />
+			<result property="imageinfo" column="imageinfo" />
+			<result property="managernumber" column="managernumber" />
+		</association>
+		<!-- 一对多关系 -->
+		<collection property="students" ofType="com.dorm.student.model.Student">
+			<id property="sid" column="sid" />
+			<result property="sname" column="sname" />
+			<result property="gender" column="gender" />
+			<result property="start" column="start" />
+			<result property="sgrade" column="sgrade" />
+			<result property="sclass" column="sclass" />
+			<result property="status" column="status" />
+			<result property="character" column="character" />
+			<result property="dormitory_id" column="dormitory_id" />
+		</collection>
+		
+	</resultMap>
+
+	<!--根据楼宇查询宿舍 -->
+	<select id="queryDormitory" resultMap="DormitoryResultMap">
+		SELECT * 
+			FROM DORMITORY D 
+			LEFT JOIN BUILDING B ON D.BUILDING_ID = B.BID
+    		LEFT JOIN STUDENT S ON D.DID = S.DORMITORY_ID
+
+	</select>
+	<!--查询宿舍 -->
+	<select id="getDormitory" parameterType="String" resultMap="DormitoryResultMap">
+		SELECT * FROM Dormitory D,BUILDING B where D.BUILDING_ID=B.BID AND daid = #{daid}
+	</select>
+	<!--添加指定楼宇 -->
+	<insert id="saveDormitory" parameterType="java.util.List">
+		INSERT ALL 
+		INTO DORMITORY(DNO,CATEGORY,CAPACITY,OCCUPIED,BUILDING_ID) 
+		VALUES
+		<foreach collection="list" item="dormitory" separator="INTO DORMITORY(DNO,CATEGORY,CAPACITY,OCCUPIED,BUILDING_ID) VALUES">
+		(#{dormitory.dno},
+		 #{dormitory.category},
+		 #{dormitory.capacity},
+		 #{dormitory.occupied},
+		 #{dormitory.building_id}
+		)
+		</foreach>
+		SELECT * FROM dual
+	</insert>
+	<update id="modifyDormAdmin" parameterType="com.dorm.dormadmin.model.DormAdmin">
+		UPDATE DORMADMIN SET 
+			DAPASSWORD=#{dapassword},
+			TRUENAME=#{truename},
+			SEX=#{sex},
+			WORKPHONE=#{workphone},
+			INTRODUCTION=#{introduction},
+			BUILDING_ID=#{building_id}
+		WHERE DAID = #{daid}	
+	</update>
+	<!--批量删除指定楼宇 -->
+	<delete id="deleteDormAdmin">
+		DELETE FROM DORMADMIN WHERE daid in
+		<foreach collection="array" item = "daid" open="(" separator="," close=")">
+   	   		#{daid}
+    	</foreach>  
+	</delete>
+	<select id="getDormitoryNumber" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM DORMITORY WHERE BUILDING_ID = #{bid}
+	</select>
+	
+	<select id="queryDormitoryByBuilding" resultType="com.dorm.dormitory.model.Dormitory">
+		
+		SELECT DORM.* FROM (
+       		SELECT D.*,ROWNUM RN FROM DORMITORY D WHERE BUILDING_ID = #{bid} ORDER BY DNO ASC) DORM
+		WHERE 
+			RN&gt;(#{currentPage}-1)*#{pageSize} 
+		AND RN&lt;=#{currentPage}*#{pageSize}
+	</select>
+
+</mapper>
