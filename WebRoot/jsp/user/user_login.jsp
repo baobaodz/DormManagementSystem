@@ -67,11 +67,12 @@
 												<span>记住我</span>
 											</label>
 										</div>
+									
 										<button type="button" id="loginDormAdmin" class="btn btn-primary btn-lg btn-block" disabled="disabled">登录</button>
 										<div class="bottom">
 											<span class="helper-text"><i class="fa fa-lock"></i> <a href="#">忘记密码?</a></span>
 										</div>
-									</form>	
+									</form>
 								</div>
 								
 								<div class="tab-pane fade" id="studentLogin">
@@ -157,8 +158,8 @@
      				"daPassword":dapassword
      			}),
      			success : function(data) {
-     			
-     				if(data.length!=0){
+     				alert(data);
+     				if(data!="NOT FOUND"){
      					
      					sessionStorage.setItem("dormAdminID",data.daid);
         				sessionStorage.setItem("daPassword",data.dapassword);
@@ -169,6 +170,7 @@
      				
      			},error:function(data){
      				
+     				alert(data);
      				alert("请求失败");
      			}
 		

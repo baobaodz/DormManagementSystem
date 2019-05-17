@@ -125,7 +125,7 @@
 											</div>											
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default close-down" data-dismiss="modal">取消</button>
-												<button type="button" class="btn btn-primary" id="confirm-pwd">确认</button>			
+												<button type="button" class="btn btn-primary" id="confirmPwd">确认</button>			
 											</div>
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
@@ -351,17 +351,18 @@
 	</div>
 	<!-- END WRAPPER -->
 	<!-- Javascript -->
-	<script src="../../assets/vendor/jquery/jquery.min.js"></script>
-	<script src="../../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="../../assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
-	<script src="../../assets/vendor/chartist/js/chartist.min.js"></script>
-	<script src="../../assets/scripts/klorofil-common.js"></script>
+	<script src="../../../assets/vendor/jquery/jquery.min.js"></script>
+	<script src="../../../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../../../assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+	<script src="../../../assets/vendor/chartist/js/chartist.min.js"></script>
+	<script src="../../../assets/scripts/klorofil-common.js"></script>
 	<script>
 	$(function() {
 	
 		var dormAdminID = sessionStorage.getItem("dormAdminID");
         var daPassword = sessionStorage.getItem("daPassword");
+        alert("dormAdminID:"+dormAdminID);
         alert(daPassword);
         if(dormAdminID==""||dormAdminID==null||dormAdminID==""||dormAdminID==null){
         	alert("您无权限，请先登录");
@@ -374,7 +375,7 @@
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
-     				"dormAdminID":dormAdminID
+     				"daid":dormAdminID
      			}),
      			success : function(data){
      			
@@ -437,14 +438,13 @@
 			})
 		}
 		
-		$("#confirm-pwd").click(function(){
+		$("#confirmPwd").click(function(){
 			
 			var newPwd = $(".pwd-new").val();
-			
+			alert(newPwd);
        		$.ajax({
 				url : "<%=request.getContextPath()%>/modifyPwd",
      			type: "post",
-     			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
      				"dormAdminID":dormAdminID,
@@ -458,6 +458,15 @@
      			}
 		
 			});			
+			
+		})
+		$("#logOut").click(function(){
+			if(confirm("确认注销吗？")){
+				sessionStorage.setItem("dormAdminID", "");
+				sessionStorage.setItem("daPassword", "");
+     			window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
+				
+			}
 			
 		})
 		

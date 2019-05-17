@@ -3,13 +3,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	<!-- VENDOR CSS -->
+<!-- 	<link rel="stylesheet" href="../../../assets/vendor/bootstrap/css/bootstrap.min.css"> -->
+<!-- 	<link rel="stylesheet" href="../../../assets/vendor/font-awesome/css/font-awesome.min.css"> -->
+<!-- 	<link rel="stylesheet" href="../../../assets/vendor/linearicons/style.css"> -->
+	<!-- MAIN CSS -->
+<!-- 	<link rel="stylesheet" href="../../assets/css/main.css"> -->
+	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+<!-- 	<link rel="stylesheet" href="../../assets/css/demo.css"> -->
+<!-- 	<link rel="stylesheet" href="../../css/flat.css"> -->
+	<!-- Javascript -->
+	<script src="../../../assets/vendor/jquery/jquery.min.js"></script>
+	<script src="../../../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../../../assets/scripts/klorofil-common.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-default navbar-fixed-top" >
 			<div class="brand">
-				<a href="index.html"><img src="../../assets/img/logo-dark.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+				<a href="index.html"><img src="../../../assets/img/logo-dark.png" alt="Klorofil Logo" class="img-responsive logo"></a>
 			</div>
 			<div class="container-fluid">
 				<div class="navbar-btn">
@@ -51,7 +65,7 @@
 							<ul class="dropdown-menu">
 								<li><a href="index.jsp"><i class="lnr lnr-user"></i> <span>个人信息</span></a></li>
 								<li data-toggle="modal" data-target="#modifyPassWord"><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
-								<li><a href="#"><i class="lnr lnr-exit"></i> <span>注销</span></a></li>
+								<li id="logOut"><a href="#"><i class="lnr lnr-exit"></i> <span>注销</span></a></li>
 							</ul>
 						</li>
 					</ul>

@@ -1,6 +1,7 @@
 package com.dorm.dormadmin.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -161,9 +162,27 @@ public class DormAdminController {
 		
 		String daid = String.valueOf(map.get("dormAdminID"));
 		String dapassword = String.valueOf(map.get("daPassword"));
-		DormAdmin dormAdmin = dormadminService.verifyDormAdmin(daid,dapassword);
+		DormAdmin dormAdmin = null;
+		if(daid.equals(dapassword)){
+			dormAdmin = dormadminService.verifyDormAdmin(daid,dapassword);
+		}else{
+			
+			PwdMD5 pwdMD5 = new PwdMD5();
+			String daPwdMD5 = pwdMD5.getPwdMD5(dapassword);
+			dormAdmin = dormadminService.verifyDormAdmin(daid,daPwdMD5);
+		}
 		System.out.println(dormAdmin);
-		return JSON.toJSON(dormAdmin).toString();
+		if(dormAdmin!=null){
+			return JSON.toJSON(dormAdmin).toString();
+		}else{
+			String msg = "NOT FOUND";
+			List<String> msgList = new ArrayList<String>();
+			msgList.add(msg);
+			
+			System.out.println(msgList);
+			return JSON.toJSON(msgList).toString();
+		}
+		
 	}
 	/**
 	 * ÐÞ¸ÄÃÜÂë
