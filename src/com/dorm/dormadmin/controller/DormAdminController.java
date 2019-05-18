@@ -200,4 +200,21 @@ public class DormAdminController {
 		dormadminService.modifyPwd(daid,dapassword);
 		return "";
 	}
+	/**
+	 * ÐÞ¸ÄÃÜÂë
+	 * @param bid
+	 * @return 
+	 */
+	@RequestMapping(value="modifyIntroduction",method = RequestMethod.POST)
+	@ResponseBody
+	public String modifyIntroduction(@RequestBody Map<String,Object> map){
+		
+		String daid = String.valueOf(map.get("dormAdminID"));
+		String newIntro = String.valueOf(map.get("introNew"));
+		System.out.println(newIntro);
+		System.out.println(daid);
+		dormadminService.modifyIntroduction(daid,newIntro);
+		
+		return "";
+	}
 }

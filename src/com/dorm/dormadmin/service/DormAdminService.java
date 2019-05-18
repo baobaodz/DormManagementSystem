@@ -22,5 +22,6 @@ public interface DormAdminService {
 	public int isDormAdmin(String daid,String dapassword);
 	public DormAdmin verifyDormAdmin(String daid,String dapassword);
 	public void modifyPwd(String daid,String dapassword);
+	public void modifyIntroduction(String daid,String introduction);
 			
 }

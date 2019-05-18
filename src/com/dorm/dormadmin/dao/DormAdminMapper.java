@@ -19,6 +19,7 @@ public interface DormAdminMapper {
 		public int getDormAdminNumber(int bid);
 		public int isDormAdmin(@Param("daid") String daid,@Param("dapassword") String dapassword);
 		public void modifyPwd(@Param("daid") String daid,@Param("dapassword") String dapassword);
+		public void modifyIntroduction(@Param("daid") String daid,@Param("introduction") String introduction);
 		public DormAdmin verifyDormAdmin(@Param("daid") String daid,@Param("dapassword") String dapassword);
 				
 		

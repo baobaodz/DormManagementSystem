@@ -88,13 +88,7 @@
 									</div>
 								</div>
 							</div>
-							<p class="demo-button">
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBuilding"><i class="fa fa-plus-square"></i> 修改密码</button>
-								<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 修改 介绍</button>
-								<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 重传照片 </button>
-								<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 修改 </button>
-								<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
-							</p>
+
 							
 							
 								<!-- 模态框（Modal） -->
@@ -129,214 +123,72 @@
 											</div>
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
-								</div><!-- /.modal -->							
-							<div class="row">
-								<div class="col-md-9">
-									<div id="headline-chart" class="ct-chart"></div>
-								</div>
-								<div class="col-md-3">
-									<div class="weekly-summary text-right">
-										<span class="number">2,315</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 12%</span>
-										<span class="info-label">Total Sales</span>
-									</div>
-									<div class="weekly-summary text-right">
-										<span class="number">$5,758</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 23%</span>
-										<span class="info-label">Monthly Income</span>
-									</div>
-									<div class="weekly-summary text-right">
-										<span class="number">$65,938</span> <span class="percentage"><i class="fa fa-caret-down text-danger"></i> 8%</span>
-										<span class="info-label">Total Income</span>
-									</div>
-								</div>
-							</div>
+								</div><!-- /.modal -->	
+							
 						</div>
 					</div>
 					<!-- END OVERVIEW -->
-                    <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >企业网站模板</a></div>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<!-- RECENT PURCHASES -->
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Recent Purchases</h3>
+									<h3 class="panel-title" id="userInfo">个人信息</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
 										<button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
 									</div>
+
 								</div>
 								<div class="panel-body no-padding">
-									<table class="table table-striped">
+									<div class="col-md-9">
+									<table class="table table-hover">
 										<thead>
 											<tr>
-												<th>Order No.</th>
-												<th>Name</th>
-												<th>Amount</th>
-												<th>Date &amp; Time</th>
-												<th>Status</th>
+												<th>工号</th>
+												<th>姓名</th>
+												<th>性别</th>
+												<th>负责楼宇</th>
+												<th>楼宇类型</th>
+												<th>电话</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td><a href="#">763648</a></td>
-												<td>Steve</td>
-												<td>$122</td>
-												<td>Oct 21, 2016</td>
-												<td><span class="label label-success">COMPLETED</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763649</a></td>
-												<td>Amber</td>
-												<td>$62</td>
-												<td>Oct 21, 2016</td>
-												<td><span class="label label-warning">PENDING</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763650</a></td>
-												<td>Michael</td>
-												<td>$34</td>
-												<td>Oct 18, 2016</td>
-												<td><span class="label label-danger">FAILED</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763651</a></td>
-												<td>Roger</td>
-												<td>$186</td>
-												<td>Oct 17, 2016</td>
-												<td><span class="label label-success">SUCCESS</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763652</a></td>
-												<td>Smith</td>
-												<td>$362</td>
-												<td>Oct 16, 2016</td>
-												<td><span class="label label-success">SUCCESS</span></td>
-											</tr>
+
+										<tbody class="dormadmin-info">
+											
 										</tbody>
+										<thead>
+											<tr>
+												<th colspan="6">简介</th>
+											</tr>
+										</thead>
+
+										<tbody class="">	
+											<tr rowspan="3" style="height:100px;">
+												<td colspan="6">
+													<div class="dormadmin-introduction" contentEditable="true" style="height:90px;">
+														
+													</div>
+												</td>
+											</tr>																			
+										</tbody>										
 									</table>
-								</div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
-										<div class="col-md-6 text-right"><a href="#" class="btn btn-primary">View All Purchases</a></div>
 									</div>
+									<div class="col-md-3">
+										<div class="panel-body" style="width:100%;height:320px;overflow:hidden;">
+											<img class="userimage" src="" style="display:block;width:100%;height:240px;overflow:hidden;"/>
+										
+											<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding" style="margin:0 auto;"><i class="fa fa-edit"></i> 重传照片 </button>
+										</div>
+									</div>
+									
 								</div>
 							</div>
 							<!-- END RECENT PURCHASES -->
 						</div>
-						<div class="col-md-6">
-							<!-- MULTI CHARTS -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Projection vs. Realization</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-										<button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<div id="visits-trends-chart" class="ct-chart"></div>
-								</div>
-							</div>
-							<!-- END MULTI CHARTS -->
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-7">
-							<!-- TODO LIST -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">To-Do List</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-										<button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled todo-list">
-										<li>
-											<label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-											</label>
-											<p>
-												<span class="title">Restart Server</span>
-												<span class="short-description">Dynamically integrate client-centric technologies without cooperative resources.</span>
-												<span class="date">Oct 9, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div>
-										</li>
-										<li>
-											<label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-											</label>
-											<p>
-												<span class="title">Retest Upload Scenario</span>
-												<span class="short-description">Compellingly implement clicks-and-mortar relationships without highly efficient metrics.</span>
-												<span class="date">Oct 23, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div>
-										</li>
-										<li>
-											<label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-											</label>
-											<p>
-												<strong>Functional Spec Meeting</strong>
-												<span class="short-description">Monotonectally formulate client-focused core competencies after parallel web-readiness.</span>
-												<span class="date">Oct 11, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<!-- END TODO LIST -->
-						</div>
-						<div class="col-md-5">
-							<!-- TIMELINE -->
-							<div class="panel panel-scrolling">
-								<div class="panel-heading">
-									<h3 class="panel-title">Recent User Activity</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-										<button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled activity-list">
-										<li>
-											<img src="../../assets/img/user1.png" alt="Avatar" class="img-circle pull-left avatar">
-											<p><a href="#">Michael</a> has achieved 80% of his completed tasks <span class="timestamp">20 minutes ago</span></p>
-										</li>
-										<li>
-											<img src="../../assets/img/user2.png" alt="Avatar" class="img-circle pull-left avatar">
-											<p><a href="#">Daniel</a> has been added as a team member to project <a href="#">System Update</a> <span class="timestamp">Yesterday</span></p>
-										</li>
-										<li>
-											<img src="../../assets/img/user3.png" alt="Avatar" class="img-circle pull-left avatar">
-											<p><a href="#">Martha</a> created a new heatmap view <a href="#">Landing Page</a> <span class="timestamp">2 days ago</span></p>
-										</li>
-										<li>
-											<img src="../../assets/img/user4.png" alt="Avatar" class="img-circle pull-left avatar">
-											<p><a href="#">Jane</a> has completed all of the tasks <span class="timestamp">2 days ago</span></p>
-										</li>
-										<li>
-											<img src="../../assets/img/user5.png" alt="Avatar" class="img-circle pull-left avatar">
-											<p><a href="#">Jason</a> started a discussion about <a href="#">Weekly Meeting</a> <span class="timestamp">3 days ago</span></p>
-										</li>
-									</ul>
-									<button type="button" class="btn btn-primary btn-bottom center-block">Load More</button>
-								</div>
-							</div>
-							<!-- END TIMELINE -->
-						</div>
-					</div>
 					
+					</div>
+			
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -362,13 +214,16 @@
 	
 		var dormAdminID = sessionStorage.getItem("dormAdminID");
         var daPassword = sessionStorage.getItem("daPassword");
-        alert("dormAdminID:"+dormAdminID);
-        alert(daPassword);
         if(dormAdminID==""||dormAdminID==null||dormAdminID==""||dormAdminID==null){
         	alert("您无权限，请先登录");
             window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
         }else{
-            		
+            
+            getDormAdmin(dormAdminID);//加载用户信息
+            
+        }	
+        
+        function getDormAdmin(dormAdminID){
         	$.ajax({
 				url : "<%=request.getContextPath()%>/getDormAdmin",
      			type: "post",
@@ -383,15 +238,24 @@
      					alert("您无权限，请登录！");
      					window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
      				}else{
-     					alert("ok");
      					sessionStorage.setItem("daPassword",data.dapassword);
-     					
+     					$(".username").text(data.truename);
+		     			$(".dormadmin-info").html("<tr><td>"+
+							  data.daid+"</td><td>"+
+			     			  data.truename+"</td><td>"+
+			     			  data.sex+"</td><td>"+
+			     			  data.building.bname+"</td><td>"+
+			     			  data.building.attribute+"</td><td>"+
+			     			  data.workphone+"</td></tr>");
+			     			
+		     			$(".dormadmin-introduction").text(data.introduction);
+		     			$(".userimage").attr("src","http://"+data.picture);
+			     			 
      				}
      			}
 		
 			});
         }		
-	
 	
 		$(".pwd-new").change(function(){
 			
@@ -437,7 +301,7 @@
 			
 			})
 		}
-		
+
 		$("#confirmPwd").click(function(){
 			
 			var newPwd = $(".pwd-new").val();
@@ -465,11 +329,64 @@
 				sessionStorage.setItem("dormAdminID", "");
 				sessionStorage.setItem("daPassword", "");
      			window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
-				
 			}
 			
 		})
 		
+		
+		$(".dormadmin-introduction").click(function(){
+			
+			var  introOld= $(this).text();
+			judgeBlur(introOld);
+		})		
+
+		function judgeBlur(introOld){
+		
+			$(".dormadmin-introduction").blur(function(){
+				
+				var introNew = $(this).text();
+				
+				if(introOld==introNew){
+					
+					return false;
+				
+				}else{
+					
+					if(confirm("确认修改吗？")){
+						modifyIntroduction(introNew);
+					}else{
+						return false;
+					
+					}
+				}
+    			
+			});		
+		}
+		
+		function modifyIntroduction(introNew){
+		
+       		$.ajax({
+				url : "<%=request.getContextPath()%>/modifyIntroduction",
+     			type: "post",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"introNew":introNew,
+     				"dormAdminID" : dormAdminID
+     			}),
+     			success : function(data){
+     			
+     				alert("修改成功!");
+     				
+     				getDormAdmin(dormAdminID);
+     				
+     			}
+		
+			});			
+		
+		
+		
+		
+		}
 		var data, options;
 
 		// headline charts
@@ -554,35 +471,8 @@
 			},
 		};
 
-		new Chartist.Bar('#visits-chart', data, options);
 
-
-		// real-time pie chart
-		var sysLoad = $('#system-load').easyPieChart({
-			size: 130,
-			barColor: function(percent) {
-				return "rgb(" + Math.round(200 * percent / 100) + ", " + Math.round(200 * (1.1 - percent / 100)) + ", 0)";
-			},
-			trackColor: 'rgba(245, 245, 245, 0.8)',
-			scaleColor: false,
-			lineWidth: 5,
-			lineCap: "square",
-			animate: 800
-		});
-
-		var updateInterval = 3000; // in milliseconds
-
-		setInterval(function() {
-			var randomVal;
-			randomVal = getRandomInt(0, 100);
-
-			sysLoad.data('easyPieChart').update(randomVal);
-			sysLoad.find('.percent').text(randomVal);
-		}, updateInterval);
-
-		function getRandomInt(min, max) {
-			return Math.floor(Math.random() * (max - min + 1)) + min;
-		}
+		
 
 	});
 	</script>

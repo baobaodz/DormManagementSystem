@@ -61,9 +61,9 @@
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../../assets/img/user.png" class="img-circle" alt="Avatar"> <span>Samuel</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../../assets/img/user.png" class="img-circle" alt="Avatar"> <span class="username">Samuel</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-								<li><a href="index.jsp"><i class="lnr lnr-user"></i> <span>个人信息</span></a></li>
+								<li><a href="#userInfo"><i class="lnr lnr-user"></i> <span>个人信息</span></a></li>
 								<li data-toggle="modal" data-target="#modifyPassWord"><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
 								<li id="logOut"><a href="#"><i class="lnr lnr-exit"></i> <span>注销</span></a></li>
 							</ul>

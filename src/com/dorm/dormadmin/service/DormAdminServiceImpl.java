@@ -78,6 +78,12 @@ public class DormAdminServiceImpl implements DormAdminService{
 		// TODO Auto-generated method stub
 		dormadminMapper.modifyPwd(daid, dapassword);
 	}
+
+	@Override
+	public void modifyIntroduction(String daid, String introduction) {
+		// TODO Auto-generated method stub
+		dormadminMapper.modifyIntroduction(daid, introduction);
+	}
 	
 
 		
