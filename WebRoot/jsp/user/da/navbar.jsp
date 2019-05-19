@@ -6,19 +6,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
 	<!-- VENDOR CSS -->
-<!-- 	<link rel="stylesheet" href="../../../assets/vendor/bootstrap/css/bootstrap.min.css"> -->
-<!-- 	<link rel="stylesheet" href="../../../assets/vendor/font-awesome/css/font-awesome.min.css"> -->
-<!-- 	<link rel="stylesheet" href="../../../assets/vendor/linearicons/style.css"> -->
+	<link rel="stylesheet" href="../../../assets/vendor/linearicons/style.css">
 	<!-- MAIN CSS -->
-<!-- 	<link rel="stylesheet" href="../../assets/css/main.css"> -->
-	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-<!-- 	<link rel="stylesheet" href="../../assets/css/demo.css"> -->
-<!-- 	<link rel="stylesheet" href="../../css/flat.css"> -->
-	<!-- Javascript -->
-	<script src="../../../assets/vendor/jquery/jquery.min.js"></script>
-	<script src="../../../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="../../../assets/scripts/klorofil-common.js"></script>
+	<link rel="stylesheet" href="../.././assets/css/main.css">
+	<link rel="stylesheet" href="../../../css/flat.css">
 </head>
 <body>
 	<nav class="navbar navbar-default navbar-fixed-top" >
@@ -61,9 +52,9 @@
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../../assets/img/user.png" class="img-circle" alt="Avatar"> <span class="username">Samuel</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../../assets/img/user.png" class="img-circle" alt="Avatar"> <span class="username">DormAdmin</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-								<li><a href="#userInfo"><i class="lnr lnr-user"></i> <span>个人信息</span></a></li>
+								<li><a href="<%=request.getContextPath()%>/jsp/user/da/index.jsp#userInfo"><i class="lnr lnr-user"></i> <span>个人信息</span></a></li>
 								<li data-toggle="modal" data-target="#modifyPassWord"><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
 								<li id="logOut"><a href="#"><i class="lnr lnr-exit"></i> <span>注销</span></a></li>
 							</ul>
@@ -72,6 +63,38 @@
 				</div>
 			</div>
 	</nav>
-		<!-- END NAVBAR -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="modifyPassWord" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close close-down" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">修改密码</h4>
+				</div>
+			<!--内容 -->
+				<div class="modal-body">
+					<form role="form" style="padding:8px;">
+						<p class="text-info">新密码不能少于6位且必须包含字母数字特殊符号</p>
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;新&nbsp;&nbsp;密&nbsp;&nbsp;码</span>
+							<input class="form-control pwd-new" placeholder="" type="password">
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon"> 确认密码</span>
+							<input class="form-control pwd-confirm" placeholder="" type="password">
+						</div>
+						<br>
+						<span class="text-danger pwd-msg"></span>
+					</form>	
+				</div>											
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default close-down" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="confirmPwd">确认</button>			
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+	<!-- END NAVBAR -->
 </body>
 </html>

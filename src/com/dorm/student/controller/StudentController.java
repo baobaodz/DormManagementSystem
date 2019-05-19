@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 
 
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -129,6 +130,10 @@ public class StudentController {
 				}
 				System.out.println("students:"+students);
 				studentService.saveStudentBatch(students);
+				
+				List<Map<String,String>> dormitoryOccupied = studentService.getDormitoryOccupied();
+				System.out.println(dormitoryOccupied);
+				studentService.updateOccupied(dormitoryOccupied);
 				is.close();
 				xssf.close();
 			}
@@ -137,7 +142,6 @@ public class StudentController {
 			e.printStackTrace();
 		}
 		System.out.println("errors:"+errors);
-//		studentService.saveStudentBatch(students);;
 		return JSON.toJSON(students).toString();
 	}
 	
@@ -153,6 +157,38 @@ public class StudentController {
 		List<Student> students = studentService.queryStudent();
 		System.out.println(students);
 		return JSON.toJSON(students).toString();
+	}
+	/**
+	 * 查询待分配学生
+	 * @param map
+	 * @return students
+	 */
+	@RequestMapping(value="getDistrStudent",method = RequestMethod.POST)
+	@ResponseBody
+	public String getDistrStudent(@RequestBody Map<String,Object> map){
+		
+		
+		String gender = String.valueOf(map.get("gender"));
+		List<Student> students = studentService.getDistrStudent(gender);
+		System.out.println(students);
+		return JSON.toJSON(students).toString();
+	}
+	
+	/**
+	 * 查询待分配学生
+	 * @param map
+	 * @return students
+	 */
+	@RequestMapping(value="updateDistr",method = RequestMethod.POST)
+	@ResponseBody
+	public String updateDistr(@RequestBody Map<String,Object> map){
+		
+		
+		String checkedSid = String.valueOf(map.get("checkedSid"));
+		int checkedDid = Integer.parseInt(String.valueOf(map.get("checkedDid")));
+		studentService.updateDistr(checkedSid, checkedDid);;
+		
+		return "";
 	}
 	
 //	/**

@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM STUDENT S 
 		LEFT JOIN DORMITORY D 
 		ON S.DORMITORY_ID = D.DID
+		WHERE DORMITORY_ID !=0
 	</select>
 	<!--查询指定楼宇 -->
 	<select id="getDormitory" parameterType="String" resultMap="StudentResultMap">
@@ -93,6 +94,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			RN&gt;(#{currentPage}-1)*#{pageSize} 
 		AND RN&lt;=#{currentPage}*#{pageSize}
 	</select>
+	<select id="getDormitoryOccupied" resultType="java.util.Map">
+		SELECT D.BUILDING_ID,S.DORMITORY_ID,dno,COUNT(*) occ
+			FROM STUDENT S 
+			lEFT JOIN DORMITORY D 
+			ON S.DORMITORY_ID = D.DID 
+    		WHERE D.DNO IS NOT NULL
+    		GROUP BY DNO,S.DORMITORY_ID,D.BUILDING_ID 
+    		ORDER BY DNO
+	</select>
 
 	<select id="isStudent" resultType="int">
 		SELECT COUNT(*) 
@@ -101,5 +111,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND 
 		SPASSWORD = #{spassword}
 	</select>
-
+	
+	<!--根据性别查询待分配学生 -->
+	<select id="getDistrStudent" parameterType="String" resultType="com.dorm.student.model.Student">
+		SELECT *  
+		FROM STUDENT 
+		WHERE GENDER = #{gender} 
+		AND 
+		DORMITORY_ID = 0
+	</select>
+	
+	<update id="updateOccupied" parameterType="java.util.Map">
+		
+		<foreach collection="list" item = "item" open="begin" close=";end;" separator=";">
+			UPDATE DORMITORY
+			<set>OCCUPIED = #{item.OCC}</set>
+   	   		 WHERE DID = #{item.DORMITORY_ID}
+   	   	</foreach>  
+	</update>
+	
+	<!--宿舍分配学生 -->
+	<update id="updateDistr">
+		
+		<foreach collection="array" item = "item" open="begin" close=";end;" separator=";">
+			UPDATE DORMITORY
+			<set>OCCUPIED = #{item.OCC}</set>
+   	   		 WHERE DID = #{item.DORMITORY_ID}
+   	   	</foreach>  
+	</update>
 </mapper>

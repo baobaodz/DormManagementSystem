@@ -448,8 +448,7 @@
 				 	
 				 }	
 		 	});		
-		
-		
+
 		}
 		//进入先查询楼宇号
 		function getBuildingId(){
@@ -573,7 +572,8 @@
 			getDormitoryNumber(bid);
 		
 		})
-		//获取上传图片的base64路径
+		
+		
 		var src = null;
 		
 		$("#excelFile").change(function(e) {
@@ -597,9 +597,8 @@
 				processData : false,
 				contentType : false,
 				success:function(result){
-					alert("result:"+result);
-            		//你可以跳转或者在本页面提示错误信息
-					//window.location.href = "${pageContext.request.contextPath }/ri/toOk"
+					alert("上传成功！");
+					window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
 				} 	
 			});
 		});

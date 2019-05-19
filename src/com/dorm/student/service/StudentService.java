@@ -16,6 +16,9 @@ public interface StudentService {
 	public DormAdmin isDormAdmin(Map<String,Object> map);
 	public void saveStudentBatch(List<Student> students);
 	public List<Student> queryStudent();
+	public List<Student> getDistrStudent(String gender);
+	
+	public void updateDistr(String checkedSid,int checkedDid);
 	public void modifyDormitory(Dormitory dormitory);
 	public Dormitory getDormitory(String did);
 	public void deleteDormitory(String checkedId);
@@ -24,4 +27,7 @@ public interface StudentService {
 	public List<Dormitory> queryDormitoryByBuilding(int bid,int currentPage,int pageSize);
 	
 	public int isStudent(String sid,String spassword);
+	
+	public List<Map<String,String>> getDormitoryOccupied();
+	public void updateOccupied(List<Map<String,String>> dormitoryOccupied);
 }

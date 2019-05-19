@@ -85,5 +85,31 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 
+	@Override
+	public List<Map<String, String>> getDormitoryOccupied() {
+		// TODO Auto-generated method stub
+		return studentMapper.getDormitoryOccupied();
+	}
+
+
+	@Override
+	public void updateOccupied(List<Map<String, String>> dormitoryOccupied) {
+		// TODO Auto-generated method stub
+		studentMapper.updateOccupied(dormitoryOccupied);
+	}
+
+
+	@Override
+	public List<Student> getDistrStudent(String gender) {
+		// TODO Auto-generated method stub
+		return studentMapper.getDistrStudent(gender);
+	}
+
+
+	@Override
+	public void updateDistr(String checkedSid, int checkedDid) {
+		// TODO Auto-generated method stub
+		studentMapper.updateDistr(checkedSid.split(","), checkedDid);
+	}
 
 }

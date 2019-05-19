@@ -8,10 +8,6 @@
     <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-<!--     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css"> -->
-<!--     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> -->
-	
 	<!-- VENDOR CSS -->
 	<link rel="stylesheet" href="../../../assets/vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../../../assets/vendor/font-awesome/css/font-awesome.min.css">
@@ -21,11 +17,6 @@
 	<link rel="stylesheet" href="../../../assets/css/main.css">
 	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
 	<link rel="stylesheet" href="../../../assets/css/demo.css">
-	<!-- Javascript -->
-	<script src="../../../assets/vendor/jquery/jquery.min.js"></script>
-	<script src="../../../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="../../../assets/scripts/klorofil-common.js"></script>
 	<!-- GOOGLE FONTS -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<!-- ICONS -->
@@ -88,43 +79,6 @@
 									</div>
 								</div>
 							</div>
-
-							
-							
-								<!-- 模态框（Modal） -->
-								<div class="modal fade" id="modifyPassWord" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close close-down" data-dismiss="modal" aria-hidden="true">×</button>
-												<h4 class="modal-title" id="myModalLabel">修改密码</h4>
-											</div>
-											<!--内容 -->
-											<div class="modal-body">
-											
-												<form role="form" style="padding:8px;">
-													<p class="text-info">新密码不能少于6位且必须包含字母数字特殊符号</p>
-													<div class="input-group">
-														<span class="input-group-addon"> &nbsp;新&nbsp;&nbsp;密&nbsp;&nbsp;码</span>
-														<input class="form-control pwd-new" placeholder="" type="password">
-													</div>
-													<br>
-													<div class="input-group">
-														<span class="input-group-addon"> 确认密码</span>
-														<input class="form-control pwd-confirm" placeholder="" type="password">
-													</div>
-													<br>
-													<span class="text-danger pwd-msg"></span>
-												</form>	
-											</div>											
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default close-down" data-dismiss="modal">取消</button>
-												<button type="button" class="btn btn-primary" id="confirmPwd">确认</button>			
-											</div>
-										</div><!-- /.modal-content -->
-									</div><!-- /.modal-dialog -->
-								</div><!-- /.modal -->	
-							
 						</div>
 					</div>
 					<!-- END OVERVIEW -->
@@ -209,14 +163,16 @@
 	<script src="../../../assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 	<script src="../../../assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="../../../assets/scripts/klorofil-common.js"></script>
+	<script src="../../../js/dormadmin/navbar.js"></script>
 	<script>
 	$(function() {
 	
 		var dormAdminID = sessionStorage.getItem("dormAdminID");
         var daPassword = sessionStorage.getItem("daPassword");
         if(dormAdminID==""||dormAdminID==null||dormAdminID==""||dormAdminID==null){
-        	alert("您无权限，请先登录");
-            window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
+        	alert("您无权限，请先登录!!");
+        	window.location.href = "<%=request.getContextPath()%>/jsp/no_access.jsp";
+//             window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
         }else{
             
             getDormAdmin(dormAdminID);//加载用户信息
@@ -243,8 +199,8 @@
 		     			$(".dormadmin-info").html("<tr><td>"+
 							  data.daid+"</td><td>"+
 			     			  data.truename+"</td><td>"+
-			     			  data.sex+"</td><td>"+
-			     			  data.building.bname+"</td><td>"+
+			     			  data.sex+"</td><td><a href='DormitoryManagement.jsp'>"+
+			     			  data.building.bname+"</a></td><td>"+
 			     			  data.building.attribute+"</td><td>"+
 			     			  data.workphone+"</td></tr>");
 			     			
@@ -257,82 +213,7 @@
 			});
         }		
 	
-		$(".pwd-new").change(function(){
-			
-			  	var passwordNew =$(this).val();
-    			if (passwordNew == null || passwordNew.length < 7) {
-    				
-    				$(".pwd-msg").text("新密码必须不少于8位！");
-        			return false;
-    			}
-    			var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
-    			
-    			if (!reg1.test(passwordNew)) {
-    				$(".pwd-msg").text("新密码不能包含特殊符号！");
-        			return false;
-    			}
-    			var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
-    			if (reg.test(passwordNew)) {
-    				$(".pwd-msg").text("");
-        			return true;
-    			} else {
-    				$(".pwd-msg").text("新密码必须包含数字字母！");
-        			return false;
-    			}
-		
-		})
-		$(".pwd-confirm").change(function(){
-			
-			  	var passwordConfirm =$(this).val();
-    			if (passwordConfirm != $(".pwd-new").val()) {
-    				
-    				$(".pwd-msg").text("确认密码与新密码不一致");
-        			return false;
-    			}else{
-    			
-    				$(".pwd-msg").text("");
-    				return true;
-    			}
-		})
-		//关闭或取消模态框后清除密码
-		function clickcloseModel(){
-			$(".close-down").click(function(){
-				$(".pwd-new，.pwd-confirm,.pwd-msg").empty();
-			
-			})
-		}
 
-		$("#confirmPwd").click(function(){
-			
-			var newPwd = $(".pwd-new").val();
-			alert(newPwd);
-       		$.ajax({
-				url : "<%=request.getContextPath()%>/modifyPwd",
-     			type: "post",
-     			contentType: "application/json;charset=utf-8",
-     			data:JSON.stringify({
-     				"dormAdminID":dormAdminID,
-     				"newPwd":newPwd
-     			}),
-     			success : function(data){
-     			
-     				alert("修改成功，请重新登录！");
-     				window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
-     				
-     			}
-		
-			});			
-			
-		})
-		$("#logOut").click(function(){
-			if(confirm("确认注销吗？")){
-				sessionStorage.setItem("dormAdminID", "");
-				sessionStorage.setItem("daPassword", "");
-     			window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
-			}
-			
-		})
-		
 		
 		$(".dormadmin-introduction").click(function(){
 			
@@ -383,96 +264,8 @@
 		
 			});			
 		
-		
-		
-		
 		}
-		var data, options;
 
-		// headline charts
-		data = {
-			labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-			series: [
-				[23, 29, 24, 40, 25, 24, 35],
-				[14, 25, 18, 34, 29, 38, 44],
-			]
-		};
-
-		options = {
-			height: 300,
-			showArea: true,
-			showLine: false,
-			showPoint: false,
-			fullWidth: true,
-			axisX: {
-				showGrid: false
-			},
-			lineSmooth: false,
-		};
-
-		new Chartist.Line('#headline-chart', data, options);
-
-
-		// visits trend charts
-		data = {
-			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-			series: [{
-				name: 'series-real',
-				data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
-			}, {
-				name: 'series-projection',
-				data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
-			}]
-		};
-
-		options = {
-			fullWidth: true,
-			lineSmooth: false,
-			height: "270px",
-			low: 0,
-			high: 'auto',
-			series: {
-				'series-projection': {
-					showArea: true,
-					showPoint: false,
-					showLine: false
-				},
-			},
-			axisX: {
-				showGrid: false,
-
-			},
-			axisY: {
-				showGrid: false,
-				onlyInteger: true,
-				offset: 0,
-			},
-			chartPadding: {
-				left: 20,
-				right: 20
-			}
-		};
-
-		new Chartist.Line('#visits-trends-chart', data, options);
-
-
-		// visits chart
-		data = {
-			labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-			series: [
-				[6384, 6342, 5437, 2764, 3958, 5068, 7654]
-			]
-		};
-
-		options = {
-			height: 300,
-			axisX: {
-				showGrid: false
-			},
-		};
-
-
-		
 
 	});
 	</script>
