@@ -5,10 +5,13 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+
+
 
 
 
@@ -175,7 +178,7 @@ public class StudentController {
 	}
 	
 	/**
-	 * 查询待分配学生
+	 * 分配学生
 	 * @param map
 	 * @return students
 	 */
@@ -186,9 +189,33 @@ public class StudentController {
 		
 		String checkedSid = String.valueOf(map.get("checkedSid"));
 		int checkedDid = Integer.parseInt(String.valueOf(map.get("checkedDid")));
-		studentService.updateDistr(checkedSid, checkedDid);;
+		
+		studentService.updateDistr(checkedSid, checkedDid);
+		
+		List<Map<String,String>> dormitoryOccupied = studentService.getDormitoryOccupied();
+		System.out.println(dormitoryOccupied);
+		studentService.updateOccupied(dormitoryOccupied);
 		
 		return "";
+	}
+	
+	/**
+	 * 根据宿舍查看已分配学生
+	 * @param map
+	 * @return students
+	 */
+	@RequestMapping(value="getOccupiedByDorm",method = RequestMethod.POST)
+	@ResponseBody
+	public String getOccupiedByDorm(@RequestBody Map<String,Object> map){
+		
+		
+		int did = Integer.parseInt(String.valueOf(map.get("did")));
+		
+		
+		List<Student> students = studentService.getOccupiedByDorm(did);
+		System.out.println(students);
+		
+		return JSON.toJSON(students).toString();
 	}
 	
 //	/**

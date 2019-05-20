@@ -121,6 +121,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DORMITORY_ID = 0
 	</select>
 	
+	<!--根据宿舍查询已分配学生 -->
+	<select id="getOccupiedByDorm" parameterType="int" resultType="com.dorm.student.model.Student">
+		SELECT *  
+		FROM STUDENT 
+		WHERE DORMITORY_ID = #{did} 
+	</select>
+	
+	<!--更新宿舍已分配人数 -->
 	<update id="updateOccupied" parameterType="java.util.Map">
 		
 		<foreach collection="list" item = "item" open="begin" close=";end;" separator=";">
@@ -133,10 +141,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!--宿舍分配学生 -->
 	<update id="updateDistr">
 		
-		<foreach collection="array" item = "item" open="begin" close=";end;" separator=";">
-			UPDATE DORMITORY
-			<set>OCCUPIED = #{item.OCC}</set>
-   	   		 WHERE DID = #{item.DORMITORY_ID}
-   	   	</foreach>  
+		UPDATE STUDENT 
+			<set>
+				DORMITORY_ID = #{checkedDid},
+				STATUS = '0'
+			</set>
+			WHERE SID IN 
+		<foreach collection="checkedSid" item = "checkedSid" open="(" separator="," close=")">
+   	   		#{checkedSid}
+    	</foreach> 
 	</update>
+	
+
+	
 </mapper>

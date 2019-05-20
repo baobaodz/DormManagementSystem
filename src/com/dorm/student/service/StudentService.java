@@ -17,6 +17,7 @@ public interface StudentService {
 	public void saveStudentBatch(List<Student> students);
 	public List<Student> queryStudent();
 	public List<Student> getDistrStudent(String gender);
+	public List<Student> getOccupiedByDorm(int did);
 	
 	public void updateDistr(String checkedSid,int checkedDid);
 	public void modifyDormitory(Dormitory dormitory);

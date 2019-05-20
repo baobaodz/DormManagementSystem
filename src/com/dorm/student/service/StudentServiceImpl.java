@@ -112,4 +112,12 @@ public class StudentServiceImpl implements StudentService{
 		studentMapper.updateDistr(checkedSid.split(","), checkedDid);
 	}
 
+
+	@Override
+	public List<Student> getOccupiedByDorm(int did) {
+		// TODO Auto-generated method stub
+		return studentMapper.getOccupiedByDorm(did);
+	}
+
+
 }
