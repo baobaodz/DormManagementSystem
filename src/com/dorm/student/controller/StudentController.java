@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 
 
 
+
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -34,7 +36,9 @@ import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 
 import com.alibaba.fastjson.JSON;
+import com.dorm.common.PwdMD5;
 import com.dorm.common.QiniuCloudUtil;
+import com.dorm.dormadmin.model.DormAdmin;
 import com.dorm.dormitory.model.Dormitory;
 import com.dorm.dormitory.service.DormitoryService;
 import com.dorm.student.model.Student;
@@ -180,7 +184,7 @@ public class StudentController {
 	/**
 	 * 分配学生
 	 * @param map
-	 * @return students
+	 * @return 
 	 */
 	@RequestMapping(value="updateDistr",method = RequestMethod.POST)
 	@ResponseBody
@@ -259,20 +263,68 @@ public class StudentController {
 //		
 //		return map;
 //	}
-//	/**
-//	 * 查询指定宿舍
-//	 * @param did
-//	 * @return 
-//	 */
-//	@RequestMapping(value="getDormitory",method = RequestMethod.POST)
-//	@ResponseBody
-//	public String getDormitory(@RequestBody Map<String,Object> map){
-//		
-//		String did = String.valueOf(map.get("daid"));
-//		Dormitory  dormitory = studentService.getDormitory(did);
-//		System.out.println(dormitory);
-//		return JSON.toJSON(dormitory).toString();
-//	}
+	/**
+	 * 查询指定宿舍
+	 * @param did
+	 * @return 
+	 */
+	@RequestMapping(value="getStudent",method = RequestMethod.POST)
+	@ResponseBody
+	public String getStudent(@RequestBody Map<String,Object> map){
+		
+		String sid = String.valueOf(map.get("sid"));
+		Student student = studentService.getStudent(sid);
+		System.out.println(student);
+		return JSON.toJSON(student).toString();
+	}
+	/**
+	 * 验证住宿学生
+	 * @param sid
+	 * @param spassword
+	 * @return 
+	 */
+	@RequestMapping(value="verifyStudent",method = RequestMethod.POST)
+	@ResponseBody
+	public String verifyStudent(@RequestBody Map<String,Object> map){
+		
+		String sid = String.valueOf(map.get("sid"));
+		String spassword = String.valueOf(map.get("spassword"));
+		Student student = null;
+		if(sid.equals(spassword)){
+			student = studentService.verifyStudent(sid,spassword);
+		}else{
+			
+			PwdMD5 pwdMD5 = new PwdMD5();
+			String sPwdMD5 = pwdMD5.getPwdMD5(spassword);
+			student = studentService.verifyStudent(sid,sPwdMD5);
+		}
+		System.out.println("verifyStudent:"+student);
+		if(student!=null){
+			return JSON.toJSON(student).toString();
+		}else{
+			String msg = "NOT FOUND";
+			List<String> msgList = new ArrayList<String>();
+			msgList.add(msg);
+			return JSON.toJSON(msgList).toString();
+		}
+		
+	}
+	/**
+	 * 修改密码
+	 * @param sid
+	 * @return 
+	 */
+	@RequestMapping(value="modifyStudentPwd",method = RequestMethod.POST)
+	@ResponseBody
+	public String modifyPwd(@RequestBody Map<String,Object> map){
+		
+		String sid = String.valueOf(map.get("sid"));
+		String newPwd = String.valueOf(map.get("newPwd"));
+		PwdMD5 pwdMD5 = new PwdMD5();
+		String dapassword = pwdMD5.getPwdMD5(newPwd);
+		studentService.modifyPwd(sid,dapassword);
+		return "";
+	}
 //	/**
 //	 * 按宿舍楼查询宿舍
 //	 * @param bid

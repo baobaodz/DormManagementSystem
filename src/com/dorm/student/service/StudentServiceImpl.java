@@ -40,11 +40,6 @@ public class StudentServiceImpl implements StudentService{
 		
 	}
 
-	@Override
-	public Dormitory getDormitory(String did) {
-		// TODO Auto-generated method stub
-		return studentMapper.getDormitory(did);
-	}
 
 	@Override
 	public void deleteDormitory(String checkedId) {
@@ -117,6 +112,27 @@ public class StudentServiceImpl implements StudentService{
 	public List<Student> getOccupiedByDorm(int did) {
 		// TODO Auto-generated method stub
 		return studentMapper.getOccupiedByDorm(did);
+	}
+
+
+	@Override
+	public Student getStudent(String sid) {
+		// TODO Auto-generated method stub
+		return studentMapper.getStudent(sid);
+	}
+
+
+	@Override
+	public Student verifyStudent(String sid, String spassword) {
+		// TODO Auto-generated method stub
+		return studentMapper.verifyStudent(sid, spassword);
+	}
+
+
+	@Override
+	public void modifyPwd(String sid, String spassword) {
+		// TODO Auto-generated method stub
+		studentMapper.modifyPwd(sid, spassword);
 	}
 
 

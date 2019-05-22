@@ -13,8 +13,8 @@
 	<link rel="stylesheet" href="../../assets/vendor/linearicons/style.css">
 	<!-- MAIN CSS -->
 	<link rel="stylesheet" href="../../assets/css/main.css">
-	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-	<link rel="stylesheet" href="../../assets/css/demo.css">
+	<link rel="stylesheet" href="../../css/flat.css">
+
 	
 	<!-- GOOGLE FONTS -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
@@ -38,8 +38,7 @@
 					<div class="left">
 						<div class="content">
 							<div class="header">
-								<div class="logo text-center"><img src="logo-dark.png" alt="Klorofil Logo"></div>
-								<p class="lead">Login to your account</p>
+								<div class="logo text-center"><img src="../../assets/img/logo-large.png" alt="Klorofil Logo"></div>
 							</div>						
 							<ul class="nav nav-pills nav-justified">
 								<li class="active"><a href="#dormAdminLogin" data-toggle="tab">宿舍管理员登录</a></li>
@@ -110,8 +109,8 @@
 					<div class="right">
 						<div class="overlay"></div>
 						<div class="content text">
-							<h1 class="heading">Free Bootstrap dashboard template</h1>
-							<p>by The Develovers</p>
+							<h1 class="heading">学生宿舍管理系统</h1>
+							<p>by baobaodz</p>
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -170,7 +169,6 @@
      				
      			},error:function(data){
      				
-     				alert(data);
      				alert("请求失败");
      			}
 		
@@ -198,7 +196,7 @@
 			var sid = $(".sid").val();
 			var spassword = $(".spassword").val();
         	$.ajax({
-				url : "<%=request.getContextPath()%>/loginStudent",
+				url : "<%=request.getContextPath()%>/verifyStudent",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
@@ -208,9 +206,10 @@
      			}),
      			success : function(data) {
      			
-     				if(data=="1"){
-     				
+      				if(data!="NOT FOUND"){
      					
+     					sessionStorage.setItem("sid",data.sid);
+        				sessionStorage.setItem("spassword",data.spassword);
      					window.location.href = "<%=request.getContextPath()%>/jsp/user/stu/index.jsp";
      				}else{
      					alert("登录失败！账号或密码错误");

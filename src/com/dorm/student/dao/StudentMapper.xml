@@ -9,8 +9,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="com.dorm.student.model.Student" id="StudentResultMap">
 		<id property="sid" column="sid" />
 		<result property="sname" column="sname" />
+		<result property="spassword" column="spassword" />
 		<result property="gender" column="gender" />
-		<result property="start" column="start" />
+		<result property="admission" column="admission" />
 		<result property="sgrade" column="sgrade" />
 		<result property="sclass" column="sclass" />
 		<result property="status" column="status" />
@@ -38,9 +39,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON S.DORMITORY_ID = D.DID
 		WHERE DORMITORY_ID !=0
 	</select>
-	<!--查询指定楼宇 -->
-	<select id="getDormitory" parameterType="String" resultMap="StudentResultMap">
-		SELECT * FROM Dormitory D,BUILDING B where D.BUILDING_ID=B.BID AND daid = #{daid}
+	<!--查询指定学生 -->
+	<select id="getStudent" parameterType="String" resultMap="StudentResultMap">
+		SELECT * FROM 
+		STUDENT S,DORMITORY D 
+		WHERE 
+		S.DORMITORY_ID=D.DID AND 
+		SID = #{sid}
+	</select>
+	
+	<select id="verifyStudent" resultType="com.dorm.student.model.Student">
+		SELECT *
+		FROM STUDENT 
+		WHERE SID = #{sid} 
+		AND 
+		SPASSWORD = #{spassword}
 	</select>
 	<!--添加指定楼宇 -->
 	<insert id="saveStudentBatch" parameterType="java.util.List">
@@ -71,6 +84,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			INTRODUCTION=#{introduction},
 			BUILDING_ID=#{building_id}
 		WHERE DAID = #{daid}	
+	</update>
+	
+	<!--修改密码 -->
+	<update id="modifyPwd">
+		UPDATE STUDENT 
+		SET 
+		SPASSWORD = #{spassword} 
+		WHERE SID = #{sid}
 	</update>
 	<!--批量删除指定楼宇 -->
 	<delete id="deleteDormAdmin">

@@ -138,9 +138,9 @@ public class DormAdminController {
 		return map;
 	}
 	/**
-	 * 查询指定楼宇
-	 * @param bid
-	 * @return 
+	 * 查询指定宿舍管理员
+	 * @param map
+	 * @return dormadmin
 	 */
 	@RequestMapping(value="getDormAdmin",method = RequestMethod.POST)
 	@ResponseBody
@@ -153,7 +153,8 @@ public class DormAdminController {
 	}
 	/**
 	 * 验证宿舍管理员
-	 * @param bid
+	 * @param daid
+	 * @param dapassword
 	 * @return 
 	 */
 	@RequestMapping(value="verifyUser",method = RequestMethod.POST)
@@ -178,8 +179,6 @@ public class DormAdminController {
 			String msg = "NOT FOUND";
 			List<String> msgList = new ArrayList<String>();
 			msgList.add(msg);
-			
-			System.out.println(msgList);
 			return JSON.toJSON(msgList).toString();
 		}
 		
@@ -189,7 +188,7 @@ public class DormAdminController {
 	 * @param bid
 	 * @return 
 	 */
-	@RequestMapping(value="modifyPwd",method = RequestMethod.POST)
+	@RequestMapping(value="modifyDormAdminPwd",method = RequestMethod.POST)
 	@ResponseBody
 	public String modifyPwd(@RequestBody Map<String,Object> map){
 		
@@ -201,7 +200,7 @@ public class DormAdminController {
 		return "";
 	}
 	/**
-	 * 修改密码
+	 * 修改j介绍
 	 * @param bid
 	 * @return 
 	 */

@@ -18,10 +18,13 @@ public interface StudentService {
 	public List<Student> queryStudent();
 	public List<Student> getDistrStudent(String gender);
 	public List<Student> getOccupiedByDorm(int did);
+	public Student getStudent(String sid);
+	public Student verifyStudent(String sid,String spassword);
+	public void modifyPwd(String sid,String spassword);
 	
 	public void updateDistr(String checkedSid,int checkedDid);
 	public void modifyDormitory(Dormitory dormitory);
-	public Dormitory getDormitory(String did);
+
 	public void deleteDormitory(String checkedId);
 	public int getDormitoryNumber(int bid);
 	public int getDormitoryId(int buildingId,int dormitoryDno);

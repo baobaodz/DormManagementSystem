@@ -105,8 +105,6 @@
 										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyDormAdmin"><i class="fa fa-edit"></i> 修改 </button>
 										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash"></i> 删除 </button>
 										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
-										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 分配 </button>
-										<button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-refresh fa-spin"></i> Refreshing...</button>
 									</p>
 								</div>
 								<!-- 模态框（Modal） -->

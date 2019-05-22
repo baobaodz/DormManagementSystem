@@ -17,9 +17,12 @@ public interface StudentMapper {
 		public List<Student> queryStudent();
 		public List<Student> getDistrStudent(String gender);
 		public List<Student> getOccupiedByDorm(int did);
+		public Student getStudent(String sid);
+		public Student verifyStudent(@Param("sid") String sid,@Param("spassword") String spassword);
+		public void modifyPwd(@Param("sid") String sid,@Param("spassword") String spassword);
+
 		
 		public void modifyDormitory(Dormitory dormitory);
-		public Dormitory getDormitory(String did);
 		public void deleteDormitory(String[] checkedId);
 		public int getDormitoryNumber(int bid);
 		

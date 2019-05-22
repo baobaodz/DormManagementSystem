@@ -30,3 +30,22 @@
     border: 1px solid transparent;
     border-radius: 4px;
 }
+
+.auth-box .right{
+	
+	background-image: url("../assets/img/login.png");
+	background-size:100% 85%;
+}
+.navbar-default .brand{
+	
+	padding:9px 39px;
+}
+#wrapper .sidebar{
+	
+	
+	width:220px;
+}
+#wrapper .main{
+	
+	width:calc(100% - 220px);
+}

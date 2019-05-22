@@ -163,14 +163,13 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [sid=" + sid + ", sname=" + sname + ", gender="
-				+ gender + ", admission=" + admission + ", sgrade=" + sgrade
-				+ ", sclass=" + sclass + ", status=" + status + ", character="
-				+ character + ", dormitory_id=" + dormitory_id + ", dormitory="
-				+ dormitory + "]";
+		return "Student [sid=" + sid + ", sname=" + sname + ", spassword="
+				+ spassword + ", gender=" + gender + ", admission=" + admission
+				+ ", sgrade=" + sgrade + ", sclass=" + sclass + ", status="
+				+ status + ", character=" + character + ", dormitory_id="
+				+ dormitory_id + ", dormitory=" + dormitory + "]";
 	}
 
-	
 
 
 }
