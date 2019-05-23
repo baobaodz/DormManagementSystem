@@ -58,7 +58,7 @@ public class BuildingController {
 	
 	/**
 	 * ²éÑ¯ËùÓĞÂ¥Óî
-	 * @param map
+	 * @param isDistr
 	 * @return buildings
 	 */
 	@RequestMapping(value="queryBuilding",method = RequestMethod.POST)
