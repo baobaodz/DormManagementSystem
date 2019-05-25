@@ -47,9 +47,9 @@ public class RepairServiceImpl implements RepairService{
 	}
 
 	@Override
-	public int getDormitoryNumber(int bid) {
+	public int getApplicationNumber(int bid) {
 		// TODO Auto-generated method stub
-		return repairMapper.getDormitoryNumber(bid);
+		return repairMapper.getApplicationNumber(bid);
 	}
 
 	@Override
@@ -62,6 +62,14 @@ public class RepairServiceImpl implements RepairService{
 	public void deleteRepairApplication(int rid) {
 		// TODO Auto-generated method stub
 		repairMapper.deleteRepairApplication(rid);
+	}
+
+	@Override
+	public List<Repair> queryRepairApplication(int buildingId,
+			String startTime, String endTime, String handleStatus,
+			int currentPage, int pageSize) {
+		// TODO Auto-generated method stub
+		return repairMapper.queryRepairApplication(buildingId, startTime, endTime, handleStatus.split(","), currentPage, pageSize);
 	}
 
 

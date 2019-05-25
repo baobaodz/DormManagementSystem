@@ -49,7 +49,7 @@ public class RepairController {
 		String budno = String.valueOf(map.get("budno"));
 		int rtype = Integer.parseInt(String.valueOf(map.get("rtype")));
 		String rcause = String.valueOf(map.get("rcause"));
-		SimpleDateFormat myfmt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat myfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
 		String reporttime=myfmt.format(new java.util.Date()).toString();
 		String reporter = String.valueOf(map.get("reporter"));
 		int handlestatus = Integer.parseInt(String.valueOf(map.get("handlestatus")));
@@ -95,20 +95,30 @@ public class RepairController {
 		System.out.println(repairs);
 		return JSON.toJSON(repairs).toString();
 	}
-//	/**
-//	 * 查询所有楼宇
-//	 * @param map
-//	 * @return dormadmins
-//	 */
-//	@RequestMapping(value="queryRepairApplication",method = RequestMethod.POST)
-//	@ResponseBody
-//	public String queryDormitory(@RequestBody Map<String,Object> map){
-//		
-//		List<Dormitory> dormitories = repairService.queryDormitory();
-//		System.out.println(dormitories);
-//		return JSON.toJSON(dormitories).toString();
-//	}
-//	
+	/**
+	 * 查询所有楼宇
+	 * @param map
+	 * @return dormadmins
+	 */
+	@RequestMapping(value="queryRepairApplication",method = RequestMethod.POST)
+	@ResponseBody
+	public String queryRepairApplication(@RequestBody Map<String,Object> map){
+		
+
+		int buildingId = Integer.parseInt(String.valueOf(map.get("buildingId")));
+		String startTime = String.valueOf(map.get("startTime"));
+		String endTime = String.valueOf(map.get("endTime"));
+		SimpleDateFormat myfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
+		String reporttime=myfmt.format(new java.util.Date()).toString();
+		String handleStatus = String.valueOf(map.get("handleStatus"));
+		int currentPage = Integer.parseInt(String.valueOf(map.get("currentPage")));
+		int pageSize = Integer.parseInt(String.valueOf(map.get("pageSize")));
+		
+		List<Repair> repairApplications = repairService.queryRepairApplication(buildingId,startTime,endTime,handleStatus,currentPage,pageSize);
+		System.out.println(repairApplications);
+		return JSON.toJSON(repairApplications).toString();
+	}
+	
 //	/**
 //	 * 修改楼宇
 //	 * @param map
@@ -165,18 +175,18 @@ public class RepairController {
 //		System.out.println(dormitories);
 //		return JSON.toJSON(dormitories).toString();
 //	}
-//	/**
-//	 * 按宿舍楼查询宿舍
-//	 * @param bid
-//	 * @return dormitories
-//	 */
-//	@RequestMapping(value="getDormitoryNumber",method = RequestMethod.POST)
-//	@ResponseBody
-//	public String getDormitoryNumber(@RequestBody Map<String,Object> map){
-//		
-//		int bid = Integer.parseInt(String.valueOf(map.get("bid")));		
-//		int dormitoryNumber = repairService.getDormitoryNumber(bid);
-//		System.out.println(dormitoryNumber);
-//		return JSON.toJSON(dormitoryNumber).toString();
-//	}
+	/**
+	 * 按宿舍楼查询报修申请
+	 * @param bid
+	 * @return int
+	 */
+	@RequestMapping(value="getApplicationNumber",method = RequestMethod.POST)
+	@ResponseBody
+	public String getApplicationNumber(@RequestBody Map<String,Object> map){
+		
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));		
+		int applicationNumber = repairService.getApplicationNumber(bid);
+		System.out.println("applicationNumber:"+applicationNumber);
+		return JSON.toJSON(applicationNumber).toString();
+	}
 }

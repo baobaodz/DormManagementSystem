@@ -465,8 +465,6 @@
 				 	
 				 	getDormitoryNumber(bid);//查询总宿舍数
 				 	
-					clickModifyBuilding();
-					clickMoreInfo();				 	
 				 	
 				 }			
 			})

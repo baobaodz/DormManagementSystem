@@ -20,7 +20,7 @@
 							<div id="subPages" class="collapse ">
 								<ul class="nav">
 									<li><a href="<%=request.getContextPath()%>/jsp/user/da/AbsenteeismManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>缺寝管理</span></a></li>
-									<li><a href="<%=request.getContextPath()%>/jsp/user/da/DormStudentManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>报修管理</span></a></li>
+									<li><a href="<%=request.getContextPath()%>/jsp/user/da/RepairManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>报修管理</span></a></li>
 									<li><a href="<%=request.getContextPath()%>/jsp/user/da/InOutManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>进出管理</span></a></li>
 								</ul>
 							</div>

@@ -17,6 +17,7 @@
 	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
 	<link rel="stylesheet" href="../../../assets/css/demo.css">
 	<link rel="stylesheet" href="../../../css/flat.css">
+	<link rel="stylesheet" href="../../../css/bootoast.css">
 	<!-- GOOGLE FONTS -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<!-- ICONS -->
@@ -37,7 +38,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">报修申请</h3>
+					<h3 class="page-title" style="margin-bottom:10px;">报修申请</h3>
 					<div class="row">
 						<div class="col-md-12">
 							<!-- TABLE HOVER -->
@@ -353,6 +354,7 @@
 	<script src="../../../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="../../../assets/scripts/klorofil-common.js"></script>
 	<script src="../../../js/student/navbar.js"></script>
+	<script src="../../../js/bootoast.js"></script>
 
 
     <script type="text/javascript">
@@ -481,7 +483,13 @@
                 	if($(this).prop("checked")) {i++;}
         		}) 
         		if(i==0||i>1){
-        			alert("请选择一个");
+        				
+					bootoast({
+    					message: "请选择一个",
+    					type: "warning",
+    					position: "bottom-left",
+    					timeout: 2,
+					});
         			return false;
         		}
         		checbox.each(function(){ 
@@ -511,7 +519,8 @@
                 	if($(this).prop("checked")) i++;
         		}) 
         		if(i==0||i>1){
-        			alert("请选择一个");
+        		
+        			bootoast({message: "请选择一个",type: "warning",position: "bottom-left",timeout: 2});
         			return false;
         		}
         		checbox.each(function(e){
@@ -565,23 +574,26 @@
 		 	var suffixIndex=fileName.lastIndexOf(".");  
 		 	var suffix=fileName.substring(suffixIndex+1).toUpperCase();  
 		 	if(suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF"){  
-		    	alert( "请上传图片（格式BMP、JPG、JPEG、PNG、GIF等）!"); 
-				$("#inputfile").attr("value","");
-		 	}  
-       		console.info(e.target.files[0]);//图片文件
+    			bootoast({message: "请上传图片（格式BMP、JPG、JPEG、PNG、GIF等）!",type: "warning",position: "bottom-left",timeout: 2});
+				$("#inputfile").empty();
+				return false;
+		 	}else{
+	       		console.info(e.target.files[0]);//图片文件
        		
-        	var dom =$("input[id='inputfile']")[0];
-        	console.log(e.target.value);//这个也是文件的路径和上面的dom.value是一样的
-        	var reader = new FileReader();
-        	reader.onload = (function (file) {
-            	return function (e) {
-               	console.info(this.result); 
-               	alert(this.result);//这个就是base64的数据了
-               	imagebase64 = this.result;
-               	$(".image-preview img").attr("src",imagebase64);
-            	};
-        	})(e.target.files[0]);
-        	reader.readAsDataURL(e.target.files[0]);
+        		var dom =$("input[id='inputfile']")[0];
+        		console.log(e.target.value);//这个也是文件的路径和上面的dom.value是一样的
+        		var reader = new FileReader();
+        		reader.onload = (function (file) {
+            		return function (e) {
+               			console.info(this.result); 
+               			alert(this.result);//这个就是base64的数据了
+               			imagebase64 = this.result;
+               			$(".image-preview img").attr("src",imagebase64);
+            		};
+        		})(e.target.files[0]);
+        		reader.readAsDataURL(e.target.files[0]);	 	
+		 	
+		 	}
 
 		});	
 		function isChecked(e){
@@ -609,8 +621,6 @@
 			var reporter =$(".reporter").val();
 			var reporttime = new Date();
 			var budno = $(".building-dormitory").val();
-			alert(budno);
-			alert("第二个第二个第二个:"+imagebase64);
 
 			$.ajax({
 				url: "<%=request.getContextPath()%>/saveRepairApplication",
@@ -628,6 +638,8 @@
      			success:function(data){
      			
      				alert("新增成功");
+	
+					bootoast({message: "新增成功！",type: "success",position: "bottom-left",timeout: 2});
      				$("#addRepairApplication").modal("hide");
 					getRepairApplication(budno);			 
      			}
@@ -764,7 +776,7 @@
 		function deleteRepairApplication(rid,handleStatus){
 				
 				if(handleStatus!="未处理"){
-					alert("该申请已被处理，无法删除！");
+					bootoast({message: "该申请已被处理，无法删除！",type: "warning",position: "bottom-left",timeout: 2});
 					return false;
 				}else{
 					if(confirm("确定删除吗？")){
@@ -778,8 +790,9 @@
      							"rid": rid
      						}),
      						success:function(data){
-     							alert("删除成功！");
-				 				window.location.href = "<%=request.getContextPath()%>/jsp/user/stu/RepairManagement.jsp";
+     						
+				 				window.location.href = "<%=request.getContextPath()%>/jsp/user/stu/RepairApplication.jsp";
+								bootoast({message: "删除成功！",type: "success",position: "bottom-left",timeout: 2});
 
 							}
 						});

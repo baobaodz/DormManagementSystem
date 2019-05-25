@@ -21,5 +21,6 @@ public interface DormitoryMapper {
 		public List<Dormitory> queryDormitoryByBuilding(@Param("bid") int bid,
 							@Param("currentPage") int currentPage,
 							@Param("pageSize") int pageSize);
+
 		
 }

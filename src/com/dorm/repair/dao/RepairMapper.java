@@ -17,9 +17,14 @@ public interface RepairMapper {
 		public void modifyDormitory(Dormitory dormitory);
 		public List<Repair> getRepairApplication(String budno);
 		public void deleteRepairApplication(int rid);
-		public int getDormitoryNumber(int bid);
+		public int getApplicationNumber(@Param("bid") int bid);
 		public List<Dormitory> queryDormitoryByBuilding(@Param("bid") int bid,
 							@Param("currentPage") int currentPage,
 							@Param("pageSize") int pageSize);
-		
+		public List<Repair> queryRepairApplication(@Param("buildingId") int buildingId,
+				@Param("startTime") String startTime,
+				@Param("endTime") String endTime,
+				@Param("handleStatus") String[] handleStatus,
+				@Param("currentPage") int currentPage,
+				@Param("pageSize") int pageSize);		
 }

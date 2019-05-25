@@ -14,7 +14,7 @@
 					<ul class="nav">
 						<li><a href="<%=request.getContextPath()%>/jsp/user/stu/index.jsp" class=""><i class="lnr lnr-home"></i> <span>系统设置</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/jsp/user/stu/DormitoryManagement.jsp" class=""><i class="lnr lnr-chart-bars"></i> <span>宿舍管理</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/jsp/user/stu/RepairManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>报修申请</span></a></li>
+						<li><a href="<%=request.getContextPath()%>/jsp/user/stu/RepairApplication.jsp" class=""><i class="lnr lnr-cog"></i> <span>报修申请</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/jsp/user/stu/DormStudentManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>晚归情况查询</span></a></li>
 						
 					</ul>

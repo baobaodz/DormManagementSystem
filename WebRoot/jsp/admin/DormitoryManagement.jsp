@@ -115,7 +115,6 @@
 										
 										</select>
 										<input class="form-control dormitory-number" style="display:none" placeholder="" type="text">
-<!-- 									<button type="button" class="btn btn-info"><i class="fa fa-refresh"></i> 请选择</button> -->
 									</div>									
 								</div>
 								<!-- 模态框（Modal） -->
