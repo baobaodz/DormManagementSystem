@@ -46,11 +46,6 @@ public class RepairServiceImpl implements RepairService{
 		return repairMapper.queryDormitoryByBuilding(bid,currentPage,pageSize);
 	}
 
-	@Override
-	public int getApplicationNumber(int bid) {
-		// TODO Auto-generated method stub
-		return repairMapper.getApplicationNumber(bid);
-	}
 
 	@Override
 	public List<Repair> getRepairApplication(String budno) {
@@ -65,12 +60,20 @@ public class RepairServiceImpl implements RepairService{
 	}
 
 	@Override
-	public List<Repair> queryRepairApplication(int buildingId,
-			String startTime, String endTime, String handleStatus,
+	public List<Repair> queryRepairApplication(int bid,
+			int typeId,String startTime, String endTime, String checkedStatusId,
 			int currentPage, int pageSize) {
 		// TODO Auto-generated method stub
-		return repairMapper.queryRepairApplication(buildingId, startTime, endTime, handleStatus.split(","), currentPage, pageSize);
+		return repairMapper.queryRepairApplication(bid, typeId,startTime, endTime, checkedStatusId.split(","), currentPage, pageSize);
 	}
+
+	@Override
+	public int getApplicationNumber(int bid, int typeId,String startTime,
+			String endTime, String checkedStatusId) {
+		// TODO Auto-generated method stub
+		return repairMapper.getApplicationNumber(bid,typeId,startTime, endTime, checkedStatusId.split(","));
+	}
+
 
 
 

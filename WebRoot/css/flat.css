@@ -1,5 +1,5 @@
 @CHARSET "UTF-8";
-.more,.modify-right,.page-button{
+.more,.modify-right,.page-button,.handle-right{
 	background-color:#F5F5F9;
 	height:27px;
 	border-width:1px;
@@ -48,4 +48,22 @@
 #wrapper .main{
 	
 	width:calc(100% - 220px);
+}
+.statustype{
+	
+	height:34px;
+	
+}
+.statustype ul{
+	
+	height:34px;
+	line-height:34px;
+}
+.statustype ul li{
+	
+	
+	list-style:none;
+    display: block;
+    float: left;
+	margin-right:4px;	
 }

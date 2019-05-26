@@ -728,11 +728,7 @@
 				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
 				 
      			}, error:function(jqXHR, textStatus, errorThrown) {
- 					alert(jqXHR.status);//404
- 					alert(jqXHR.readyState);//4
- 					alert(jqXHR.responseText);//4
- 					alert(jqXHR.statusText);//4
- 					alert(textStatus);//error
+     				
    				}
      			
 			

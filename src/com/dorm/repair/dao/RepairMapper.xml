@@ -10,20 +10,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT RE.* FROM (
        		SELECT R.*,ROWNUM RN FROM 
        		REPAIR R
-       		WHERE
-       		<if test="handleStatus!=null">
-       			HANDLESTATUS IN 
-       				<foreach collection="handleStatus" item = "handleStatus" open="(" separator="," close=")">
-   	   					#{handleStatus}
+       		WHERE 1 = 1
+       		<bind name="buildingId" value="bid+'%'" />
+       		<bind name="likeStartTime" value="startTime+'%'" />
+       		<if test="bid!=0">
+       			AND budno like #{buildingId}
+       		</if>
+     		<if test="typeId!=0 and typeId!=null">
+      			AND rtype = #{typeId}
+     		</if>       		
+       		<if test="checkedStatusId!=null">
+       			AND HANDLESTATUS IN 
+       				<foreach collection="checkedStatusId" item = "checkedStatusId" open="(" separator="," close=")">
+   	   					#{checkedStatusId}
     				</foreach>  
-    			AND
        		</if>
-       		<if test="startTime!=null and endTime!=null">
-       			 1 = 1 AND REPORTTIME &gt;= #{startTime} AND REPORTTIME &lt;= #{endTime} AND
+       		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+       			<if test="startTime==endTime">
+       				AND REPORTTIME like #{likeStartTime}
+       			</if>
+       			<if test="startTime!=endTime">
+       				AND REPORTTIME &gt;= #{startTime} AND REPORTTIME &lt;= #{endTime}
+       			</if>
        		</if>
-       		<if test="buildingId!='0'">
-       			 1 = 1 AND substr(budno,1,2) = #{buildingId}
-       		</if>
+
        		 ORDER BY RID ASC) RE
 		WHERE 
 			RN&gt;(#{currentPage}-1)*#{pageSize} 
@@ -63,9 +73,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteRepairApplication" parameterType="int">
 		DELETE FROM Repair WHERE rid = #{rid}
 	</delete>
-	<select id="getApplicationNumber" parameterType="int" resultType="int">
-		<bind name="buildingId" value="bid+'%'" />
-		SELECT COUNT(*) FROM REPAIR WHERE budno like #{buildingId}
+	
+	<!--依据条件获取申请个数 -->
+	<select id="getApplicationNumber" resultType="int">
+		
+       		SELECT count(*) FROM 
+       		REPAIR R
+       		WHERE 1 = 1
+       		<bind name="buildingId" value="bid+'%'" />
+       		<bind name="likeStartTime" value="startTime+'%'" />
+       		<if test="bid!=0">
+       			
+       			AND budno like #{buildingId}
+       		</if>
+     		<if test="typeId!=0 and typeId!=null">
+      			AND rtype = #{typeId}
+     		</if>       		
+       		<if test="checkedStatusId!=null">
+      			AND HANDLESTATUS IN 
+       				<foreach collection="checkedStatusId" item = "checkedStatusId" open="(" separator="," close=")">
+   	   					#{checkedStatusId}
+				</foreach>  
+    			
+    		</if> 
+    		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+       			<if test="startTime==endTime">
+       				AND REPORTTIME like #{likeStartTime}
+       			</if>
+       			<if test="startTime!=endTime">
+       				AND REPORTTIME &gt;= #{startTime} AND REPORTTIME &lt;= #{endTime}
+       			</if>
+			</if>
+       		 ORDER BY RID ASC 
 	</select>
 	
 	<select id="queryDormitoryByBuilding" resultType="com.dorm.dormitory.model.Dormitory">

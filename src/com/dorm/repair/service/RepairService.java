@@ -18,12 +18,17 @@ public interface RepairService {
 	public void modifyDormitory(Dormitory dormitory);
 	public List<Repair> getRepairApplication(String budno);
 	public void deleteRepairApplication(int rid);
-	public int getApplicationNumber(int bid);
 	public List<Dormitory> queryDormitoryByBuilding(int bid,int currentPage,int pageSize);
-	public List<Repair> queryRepairApplication(int buildingId,
+	public List<Repair> queryRepairApplication(int bid,
+			int typeId,
 			String startTime,
 			String endTime,
-			String handleStatus,
+			String checkedStatusId,
 			int currentPage,
 			int pageSize);	
+	public int getApplicationNumber(int bid,
+			int typeId,
+			String startTime,
+			String endTime,
+			String checkedStatusId);
 }

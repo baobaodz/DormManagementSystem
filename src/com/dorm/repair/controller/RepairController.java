@@ -105,17 +105,18 @@ public class RepairController {
 	public String queryRepairApplication(@RequestBody Map<String,Object> map){
 		
 
-		int buildingId = Integer.parseInt(String.valueOf(map.get("buildingId")));
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
+		int typeId = Integer.parseInt(String.valueOf(map.get("typeId")));
 		String startTime = String.valueOf(map.get("startTime"));
 		String endTime = String.valueOf(map.get("endTime"));
 		SimpleDateFormat myfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24Ð¡Ê±ÖÆ
 		String reporttime=myfmt.format(new java.util.Date()).toString();
-		String handleStatus = String.valueOf(map.get("handleStatus"));
+		String checkedStatusId = String.valueOf(map.get("checkedStatusId"));
 		int currentPage = Integer.parseInt(String.valueOf(map.get("currentPage")));
 		int pageSize = Integer.parseInt(String.valueOf(map.get("pageSize")));
 		
-		List<Repair> repairApplications = repairService.queryRepairApplication(buildingId,startTime,endTime,handleStatus,currentPage,pageSize);
-		System.out.println(repairApplications);
+		List<Repair> repairApplications = repairService.queryRepairApplication(bid,typeId,startTime,endTime,checkedStatusId,currentPage,pageSize);
+		System.out.println("repairApplications:"+repairApplications);
 		return JSON.toJSON(repairApplications).toString();
 	}
 	
@@ -184,8 +185,12 @@ public class RepairController {
 	@ResponseBody
 	public String getApplicationNumber(@RequestBody Map<String,Object> map){
 		
-		int bid = Integer.parseInt(String.valueOf(map.get("bid")));		
-		int applicationNumber = repairService.getApplicationNumber(bid);
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));	
+		int typeId = Integer.parseInt(String.valueOf(map.get("typeId")));	
+		String startTime = String.valueOf(map.get("startTime"));
+		String endTime = String.valueOf(map.get("endTime"));
+		String checkedStatusId = String.valueOf(map.get("checkedStatusId"));
+		int applicationNumber = repairService.getApplicationNumber(bid,typeId,startTime,endTime,checkedStatusId);
 		System.out.println("applicationNumber:"+applicationNumber);
 		return JSON.toJSON(applicationNumber).toString();
 	}
