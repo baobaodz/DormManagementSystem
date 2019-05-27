@@ -69,6 +69,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			BUILDING_ID=#{building_id}
 		WHERE DAID = #{daid}	
 	</update>
+	
+	<!--更新宿舍管理员处理报修情况 -->
+	<update id="handleRepairApplication" parameterType="com.dorm.repair.model.Repair">
+		UPDATE REPAIR SET 
+			HANDLER=#{handler},
+			HANDLETIME=#{handletime},
+			HANDLEADVICE=#{handleadvice},
+			HANDLESTATUS=#{handlestatus}
+		WHERE RID = #{rid}	
+	</update>
 	<!--批量删除指定楼宇 -->
 	<delete id="deleteRepairApplication" parameterType="int">
 		DELETE FROM Repair WHERE rid = #{rid}
@@ -107,13 +117,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        		 ORDER BY RID ASC 
 	</select>
 	
-	<select id="queryDormitoryByBuilding" resultType="com.dorm.dormitory.model.Dormitory">
-		
-		SELECT DORM.* FROM (
-       		SELECT D.*,ROWNUM RN FROM DORMITORY D WHERE BUILDING_ID = #{bid} ORDER BY DNO ASC) DORM
-		WHERE 
-			RN&gt;(#{currentPage}-1)*#{pageSize} 
-		AND RN&lt;=#{currentPage}*#{pageSize}
-	</select>
+
 
 </mapper>

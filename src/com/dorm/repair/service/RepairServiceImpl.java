@@ -74,6 +74,12 @@ public class RepairServiceImpl implements RepairService{
 		return repairMapper.getApplicationNumber(bid,typeId,startTime, endTime, checkedStatusId.split(","));
 	}
 
+	@Override
+	public void handleRepairApplication(Repair repair) {
+		// TODO Auto-generated method stub
+		repairMapper.handleRepairApplication(repair);
+	}
+
 
 
 

@@ -15,6 +15,7 @@ public interface RepairService {
 
 	public void saveRepairApplication(Repair repair);
 	public List<Dormitory> queryDormitory();
+	public void handleRepairApplication(Repair repair);
 	public void modifyDormitory(Dormitory dormitory);
 	public List<Repair> getRepairApplication(String budno);
 	public void deleteRepairApplication(int rid);
