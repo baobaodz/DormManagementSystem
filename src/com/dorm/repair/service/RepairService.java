@@ -17,6 +17,7 @@ public interface RepairService {
 	public List<Dormitory> queryDormitory();
 	public void handleRepairApplication(Repair repair);
 	public void modifyRepairApplication(Repair repair);
+	public void updateRepairStatus(int rid,int handlestatus);
 	public List<Repair> getRepairApplication(String budno);
 	public void deleteRepairApplication(int rid);
 	public List<Dormitory> queryDormitoryByBuilding(int bid,int currentPage,int pageSize);

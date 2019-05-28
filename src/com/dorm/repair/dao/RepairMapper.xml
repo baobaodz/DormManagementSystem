@@ -78,6 +78,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			HANDLESTATUS=#{handlestatus}
 		WHERE RID = #{rid}	
 	</update>
+	<!--学生更新处理报修状态 -->
+	<update id="updateRepairStatus">
+		UPDATE REPAIR SET 
+			HANDLESTATUS=#{handlestatus}
+		WHERE RID = #{rid}	
+	</update>
 	<!--批量删除指定楼宇 -->
 	<delete id="deleteRepairApplication" parameterType="int">
 		DELETE FROM Repair WHERE rid = #{rid}

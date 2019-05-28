@@ -212,13 +212,14 @@
 												<div id="myTabContent" class="tab-content">
 													<span class="text-danger">对于正在处理的报修记录不能修改，但可以反馈报修进度</span>
 													<br>
+													<br>
 													<label class="fancy-checkbox">
 														<input type="checkbox" name="isResolved"><span>故障已解决</span>
 													</label>
-													<p class="text-danger msg"></p>
+													<p class="text-danger handle-msg"></p>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-														<button type="button" class="btn btn-primary confirm">确认</button>			
+														<button type="button" class="btn btn-primary handeldone-confirm">确认</button>			
 													</div>														
 												</div>
 											</div>
@@ -322,7 +323,6 @@
 		var sid = sessionStorage.getItem("sid");
         var spassword = sessionStorage.getItem("spassword");
         if(sid==""||sid==null||spassword==""||spassword==null){
-        	alert("您无权限，请先登录!!");
         	window.location.href = "<%=request.getContextPath()%>/jsp/no_access.jsp";
         }else{
             
@@ -342,7 +342,6 @@
      			success : function(data){
      				
      				if(data.length==0||data.spassword!=spassword){
-     					alert("您无权限，请登录！");
      					window.location.href = "<%=request.getContextPath()%>/jsp/user/user_login.jsp";
      				}else{
      					sessionStorage.setItem("spassword",data.spassword);
@@ -397,7 +396,7 @@
 			     			  data[i].handleadvice+"</td><td>"+
 			     			  data[i].handler+"</td><td>"+
 			     			  data[i].handletime+"</td><td>"+
-			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyRepairApplication'>修改</button>"+
+			     			  "<button type='button' class='modify-right' data-toggle='modal'>修改</button>"+
 			     			  "</td></tr>");
 			     			  	
 				 	}
@@ -409,90 +408,7 @@
 		 	});			
 		}		
 		
-		//点击修改按钮时弹出模态框
-		function clickModifyRepairApplication(){
-		
-			$(".modify-up").click(function(){
-			
-				var i=0,checbox = $("input[name='choose']");
-				checbox.each(function(){//反选 
-                	if($(this).prop("checked")) {i++;}
-        		}) 
-        		if(i==0||i>1){
-        				
-					bootoast({
-    					message: "请选择一个",
-    					type: "warning",
-    					position: "bottom-left",
-    					timeout: 2,
-					});
-        			return false;
-        		}
-        		checbox.each(function(){ 
-            	
-                	if($(this).prop("checked")){
-                		var tds = $(this).parent().parent().parent().find("td");
-                		var handleStatusName = tds.eq(8).text();
-                		alert(handleStatusName);
-                		if(handleStatusName!="未处理"){
-                			alert("不能修改！");
-                			$("#handleDone").modal("show");
-                			
-                		}else{
-                		
-                			$("#modifyRepairApplication").modal("show");
-                			var rid = tds.eq(1).text();
-                			var rtypeId = tds.eq(3).prop("class");
-                			var rcause = tds.eq(4).text();
-                			var rpicture = tds.eq(5).find("span").text();
-	                		$("#modifyRepairApplication .rtype").val(rtypeId);
-	                		$("#modifyRepairApplication .rcause").text(rcause);
-                			$("#modifyRepairApplication .image-preview img").attr("src","http://"+rpicture);
-                		}
-                	}
-            	
-        		})	
-        						
-			})
-        	$(".modify-right").click(function(){ 
-        	
-        		var tds = $(this).parent().parent().parent().find("td");
-                var rid = tds.eq(1).text();
-                var rtypeId = tds.eq(3).prop("class");
-                var rcause = tds.eq(4).text();
-                var rpicture = tds.eq(5).find("span").text();
-                $("#modifyRepairApplication .rtype").val(rtypeId);
-                $("#modifyRepairApplication .rcause").text(rcause);
-                $("#modifyRepairApplication .image-preview img").attr("src","http://"+rpicture);
-        		
-        	})
-		}
-		//点击删除按钮，可批量删除
-		function clickDeleteRepair(){
-		
-			$(".delete-up").click(function(){
-			
-				var i=0,checbox = $("input[name='choose']");
-				checbox.each(function(){//反选 
-                	if($(this).prop("checked")) i++;
-        		}) 
-        		if(i==0||i>1){
-        		
-        			bootoast({message: "请选择一个",type: "warning",position: "bottom-left",timeout: 2});
-        			return false;
-        		}
-        		checbox.each(function(e){
-            	
-                	if($(this).prop("checked")){
-                		var rid = $(this).parent().parent().parent().find("td").eq(1).text();
-                		var handleStatus = $(this).parent().parent().parent().find("td").eq(8).text();
-                		deleteRepairApplication(rid,handleStatus);	
-                	}
-            	
-        		})
-        		
-			})
-		}
+
  
 		//获取上传图片的base64路径
 		var imagebase64 = null;
@@ -606,7 +522,90 @@
 				}
 
 		 }
-		 
+		//点击修改按钮时弹出模态框
+		function clickModifyRepairApplication(){
+		
+			$(".modify-up").click(function(){
+			
+				var i=0,checbox = $("input[name='choose']");
+				checbox.each(function(){//反选 
+                	if($(this).prop("checked")) {i++;}
+        		}) 
+        		if(i==0||i>1){
+        				
+					bootoast({message: "请选择一个",type: "warning",position: "bottom-left",timeout: 2});
+        			return false;
+        		}
+        		checbox.each(function(){ 
+            	
+                	if($(this).prop("checked")){
+                	
+                		var tds = $(this).parent().parent().parent().find("td");
+                		handleByStatus(tds);
+
+                	}
+            	
+        		})	
+        						
+			})
+        	$(".modify-right").click(function(){ 
+        	
+        		var tds = $(this).parent().parent().find("td");
+        		handleByStatus(tds);
+        	})
+		}
+		
+		function handleByStatus(tds){
+        	var handleStatusName = tds.eq(8).text();
+        	var rid = tds.eq(1).text();
+            if(handleStatusName=="处理中"){
+                $("#handleDone").modal("show");
+                handelDone(rid);
+                			
+            }else if(handleStatusName=="未处理"){
+                		
+                $("#modifyRepairApplication").modal("show");
+                var rid = tds.eq(1).text();
+                var rtypeId = tds.eq(3).prop("class");
+                var rcause = tds.eq(4).text();
+                var rpicture = tds.eq(5).find("span").text();
+	            $("#modifyRepairApplication .rtype").val(rtypeId);
+	            $("#modifyRepairApplication .rcause").text(rcause);
+                $("#modifyRepairApplication .image-preview img").attr("src","http://"+rpicture);
+            }else{
+                		
+				bootoast({message: "报修已处理完毕，不能修改！",type: "warning",position: "bottom-left",timeout: 2});
+               
+                return false;
+            }		
+		
+		}
+		//点击删除按钮，可批量删除
+		function clickDeleteRepair(){
+		
+			$(".delete-up").click(function(){
+			
+				var i=0,checbox = $("input[name='choose']");
+				checbox.each(function(){//反选 
+                	if($(this).prop("checked")) i++;
+        		}) 
+        		if(i==0||i>1){
+        		
+        			bootoast({message: "请选择一个",type: "warning",position: "bottom-left",timeout: 2});
+        			return false;
+        		}
+        		checbox.each(function(e){
+            	
+                	if($(this).prop("checked")){
+                		var rid = $(this).parent().parent().parent().find("td").eq(1).text();
+                		var handleStatus = $(this).parent().parent().parent().find("td").eq(8).text();
+                		deleteRepairApplication(rid,handleStatus);	
+                	}
+            	
+        		})
+        		
+			})
+		}		 
 		 
 		//获取上传图片的base64路径
 		var modifyImagebase64 = null;
@@ -638,15 +637,10 @@
 		$("#confirm").click(function(){
 		
 			var rid = $("input[name='choose']:checked").parent().parent().parent().find("td").eq(1).text();
-			alert(rid);
 			var rtype =$("#modifyRepairApplication .rtype").val();
 			var rcause =$("#modifyRepairApplication .rcause").val();
-			
 			var rpicture = modifyImagebase64;
 			
-			alert("rtype:"+rtype);
-			alert("rcause:"+rcause);
-			alert("rpicture:"+rpicture);
 			$.ajax({
 				url: "<%=request.getContextPath()%>/modifyRepairApplication",
      			type: "post",
@@ -660,12 +654,46 @@
      			}),
      			success:function(data){
      			
-     				alert("修改成功");
+     				bootoast({message: "修改成功",type: "success",position: "bottom-left",timeout: 2});
 				 	window.location.href = "<%=request.getContextPath()%>/jsp/user/stu/RepairApplication.jsp";
      			}
 			
 			});	
+		})
+		function handelDone(rid){
+			$(".handeldone-confirm").click(function(){
+			var isResolved = $("input[name='isResolved']").prop("checked");
+			alert(isResolved);
+			alert("rid:"+rid);
+			
+			if(isResolved){
+				$.ajax({
+					url: "<%=request.getContextPath()%>/updateRepairStatus",
+     				type: "post",
+     				dataType : "json",
+     				contentType: "application/json;charset=utf-8",
+     				data:JSON.stringify({
+     					"rid": rid,
+     					"handleStatus": "0"
+     				}),
+     				success:function(data){
+     			
+     					
+     					bootoast({message: "处理成功",type: "success",position: "bottom-left",timeout: 2});
+				 		window.location.href = "<%=request.getContextPath()%>/jsp/user/stu/RepairApplication.jsp";
+     				}
+			
+				});	
+			
+			}else{
+				
+				$(".handle-msg").text("还没选择！");
+			
+			}
 		})	
+		
+
+		}
 		function clickRefreshRepair(){
 		
 			$(".refresh").click(function(){
@@ -736,7 +764,7 @@
 			var RepairHandleStatusID = {
 				未处理:1,
 				处理中:2,
-				处理完成:0
+				已处理:0
 			}
 							
 			for(var cat in RepairHandleStatusID){

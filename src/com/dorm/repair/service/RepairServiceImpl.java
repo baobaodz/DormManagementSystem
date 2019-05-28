@@ -79,6 +79,12 @@ public class RepairServiceImpl implements RepairService{
 		repairMapper.modifyRepairApplication(repair);
 	}
 
+	@Override
+	public void updateRepairStatus(int rid, int handlestatus) {
+		// TODO Auto-generated method stub
+		repairMapper.updateRepairStatus(rid, handlestatus);
+	}
+
 
 
 

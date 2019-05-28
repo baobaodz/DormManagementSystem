@@ -16,6 +16,7 @@ public interface RepairMapper {
 		public List<Dormitory> queryDormitory();
 		public void modifyRepairApplication(Repair repair);
 		public void handleRepairApplication(Repair repair);
+		public void updateRepairStatus(@Param("rid") int rid,@Param("handlestatus") int handlestatus);
 		public List<Repair> getRepairApplication(String budno);
 		public void deleteRepairApplication(int rid);
 		public List<Dormitory> queryDormitoryByBuilding(@Param("bid") int bid,

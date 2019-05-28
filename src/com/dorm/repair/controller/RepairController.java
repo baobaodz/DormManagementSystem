@@ -276,5 +276,19 @@ public class RepairController {
 		repairService.modifyRepairApplication(repair);
 		return map;
 	}
-	
+	/**
+	 * ∞¥Àﬁ…·¬•≤È—Ø±®–ﬁ…Í«Î
+	 * @param bid
+	 * @return int
+	 */
+	@RequestMapping(value="updateRepairStatus",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> updateRepairStatus(@RequestBody Map<String,Object> map){
+		
+		int rid = Integer.parseInt(String.valueOf(map.get("rid")));	
+		int handlestatus = Integer.parseInt(String.valueOf(map.get("handleStatus")));	
+	    repairService.updateRepairStatus(rid, handlestatus);
+	    
+		return map;
+	}	
 }
