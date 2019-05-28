@@ -44,12 +44,12 @@
 								<div class="panel-body">
 									<p class="demo-button">
 										<button type="button" class="btn btn-default new" data-toggle="modal" data-target="#addRepairApplication"><i class="fa fa-plus-square"></i> 添加 </button>
-										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyDormAdmin"><i class="fa fa-edit"></i> 修改 </button>
+										<button type="button" class="btn btn-primary modify-up" data-toggle="modal"><i class="fa fa-edit"></i> 修改 </button>
 										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash"></i> 删除 </button>
 										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
 									</p>
 								</div>
-								<!-- 模态框（Modal） -->
+								<!-- 新增模态框（Modal） -->
 								<div class="modal fade" id="addRepairApplication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -122,8 +122,8 @@
 										<div class="modal-content">
 											<!--内容 -->
 											<div class="modal-body">
-												<div class="image-hoverPreview" style="width:450px;height:350px;background-color:pink">
-													<img src="" style="width:510px;height:350px;display:block;overflow:hidden"/>
+												<div class="image-hoverPreview" style="width:565px;height:350px;">
+													<img src="" style="width:565px;height:350px;display:block;overflow:hidden"/>
 												</div>
 											</div>
 
@@ -132,95 +132,64 @@
 								</div><!-- /.modal -->
 								
 								
-								<!-- 模态框（Modal） -->
-								<div class="modal fade" id="modifyDormAdmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<!-- 修改模态框（Modal） -->
+								<div class="modal fade" id="modifyRepairApplication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-												<h4 class="modal-title" id="myModalLabel">宿舍管理员管理  / 修改</h4>
+												<h4 class="modal-title" id="myModalLabel">报修申请  / 修改</h4>
 											</div>
 											<!--内容 -->
 											<div class="modal-body">
 												<ul id="modifyTab" class="nav nav-tabs nav-pills nav-justified">
 													<li class="active">
-														<a href="#modify-info" data-toggle="tab">基础信息</a>
+														<a href="#modify-info" data-toggle="tab">基本信息</a>
 													</li>
-													<li><a href="#modify-distribution" data-toggle="tab">楼宇分配</a></li>
+													<li><a href="#modify-image" data-toggle="tab">图片上传</a></li>
 												</ul>
 												<div id="myTabContent" class="tab-content">
 													<div class="tab-pane fade in active" id="modify-info">
 														<form role="form" style="padding:8px;">
 															<div class="input-group">
-																<span class="input-group-addon"><i class="fa fa-user"></i>&nbsp; 工号</span>
-																<input class="form-control daid" placeholder="username" type="text">
+																<span class="input-group-addon"><i class="fa fa-user"></i>&nbsp; 故障类型</span>
+																<select class="form-control rtype">
+																	<option value="1">桌椅床</option>
+																	<option value="2">风扇空调</option>
+																	<option value="3">门窗锁</option>
+																	<option value="4">卫生工具</option>
+																	<option value="5">电路网络</option>
+																	<option value="6">其它类型</option>
+																</select>																
 															</div>
 															<br>
-															<div class="input-group">
-																<span class="input-group-addon"><i class="fa fa-key"></i> 密码</span>
-																<input class="form-control dapassword" placeholder="password" type="text">
-															</div>
-															<br>
-															<div class="input-group">
-																<span class="input-group-addon"><i class="fa fa-id-badge"></i>&nbsp;&nbsp;姓名</span>
-																<input class="form-control truename" placeholder="truename" type="text">
-															</div>
-															<br>
-															<div class="input-group">
-																<span class="input-group-addon"><i class="fa fa-phone"></i>&nbsp; 电话</span>
-																<input class="form-control workphone" placeholder="workphone" type="text">
-															</div>
-															<input type="text" class="form-control role" placeholder="" style="display:none" value="dorm_admin">
-															<br>												
-															<textarea class="form-control introduction" placeholder="introduction" rows="4"></textarea>
-															<br>	
-															<div class="input-group">
-																<span class="input-group-addon"><i class="fa fa-venus-mars"></i>&nbsp; 性别</span>
-																<label class="fancy-radio" style="float:left;margin:7px;">
-																	<input name="gender" value="男" type="radio" class="sex" checked>
-																	<span><i></i>男</span>
-																</label>
-													
-																<label class="fancy-radio" style="float:left;margin: 7px;">
-																	<input name="gender" value="女" type="radio" class="sex">
-																	<span><i></i>女</span>
-																</label>
-													
-												 			</div>
-												 			<br>
-												 			<input type="hidden" class="hideworkstate" name="state" />
+															<input type="hidden" class="form-control reporter" placeholder="reporter" type="text">
+															<input type="hidden" class="form-control building-dormitory" placeholder="building-dormitory" type="text">
+															<textarea class="form-control rcause" placeholder="故障说明" rows="4"></textarea>
+												 			<input type="hidden" class="form-control handlestatus" placeholder="handlestatus" type="text" />
 														</form>		
 													
 														<div class="modal-footer">
-															<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-															<button type="button" class="btn btn-primary modify-next">下一步</button>			
+															<button type="button" class="btn btn-default close-down" data-dismiss="modal">取消</button>
+															<button type="button" class="btn btn-primary" id="modifyNext">下一步</button>			
 														</div>														
 													</div>
-												<div class="tab-pane fade" id="modify-distribution">
-													
+												<div class="tab-pane fade" id="modify-image">
+												 		<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-image"></i>&nbsp; 照片</span>
+																<input type="file" id="modifyInputfile" class="form-control rpicture">
+																 
+												 		</div>													
 														<div class="modal-body">
-															<span>注意：男性管理员不能分配到女生宿舍</span>
-															<br>
-															<table class="table table-hover">
-																<thead class="distr-building">
-																	<tr>
-																		<th>楼号</th>
-																		<th>名称</th>
-																		<th>性质</th>
-																		<th>已分配/总数</th>
-																		<th>选择</th>
-																		
-																	</tr>
-																</thead>
-																<tbody class="building-list">
-											
-																</tbody>
-															</table>				
+															<div class="image-preview" style="width:510px;height:350px;background-color:pink">
+																<img src="" style="width:510px;height:350px;display:block;overflow:hidden"/>
+															</div>
+
 														</div>	
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default close-down" data-dismiss="modal">取消</button>
-															<button type="button" class="btn btn-primary modify-previous" >上一步</button>			
-															<button type="button" class="btn btn-primary" id="confirm">确认</button>			
+															<button type="button" class="btn btn-primary" id="modifyPrevious">上一步</button>			
+															<button type="button" class="btn btn-primary" id="confirm">保存</button>			
 														</div>	
 												</div>
 											</div>
@@ -230,6 +199,33 @@
 									</div><!-- /.modal-dialog -->
 								</div><!-- /.modal -->
 								
+								<!-- 是否处理完毕模态框（Modal） -->
+								<div class="modal fade" id="handleDone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="myModalLabel">报修申请  / 处理反馈</h4>
+											</div>
+											<!--内容 -->
+											<div class="modal-body">
+												<div id="myTabContent" class="tab-content">
+													<span class="text-danger">对于正在处理的报修记录不能修改，但可以反馈报修进度</span>
+													<br>
+													<label class="fancy-checkbox">
+														<input type="checkbox" name="isResolved"><span>故障已解决</span>
+													</label>
+													<p class="text-danger msg"></p>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+														<button type="button" class="btn btn-primary confirm">确认</button>			
+													</div>														
+												</div>
+											</div>
+
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->								
 								
 								<div class="panel-body">
 									<table class="table table-hover">
@@ -297,42 +293,8 @@
 							</div>
 							<!-- END PANEL NO CONTROLS -->
 						</div>
-						<div class="col-md-4">
-							<!-- PANEL WITH FOOTER -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Panel With Footer</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-										<button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<p>Objectively network visionary methodologies via best-of-breed users. Phosfluorescently initiate go forward leadership skills before an expanded array.</p>
-								</div>
-								<div class="panel-footer">
-									<h5>Panel Footer</h5>
-								</div>
-							</div>
-							<!-- END PANEL WITH FOOTER -->
-						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<!-- PANEL SCROLLING -->
-							<div id="panel-scrolling-demo" class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Panel Scrolling</h3>
-								</div>
-								<div class="panel-body">
-									<p>Objectively network visionary methodologies via best-of-breed users. Phosfluorescently initiate go forward leadership skills before an expanded array of infomediaries. Monotonectally incubate web-enabled communities rather than process-centric.</p>
-									<p>Objectively network visionary methodologies via best-of-breed users. Phosfluorescently initiate go forward leadership skills before an expanded array of infomediaries. Monotonectally incubate web-enabled communities rather than process-centric.</p>
-									<p>Objectively network visionary methodologies via best-of-breed users. Phosfluorescently initiate go forward leadership skills before an expanded array of infomediaries. Monotonectally incubate web-enabled communities rather than process-centric.</p>
-								</div>
-							</div>
-							<!-- END PANEL SCROLLING -->
-						</div>
-					</div>
+					
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -390,89 +352,65 @@
      					var budno = $(".building-dormitory").val();
 			     		getRepairApplication(budno);
      				}
+     				
      			}
 		
 			});
         }		
 	
-        
-        //查询所有的管理员
-		queryAllDormAdmin();
-		function queryAllDormAdmin(){
+		clickRefreshRepair();  	//刷新
+		clickDeleteRepair();		//删除
+		clickcloseModel();			//取消
+		
+		
+		function getRepairApplication(budno){
 		
 			$.ajax({
-				url: "<%=request.getContextPath()%>/queryDormAdmin",
+				url: "<%=request.getContextPath()%>/getRepairApplication",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
-     			data:JSON.stringify({}),
+     			data:JSON.stringify({
+     				"budno":budno
+     			}),
      			success:function(data){
      			
-     			
+     			if(data.length==0){
+     				return true;
+     			}else{
+     				
+     				$(".repairlist").empty();
+     				$(".no-data").empty();
      			 	for(var i =0; i<data.length; i++){
-
-
-			     		$(".dormadminlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>"+
-							  data[i].daid+"</td><td>"+
-			     			  data[i].truename+"</td><td>"+
-			     			  data[i].sex+"</td><td>"+
-			     			  data[i].workphone+"</td><td>"+
-			     			  data[i].introduction+"</td><td>"+
-			     			  data[i].building.bname+"</td><td>"+
-			     			  data[i].workstate+"</td><td>"+
-			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyDormAdmin'>修改</button>"+
-			     			  "<button type='button' class='more'>详情</button></td></tr>");
+						data[i].handleadvice = data[i].handleadvice==null?"":data[i].handleadvice;
+						data[i].handler = data[i].handler==null?"":data[i].handler;
+						data[i].handletime = data[i].handletime==null?"":data[i].handletime;
+			     		$(".repairlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td style='display:none'>"+
+			     			  data[i].rid+"</td><td>"+
+			     			  data[i].budno+"</td><td class="+data[i].rtype+">"+
+			     			  getRepairTypeName(data[i].rtype)+"</td><td>"+
+			     			  data[i].rcause+"</td><td class='image-hover'><i class='fa fa-eye'></i><span style='display:none'>"+
+			     			  data[i].rpicture+"</span></td><td>"+
+			     			  data[i].reporttime+"</td><td>"+
+			     			  data[i].reporter+"</td><td>"+
+			     			  getRepairHandleStatusName(data[i].handlestatus)+"</td><td>"+
+			     			  data[i].handleadvice+"</td><td>"+
+			     			  data[i].handler+"</td><td>"+
+			     			  data[i].handletime+"</td><td>"+
+			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyRepairApplication'>修改</button>"+
+			     			  "</td></tr>");
 			     			  	
 				 	}
-					clickModifyDormAdmin();
-					clickMoreInfo();				 	
+					clickModifyRepairApplication();
+					clickImageEye();				 	
 				 	
-				 }	
-		 	});
-		}
-		
-			
-		clickRefreshRepair();  	//刷新
-		clickDeleteRepair();		//删除
-		clicknewDormAdmin();		//新建
-		clickcloseModel();			//取消
-		
-		//点击新建按钮在模态框中显示待分配楼宇
-		function clicknewDormAdmin(){
-			$(".new").click(function(){
-				var isDistr = "0";
-				$.ajax({
-					url: "<%=request.getContextPath()%>/queryBuilding",
-     				type: "post",
-     				dataType : "json",
-     				contentType: "application/json;charset=utf-8",
-     				data:JSON.stringify({
-     					isDistr:"0"
-     				}),
-     				success:function(data){
-     			
-     			 		for(var i =0; i<data.length; i++){
-
-			     			$(".building-list").append("<tr><td>"+
-																		
-							  	data[i].bid+"</td><td>"+
-			     			  	data[i].bname+"</td><td>"+
-			     			  	data[i].attribute+"</td><td>"+
-			     			  	data[i].existing+"<span>/"+data[i].managernumber+"</span></td>"+
-			     			  	"<td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td></tr>");
-			     			  	
-				 		}
-				 		
-				 	}	
-		 		});	
-		
-		
-			})
-
-		}
+				 }
+				}	
+		 	});			
+		}		
 		
 		//点击修改按钮时弹出模态框
-		function clickModifyDormAdmin(){
+		function clickModifyRepairApplication(){
 		
 			$(".modify-up").click(function(){
 			
@@ -493,8 +431,24 @@
         		checbox.each(function(){ 
             	
                 	if($(this).prop("checked")){
-                		var daid = $(this).parent().parent().parent().find("td").eq(1).text();
-                		showDormAdmin(daid);
+                		var tds = $(this).parent().parent().parent().find("td");
+                		var handleStatusName = tds.eq(8).text();
+                		alert(handleStatusName);
+                		if(handleStatusName!="未处理"){
+                			alert("不能修改！");
+                			$("#handleDone").modal("show");
+                			
+                		}else{
+                		
+                			$("#modifyRepairApplication").modal("show");
+                			var rid = tds.eq(1).text();
+                			var rtypeId = tds.eq(3).prop("class");
+                			var rcause = tds.eq(4).text();
+                			var rpicture = tds.eq(5).find("span").text();
+	                		$("#modifyRepairApplication .rtype").val(rtypeId);
+	                		$("#modifyRepairApplication .rcause").text(rcause);
+                			$("#modifyRepairApplication .image-preview img").attr("src","http://"+rpicture);
+                		}
                 	}
             	
         		})	
@@ -502,8 +456,14 @@
 			})
         	$(".modify-right").click(function(){ 
         	
-        		var daid = $(this).parent().parent().find("td").eq(1).text();
-        		showDormAdmin(daid);
+        		var tds = $(this).parent().parent().parent().find("td");
+                var rid = tds.eq(1).text();
+                var rtypeId = tds.eq(3).prop("class");
+                var rcause = tds.eq(4).text();
+                var rpicture = tds.eq(5).find("span").text();
+                $("#modifyRepairApplication .rtype").val(rtypeId);
+                $("#modifyRepairApplication .rcause").text(rcause);
+                $("#modifyRepairApplication .image-preview img").attr("src","http://"+rpicture);
         		
         	})
 		}
@@ -534,41 +494,13 @@
 			})
 		}
  
-		//模态框显示选定楼宇
-		function showDormAdmin(daid){
-		
-			$.ajax({
-				url: "<%=request.getContextPath()%>/getDormAdmin",
-     			type: "post",
-     			dataType : "json",
-     			contentType: "application/json;charset=utf-8",
-     			data:JSON.stringify({
-     				"daid": daid
-     			}),
-     			success:function(data){
-     			
-					$("#modifyDormAdmin .daid").val(daid);
-					$("#modifyDormAdmin .dapassword").val(data.dapassword);
-					$("#modifyDormAdmin .truename").val(data.truename);
-					$("input:radio[name='gender']").each(function(){
-						if($(this).val()==data.sex) $(this).prop("checked",true);
-					})
-					$("#modifyDormAdmin .workphone").val(data.workphone);
-					$("#modifyDormAdmin .introduction").val(data.introduction); 					
-
-					queryDistrBuiding(data);//显示待分配楼宇
-     			}
-     			
-			});	
-		}
-		
 		//获取上传图片的base64路径
 		var imagebase64 = null;
 		$("#inputfile").change(function(e) {
 
 			//判断图片格式
 		 	var obj = document.getElementById("inputfile");	   
-		 	var fileName=obj.value;  
+		 	var fileName=obj.value;  //文件的路径
 		 	var suffixIndex=fileName.lastIndexOf(".");  
 		 	var suffix=fileName.substring(suffixIndex+1).toUpperCase();  
 		 	if(suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF"){  
@@ -576,16 +508,10 @@
 				$("#inputfile").empty();
 				return false;
 		 	}else{
-	       		console.info(e.target.files[0]);//图片文件
-       		
-        		var dom =$("input[id='inputfile']")[0];
-        		console.log(e.target.value);//这个也是文件的路径和上面的dom.value是一样的
         		var reader = new FileReader();
         		reader.onload = (function (file) {
             		return function (e) {
-               			console.info(this.result); 
-               			alert(this.result);//这个就是base64的数据了
-               			imagebase64 = this.result;
+               			imagebase64 = this.result;//base64的数据
                			$(".image-preview img").attr("src",imagebase64);
             		};
         		})(e.target.files[0]);
@@ -594,19 +520,6 @@
 		 	}
 
 		});	
-		function isChecked(e){
-			var i=0;
-			e.each(function(){
-            	
-            	if(e.prop("checked")) {i++;}
-        		if(i==0||i>1){
-        			alert("请选择一个");
-        			return false;
-        		}
-			})		
-		
-		
-		}
 		
 		//点击保存，提交新建请求
 		$("#save").click(function(){
@@ -635,8 +548,6 @@
      			}),
      			success:function(data){
      			
-     				alert("新增成功");
-	
 					bootoast({message: "新增成功！",type: "success",position: "bottom-left",timeout: 2});
      				$("#addRepairApplication").modal("hide");
 					getRepairApplication(budno);			 
@@ -644,62 +555,165 @@
 			
 			});	
 		})
+
+
+		//复选框全选、反选
+    	$("input[name='ifAll']").click(function(){ 
+    		
+    		if($(this).prop("checked")){
+    		
+    			$("input[name='choose']").each(function(){//反选 
+            	
+                	$(this).prop("checked",true); 
+            	
+        		}) 
+    			
+    		}else{
+    			
+    			$("input[name='choose']").each(function(){//反选 
+            	
+                	$(this).prop("checked",false); 
+            		
+        		})     		
+    		}
+    	}) 	
+		function deleteRepairApplication(rid,handleStatus){
+				
+				if(handleStatus!="未处理"){
+					bootoast({message: "该申请已被处理，无法删除！",type: "warning",position: "bottom-left",timeout: 2});
+					return false;
+				}else{
+					if(confirm("确定删除吗？")){
+					
+						$.ajax({
+							url: "<%=request.getContextPath()%>/deleteRepairApplication",
+     						type: "post",
+     						dataType : "json",
+     						contentType: "application/json;charset=utf-8",
+     						data:JSON.stringify({
+     							"rid": rid
+     						}),
+     						success:function(data){
+     						
+				 				window.location.href = "<%=request.getContextPath()%>/jsp/user/stu/RepairApplication.jsp";
+								bootoast({message: "删除成功！",type: "success",position: "bottom-left",timeout: 2});
+
+							}
+						});
+					}else{
+						return false;
+					}
+				}
+
+		 }
+		 
+		 
+		//获取上传图片的base64路径
+		var modifyImagebase64 = null;
+		$("#modifyInputfile").change(function(e) {
+
+			//判断图片格式
+		 	var obj = document.getElementById("modifyInputfile");	   
+		 	var fileName=obj.value;  //文件的路径
+		 	var suffixIndex=fileName.lastIndexOf(".");  
+		 	var suffix=fileName.substring(suffixIndex+1).toUpperCase();  
+		 	if(suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF"){  
+    			bootoast({message: "请上传图片（格式BMP、JPG、JPEG、PNG、GIF等）!",type: "warning",position: "bottom-left",timeout: 2});
+				$("#modifyInputfile").empty();
+				return false;
+		 	}else{
+        		var reader = new FileReader();
+        		reader.onload = (function (file) {
+            		return function (e) {
+               			modifyImagebase64 = this.result;//base64的数据
+               			$(".image-preview img").attr("src",modifyImagebase64);
+            		};
+        		})(e.target.files[0]);
+        		reader.readAsDataURL(e.target.files[0]);	 	
+		 	
+		 	}
+
+		});			 
+		//点击确认按钮，提交修改
+		$("#confirm").click(function(){
 		
-		function getRepairApplication(budno){
-		
+			var rid = $("input[name='choose']:checked").parent().parent().parent().find("td").eq(1).text();
+			alert(rid);
+			var rtype =$("#modifyRepairApplication .rtype").val();
+			var rcause =$("#modifyRepairApplication .rcause").val();
+			
+			var rpicture = modifyImagebase64;
+			
+			alert("rtype:"+rtype);
+			alert("rcause:"+rcause);
+			alert("rpicture:"+rpicture);
 			$.ajax({
-				url: "<%=request.getContextPath()%>/getRepairApplication",
+				url: "<%=request.getContextPath()%>/modifyRepairApplication",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
-     				"budno":budno
+     				"rid": rid,
+     				"rtype": rtype,
+     				"rcause": rcause,
+     				"rpicture": rpicture
      			}),
      			success:function(data){
      			
-     			if(data.length==0){
-     				return true;
-     			}else{
-     				
-     				$(".repairlist").empty();
-     				$(".no-data").empty();
-     			 	for(var i =0; i<data.length; i++){
-						data[i].handleadvice = data[i].handleadvice==null?"":data[i].handleadvice;
-						data[i].handler = data[i].handler==null?"":data[i].handler;
-						data[i].handletime = data[i].handletime==null?"":data[i].handletime;
-			     		$(".repairlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td style='display:none'>"+
-			     			  data[i].rid+"</td><td>"+
-			     			  data[i].budno+"</td><td>"+
-			     			  getRepairTypeName(data[i].rtype)+"</td><td>"+
-			     			  data[i].rcause+"</td><td class='image-hover'><i class='fa fa-eye'></i><span style='display:none'>"+
-			     			  data[i].rpicture+"</span></td><td>"+
-			     			  data[i].reporttime+"</td><td>"+
-			     			  data[i].reporter+"</td><td>"+
-			     			  getRepairHandleStatusName(data[i].handlestatus)+"</td><td>"+
-			     			  data[i].handleadvice+"</td><td>"+
-			     			  data[i].handler+"</td><td>"+
-			     			  data[i].handletime+"</td><td>"+
-			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyDormAdmin'>修改</button>"+
-			     			  "</td></tr>");
-			     			  	
-				 	}
-					clickModifyDormAdmin();
-					clickMoreInfo();
-					hoverImageEye();				 	
-				 	
-				 }
-				}	
-		 	});			
-		}
+     				alert("修改成功");
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/user/stu/RepairApplication.jsp";
+     			}
+			
+			});	
+		})	
+		function clickRefreshRepair(){
 		
-		function hoverImageEye(){
-			$(".repairlist tr .image-hover").on("mouseenter", function() {
+			$(".refresh").click(function(){
+		
+				$(".repairlist").empty();
+				var budno = $(".building-dormitory").val();
+			    getRepairApplication(budno);
+			}) 
+		}
+		//关闭模态框后清除building
+		function clickcloseModel(){
+			$(".close-down").click(function(){
+				$(".modify-image").empty();
+			
+			})
+		}
+		function clickImageEye(){
+			$(".repairlist tr .image-hover").click(function(){
+			
 				var imageSrc = $(this).find("span").text();
 				$("#hoverImage img").attr("src","http://"+imageSrc);
 				$("#hoverImage").modal();
-			});
-		}
+			
+			}) 
+			
+		}		
 
+		  $("#sidebar-nav .nav").find("li").eq(0).removeClass();
+		  $("#next").click(function(){
+		  
+		  		$("#addTab li:eq(1) a").tab("show");
+		  		$("#modifyTab li:eq(1) a").tab("show");
+		  })
+		  $("#previous").click(function(){
+		  
+		  		$("#addTab li:eq(0) a").tab("show");
+		  		$("#modifyTab li:eq(0) a").tab("show");
+		  		
+		  })
+		  $("#modifyNext").click(function(){
+		  
+		  		$("#modifyTab li:eq(1) a").tab("show");
+		  })
+		  $("#modifyPrevious").click(function(){
+		  
+		  		$("#modifyTab li:eq(0) a").tab("show");
+		  		
+		  })
 		//通过枚举类型来定义，不需要从后台获取，缺点就是非动态
 		function getRepairTypeName(typeId){
 			var RepairTypeID = {
@@ -732,152 +746,7 @@
 			}
 						
 		}
-		
-		//点击详情按钮跳转到DormAdmin页面
-		function clickMoreInfo(){
-		
-			$(".more").click(function(){ 
-			
-				var daid = $(this).parent().parent().find("td").eq(1).text();
-				window.location.href = "<%=request.getContextPath()%>/jsp/DormAdminInfo.jsp?daid="+daid;
-				
-			 });
-		}
-		
-		//复选框全选、反选
-    	$("input[name='ifAll']").click(function(){ 
-    		
-    		if($(this).prop("checked")){
-    		
-    			$("input[name='choose']").each(function(){//反选 
-            	
-                	$(this).prop("checked",true); 
-            	
-        		}) 
-    			
-    		}else{
-    			
-    			$("input[name='choose']").each(function(){//反选 
-            	
-                	$(this).prop("checked",false); 
-            		
-        		})     		
-    		}
-    	}) 	
-    	//关闭模态框后清除building
-		function clickcloseModel(){
-			$(".close-down").click(function(){
-				$(".building-list").empty();
-			
-			})
-		}
-		function deleteRepairApplication(rid,handleStatus){
-				
-				if(handleStatus!="未处理"){
-					bootoast({message: "该申请已被处理，无法删除！",type: "warning",position: "bottom-left",timeout: 2});
-					return false;
-				}else{
-					if(confirm("确定删除吗？")){
-					
-						$.ajax({
-							url: "<%=request.getContextPath()%>/deleteRepairApplication",
-     						type: "post",
-     						dataType : "json",
-     						contentType: "application/json;charset=utf-8",
-     						data:JSON.stringify({
-     							"rid": rid
-     						}),
-     						success:function(data){
-     						
-				 				window.location.href = "<%=request.getContextPath()%>/jsp/user/stu/RepairApplication.jsp";
-								bootoast({message: "删除成功！",type: "success",position: "bottom-left",timeout: 2});
-
-							}
-						});
-					}else{
-						return false;
-					}
-				}
-
-		 }
-		//点击确认按钮，提交修改
-		$("#confirm").click(function(){
-		
-		
-			var daid =$("#modifyDormAdmin .daid").val();
-			alert(daid);
-			var dapassword =$("#modifyDormAdmin .dapassword").val();
-			var truename =$("#modifyDormAdmin .truename").val();
-			var sex =$("#modifyDormAdmin .sex").val();
-			var workphone =$("#modifyDormAdmin .workphone").val();
-			var introduction =$("#modifyDormAdmin .introduction").val();
-			
-			var checkedBox = $("input[name='chooseDistr']:checked");
-			
-			var checkBox = $(".distr-checkbox");
-			var building_id = "";
-       		checkBox.each(function(e){
-            	
-                	if($(this).children().prop("checked")){
-                		building_id = $(this).attr("id");
-                	}
-            	
-        		})
-			alert("building_id:"+building_id);
-			$.ajax({
-				url: "<%=request.getContextPath()%>/modifyDormAdmin",
-     			type: "post",
-     			dataType : "json",
-     			contentType: "application/json;charset=utf-8",
-     			data:JSON.stringify({
-     				"daid": daid,
-     				"dapassword": dapassword,
-     				"truename": truename,
-     				"sex": sex,
-     				"workphone": workphone,
-     				"introduction": introduction,
-     				"building_id": building_id
-     			}),
-     			success:function(data){
-     			
-     				alert("修改成功");
-				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/DormAdminManagement.jsp";
-     			}
-			
-			});	
-		})	
-		function clickRefreshRepair(){
-		
-			$(".refresh").click(function(){
-		
-				$(".repairlist").empty();
-				var budno = $(".building-dormitory").val();
-			    getRepairApplication(budno);
-			}) 
-		}
-		
-		  $("#sidebar-nav .nav").find("li").eq(0).removeClass();
-		  $("#next").click(function(){
-		  
-		  		$("#addTab li:eq(1) a").tab("show");
-		  		$("#modifyTab li:eq(1) a").tab("show");
-		  })
-		  $("#previous").click(function(){
-		  
-		  		$("#addTab li:eq(0) a").tab("show");
-		  		$("#modifyTab li:eq(0) a").tab("show");
-		  		
-		  })
-		  $(".modify-next").click(function(){
-		  
-		  		$("#modifyTab li:eq(1) a").tab("show");
-		  })
-		  $(".modify-previous").click(function(){
-		  
-		  		$("#modifyTab li:eq(0) a").tab("show");
-		  		
-		  })
-		  
+				  
 		  
 	});
 	//页面全部加载完后执行

@@ -1,14 +1,21 @@
 package com.dorm.repair.controller;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -20,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sun.misc.BASE64Decoder;
 
 import com.alibaba.fastjson.JSON;
+import com.dorm.common.ExportExcelUtil;
 import com.dorm.common.QiniuCloudUtil;
 import com.dorm.dormadmin.model.DormAdmin;
 import com.dorm.dormitory.model.Dormitory;
@@ -36,7 +44,7 @@ public class RepairController {
 	
 
 	/**
-	 * 保存楼宇
+	 * 保存报修记录
 	 * @param map
 	 * @return 
 	 */
@@ -96,7 +104,7 @@ public class RepairController {
 		return JSON.toJSON(repairs).toString();
 	}
 	/**
-	 * 查询所有楼宇
+	 * 查询所有报修记录
 	 * @param map
 	 * @return dormadmins
 	 */
@@ -158,15 +166,51 @@ public class RepairController {
 	}
 
 	/**
-	 * 按宿舍楼查询宿舍
-	 * @param bid
-	 * @return dormitories
+	 * 按过滤结果导出excel
+	 * @param map
+	 * @return map
 	 */
 	@RequestMapping(value="exportRepairApplication",method = RequestMethod.POST)
 	@ResponseBody
-	public String exportRepairApplication(@RequestBody Map<String,Object> map){
+	public String exportRepairApplication(@RequestBody Map<String,Object> map,HttpServletResponse response){
 		
-		System.out.println(map);
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
+		int typeId = Integer.parseInt(String.valueOf(map.get("typeId")));
+		String startTime = String.valueOf(map.get("startTime"));
+		String endTime = String.valueOf(map.get("endTime"));
+	
+		String checkedStatusId = String.valueOf(map.get("checkedStatusId"));
+		int currentPage = Integer.parseInt(String.valueOf(map.get("currentPage")));
+		int pageSize = Integer.parseInt(String.valueOf(map.get("pageSize")));
+		
+		String excelName = String.valueOf(map.get("excelName"));
+		String[] theadName = String.valueOf(map.get("theadNameArray")).split(",");
+		
+		
+		List<Repair> repairApplications = repairService.queryRepairApplication(bid,typeId,startTime,endTime,checkedStatusId,currentPage,pageSize);
+		
+		Repair repair = new Repair();
+		String[] cloumnsName = new String[11];
+		//根据反射得到Repair的每一个属性
+		Field[] fields = repair.getClass().getDeclaredFields();
+		for (int i = 0; i < fields.length; i++) {
+			fields[i].setAccessible(true);
+			cloumnsName[i] = fields[i].getName();
+		}
+		System.out.println("repairApplications:"+repairApplications);
+		System.out.println("theadName:"+Arrays.toString(theadName));	
+		System.out.println("cloumnsName:"+Arrays.toString(cloumnsName));	
+		
+		
+		try {
+			
+			FileOutputStream out=new FileOutputStream("D:/"+excelName+".xlsx");
+			ExportExcelUtil.expoortExcelx(excelName,theadName,cloumnsName,repairApplications,out,"yyyy-MM-dd HH:mm:ss");
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return JSON.toJSON(map).toString();
 	}
 	/**
@@ -187,4 +231,50 @@ public class RepairController {
 		System.out.println("applicationNumber:"+applicationNumber);
 		return JSON.toJSON(applicationNumber).toString();
 	}
+	/**
+	 * 修改未处理的报修记录
+	 * @param map
+	 * @return 
+	 */
+	
+	@RequestMapping(value="modifyRepairApplication",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> modifyRepairApplication(@RequestBody Map<String,Object> map){
+		
+
+		int rid = Integer.parseInt(String.valueOf(map.get("rid")));
+		int rtype = Integer.parseInt(String.valueOf(map.get("rtype")));
+		String rcause = String.valueOf(map.get("rcause"));
+		
+		String pictureBase64 = String.valueOf(map.get("rpicture"));
+		System.out.println("pictureBase64:"+pictureBase64);
+		String cpicture = null;
+		
+		if(pictureBase64!=null&&pictureBase64!=" "&&pictureBase64!="null"){
+			QiniuCloudUtil qiniucloud = new QiniuCloudUtil();
+			System.out.println("图片不为空才执行");
+	        // 通过base64来转化图片
+			String imageBase64 = pictureBase64.substring(pictureBase64.indexOf(",") + 1);//去掉前面的标识
+			BASE64Decoder decoder = new BASE64Decoder();
+				// Base64解码      
+				byte[] imageByte = null;
+				try {
+					imageByte = decoder.decodeBuffer(imageBase64);      
+					for (int i = 0; i < imageByte.length; ++i) {      
+						if (imageByte[i] < 0) {// 调整异常数据      
+							imageByte[i] += 256;      
+						}      
+					}  
+					cpicture = qiniucloud.put64image(imageByte, "repairApplication-"+System.currentTimeMillis()+".jpg");
+					System.out.println("cpicture:"+cpicture);
+				} catch (Exception e) {
+					 e.printStackTrace(); 
+				}					
+		}
+
+		Repair repair = new Repair(rid,rtype,rcause,cpicture);
+		repairService.modifyRepairApplication(repair);
+		return map;
+	}
+	
 }

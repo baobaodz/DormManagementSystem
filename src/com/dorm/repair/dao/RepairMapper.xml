@@ -59,15 +59,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 #{budno}
 		)
 	</insert>
-	<update id="modifyDormAdmin" parameterType="com.dorm.dormadmin.model.DormAdmin">
-		UPDATE DORMADMIN SET 
-			DAPASSWORD=#{dapassword},
-			TRUENAME=#{truename},
-			SEX=#{sex},
-			WORKPHONE=#{workphone},
-			INTRODUCTION=#{introduction},
-			BUILDING_ID=#{building_id}
-		WHERE DAID = #{daid}	
+	<update id="modifyRepairApplication" parameterType="com.dorm.repair.model.Repair">
+		UPDATE REPAIR SET 
+			RTYPE=#{rtype},
+			<if test="rpicture!=null">
+				RPICTURE=#{rpicture},
+			</if>
+			RCAUSE=#{rcause}
+		WHERE RID = #{rid}	
 	</update>
 	
 	<!--更新宿舍管理员处理报修情况 -->

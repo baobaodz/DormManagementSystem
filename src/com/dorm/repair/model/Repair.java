@@ -12,10 +12,12 @@ public class Repair {
 	private String rpicture;
 	private String reporttime;
 	private String reporter;
+	private int handlestatus;
+	private String handleadvice;
 	private String handler;
 	private String handletime;
-	private String handleadvice;
-	private int handlestatus;
+	
+	
 
 
 	public int getRid() {
@@ -89,6 +91,27 @@ public class Repair {
 	}
 
 
+	public int getHandlestatus() {
+		return handlestatus;
+	}
+
+
+
+	public void setHandlestatus(int handlestatus) {
+		this.handlestatus = handlestatus;
+	}
+
+	public String getHandleadvice() {
+		return handleadvice;
+	}
+
+
+
+	public void setHandleadvice(String handleadvice) {
+		this.handleadvice = handleadvice;
+	}
+
+
 
 	public String getHandler() {
 		return handler;
@@ -113,17 +136,6 @@ public class Repair {
 	}
 
 
-
-	public int getHandlestatus() {
-		return handlestatus;
-	}
-
-
-
-	public void setHandlestatus(int handlestatus) {
-		this.handlestatus = handlestatus;
-	}
-
 	public String getBudno() {
 		return budno;
 	}
@@ -132,18 +144,6 @@ public class Repair {
 	public void setBudno(String budno) {
 		this.budno = budno;
 	}
-
-
-	public String getHandleadvice() {
-		return handleadvice;
-	}
-
-
-
-	public void setHandleadvice(String handleadvice) {
-		this.handleadvice = handleadvice;
-	}
-
 
 
 	public Repair(String budno,int rtype, String rcause, String rpicture, String reporttime,
@@ -170,6 +170,16 @@ public class Repair {
 		this.handletime = handletime;
 		this.handleadvice = handleadvice;
 		this.handlestatus = handlestatus;
+	}
+
+
+
+	public Repair(int rid, int rtype, String rcause, String rpicture) {
+		super();
+		this.rid = rid;
+		this.rtype = rtype;
+		this.rcause = rcause;
+		this.rpicture = rpicture;
 	}
 
 

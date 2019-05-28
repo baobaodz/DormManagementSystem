@@ -34,13 +34,6 @@ public class RepairServiceImpl implements RepairService{
 	}
 
 	@Override
-	public void modifyDormitory(Dormitory dormitory) {
-		
-		repairMapper.modifyDormitory(dormitory);
-		
-	}
-
-	@Override
 	public List<Dormitory> queryDormitoryByBuilding(int bid,int currentPage,int pageSize) {
 		// TODO Auto-generated method stub
 		return repairMapper.queryDormitoryByBuilding(bid,currentPage,pageSize);
@@ -78,6 +71,12 @@ public class RepairServiceImpl implements RepairService{
 	public void handleRepairApplication(Repair repair) {
 		// TODO Auto-generated method stub
 		repairMapper.handleRepairApplication(repair);
+	}
+
+	@Override
+	public void modifyRepairApplication(Repair repair) {
+		// TODO Auto-generated method stub
+		repairMapper.modifyRepairApplication(repair);
 	}
 
 
