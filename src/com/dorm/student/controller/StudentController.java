@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 
 
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -36,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 
 import com.alibaba.fastjson.JSON;
+import com.dorm.building.model.Building;
 import com.dorm.common.PwdMD5;
 import com.dorm.common.QiniuCloudUtil;
 import com.dorm.dormadmin.model.DormAdmin;
@@ -165,6 +167,28 @@ public class StudentController {
 		System.out.println(students);
 		return JSON.toJSON(students).toString();
 	}
+	
+	/**
+	 * 按过滤条件来查询学生
+	 * @param map
+	 * @return students
+	 */
+	@RequestMapping(value="queryStudentByFilter",method = RequestMethod.POST)
+	@ResponseBody
+	public String queryStudentByFilter(@RequestBody Map<String,Object> map){
+		
+		
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
+		String sexId = String.valueOf(map.get("sexId"));
+		String status = String.valueOf(map.get("status"));
+		String queryKey = String.valueOf(map.get("queryKey"));
+		int currentPage = Integer.parseInt(String.valueOf(map.get("currentPage")));
+		int pageSize = Integer.parseInt(String.valueOf(map.get("pageSize")));
+		
+		List<Student> students = studentService.queryStudentByFilter(bid, sexId, status, queryKey, currentPage, pageSize);
+		System.out.println(students);
+		return JSON.toJSON(students).toString();
+	}
 	/**
 	 * 查询待分配学生
 	 * @param map
@@ -222,30 +246,55 @@ public class StudentController {
 		return JSON.toJSON(students).toString();
 	}
 	
-//	/**
-//	 * 修改楼宇
-//	 * @param map
-//	 * @return map
-//	 */
-//	@RequestMapping(value="modifyDormitory",method = RequestMethod.POST)
-//	@ResponseBody
-//	public Map<String,Object> modifyDormitory(@RequestBody Map<String,Object> map){
-//		
-//		
-//		String daid = String.valueOf(map.get("daid"));
-//		String dapassword = String.valueOf(map.get("dapassword"));
-//		String truename = String.valueOf(map.get("truename"));
-//		String sex = String.valueOf(map.get("sex"));
-//		String workphone = String.valueOf(map.get("workphone"));
-//		String introduction = String.valueOf(map.get("introduction"));
-//		
-//		int building_id = Integer.parseInt(String.valueOf(map.get("building_id")));
-//		
-//		Dormitory dormitory = new Dormitory();
-//		studentService.modifyDormitory(dormitory);
-//		return map;
-//	}
-//	
+	/**
+	 * 查询学生个数
+	 * @param map
+	 * @return map
+	 */
+	@RequestMapping(value="getStudentNumber",method = RequestMethod.POST)
+	@ResponseBody
+	public String getStudentNumber(@RequestBody Map<String,Object> map){
+		
+		
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
+		String sexId = String.valueOf(map.get("sexId"));
+		String status = String.valueOf(map.get("status"));
+		String queryKey = String.valueOf(map.get("queryKey"));
+		int studentNumber = studentService.getStudentNumber(bid, sexId, status, queryKey);
+		System.out.println("studentNumber:"+studentNumber);
+		return JSON.toJSON(studentNumber).toString();
+	}
+	/**
+	 * 根据性别查询待分配楼宇
+	 * @param map
+	 * @return map
+	 */
+	@RequestMapping(value="getDistrBuildingByGender",method = RequestMethod.POST)
+	@ResponseBody
+	public String getDistrBuildingByGender(@RequestBody Map<String,Object> map){
+		
+		
+		String gender = String.valueOf(map.get("gender"));
+		List<Building> distrBuilding = studentService.getDistrBuildingByGender(gender);
+		System.out.println("distrBuilding:"+distrBuilding);
+		return JSON.toJSON(distrBuilding).toString();
+	}
+	/**
+	 * 根据性别查询待分配楼宇
+	 * @param map
+	 * @return map
+	 */
+	@RequestMapping(value="getDistrDormitoryByBuilding",method = RequestMethod.POST)
+	@ResponseBody
+	public String getDistrDormitoryByBuilding(@RequestBody Map<String,Object> map){
+		
+		
+		int bid = Integer.parseInt(String.valueOf(map.get("bid")));
+		List<Dormitory> distrDormitory = studentService.getDistrDormitoryByBuilding(bid);
+		System.out.println("distrDormitory:"+distrDormitory);
+		return JSON.toJSON(distrDormitory).toString();
+	}
+	
 //	/**
 //	 * 删除指定楼宇
 //	 * @param bid

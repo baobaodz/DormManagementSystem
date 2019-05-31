@@ -7,9 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dorm.building.model.Building;
 import com.dorm.dormadmin.model.DormAdmin;
 import com.dorm.dormitory.dao.DormitoryMapper;
 import com.dorm.dormitory.model.Dormitory;
+import com.dorm.repair.model.Repair;
 import com.dorm.student.dao.StudentMapper;
 import com.dorm.student.model.Student;
 
@@ -45,18 +47,6 @@ public class StudentServiceImpl implements StudentService{
 	public void deleteDormitory(String checkedId) {
 		studentMapper.deleteDormitory(checkedId.split(","));
 		
-	}
-
-	@Override
-	public List<Dormitory> queryDormitoryByBuilding(int bid,int currentPage,int pageSize) {
-		// TODO Auto-generated method stub
-		return studentMapper.queryDormitoryByBuilding(bid,currentPage,pageSize);
-	}
-
-	@Override
-	public int getDormitoryNumber(int bid) {
-		// TODO Auto-generated method stub
-		return studentMapper.getDormitoryNumber(bid);
 	}
 
 	@Override
@@ -133,6 +123,52 @@ public class StudentServiceImpl implements StudentService{
 	public void modifyPwd(String sid, String spassword) {
 		// TODO Auto-generated method stub
 		studentMapper.modifyPwd(sid, spassword);
+	}
+
+
+	@Override
+	public int getStudentNumber(int bid, String sexId, String status,
+			String queryKey) {
+		// TODO Auto-generated method stub
+		return studentMapper.getStudentNumber(bid, sexId, status, queryKey);
+	}
+
+
+	@Override
+	public List<Student> queryStudentByFilter(int bid, String sexId,
+			String status, String queryKey, int currentPage,
+			int pageSize) {
+		// TODO Auto-generated method stub
+		return studentMapper.queryStudentByFilter(bid, sexId, status, queryKey, currentPage, pageSize);
+	}
+
+
+	@Override
+	public List<Building> getDistrBuildingByGender(String gender) {
+		// TODO Auto-generated method stub
+		return studentMapper.getDistrBuildingByGender(gender);
+	}
+
+
+	@Override
+	public int getDormitoryNumber(int bid) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public List<Dormitory> queryDormitoryByBuilding(int bid, int currentPage,
+			int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Dormitory> getDistrDormitoryByBuilding(int bid) {
+		// TODO Auto-generated method stub
+		return studentMapper.getDistrDormitoryByBuilding(bid);
 	}
 
 

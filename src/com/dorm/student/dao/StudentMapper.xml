@@ -32,12 +32,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<!--查询所有学生 -->
+	<select id="queryStudentByFilter" resultMap="StudentResultMap">
+	    <bind name="buildingId" value="bid+'%'" />
+       	<bind name="likeQueryKey" value="'%'+queryKey+'%'" />
+		SELECT ST.* FROM (
+       		SELECT S.*,D.*,ROWNUM RN
+			FROM STUDENT S 
+			LEFT JOIN DORMITORY D ON S.DORMITORY_ID = D.DID
+       		WHERE 1 = 1
+       		<bind name="buildingId" value="bid+'%'" />
+       		<bind name="likeQueryKey" value="'%'+queryKey+'%'" />
+       		<if test="bid!=0">
+       			
+       			AND D.BUILDING_ID  = #{bid}
+       		</if>
+     		<if test='sexId=="男" or sexId=="女"'>
+      			AND S.GENDER = #{sexId}
+     		</if>       		
+       		<if test="status!=null">
+      			AND S.STATUS = #{status} 
+    			
+    		</if> 
+    		<if test="queryKey!=null and queryKey!=''">
+       			
+       			AND S.SID LIKE #{likeQueryKey} 
+       			OR S.SNAME LIKE #{likeQueryKey} 
+       			OR S.SGRADE LIKE #{likeQueryKey}
+       			OR S.SCLASS like #{likeQueryKey}
+       			OR D.DNO LIKE #{likeQueryKey}
+       			
+			</if>
+
+       		 ORDER BY SID ASC) ST
+		WHERE 
+			RN&gt;(#{currentPage}-1)*#{pageSize} 
+		AND RN&lt;=#{currentPage}*#{pageSize} 
+	</select>
+	
+	<!--查询所有学生 -->
 	<select id="queryStudent" resultMap="StudentResultMap">
-		SELECT * 
-		FROM STUDENT S 
-		LEFT JOIN DORMITORY D 
-		ON S.DORMITORY_ID = D.DID
-		WHERE DORMITORY_ID !=0
+		SELECT * FROM 
+		STUDENT S LEFT JOIN
+		DORMITORY D ON S.DORMITORY_ID = D.DID
 	</select>
 	<!--查询指定学生 -->
 	<select id="getStudent" parameterType="String" resultMap="StudentResultMap">
@@ -142,6 +178,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DORMITORY_ID = 0
 	</select>
 	
+	<!--根据性别查询待分配楼宇 -->
+	<select id="getDistrBuildingByGender" parameterType="String" resultType="com.dorm.building.model.Building">
+		<bind name="likeGender" value="'%'+gender+'%'"/>
+		SELECT *  
+		FROM BUILDING 
+		WHERE attribute like #{likeGender} 
+	</select>
+	<!--根据性别查询待分配楼宇 -->
+	<select id="getDistrDormitoryByBuilding" parameterType="int" resultType="com.dorm.dormitory.model.Dormitory">
+		SELECT *  
+		FROM DORMITORY 
+		WHERE building_id = #{bid} AND OCCUPIED &lt; CAPACITY
+	</select>
+	
 	<!--根据宿舍查询已分配学生 -->
 	<select id="getOccupiedByDorm" parameterType="int" resultType="com.dorm.student.model.Student">
 		SELECT *  
@@ -173,6 +223,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	</foreach> 
 	</update>
 	
+	<!--依据条件获取学生个数 -->
+	<select id="getStudentNumber" resultType="int">
+		
+		SELECT COUNT(*) 
+			FROM STUDENT S 
+			LEFT JOIN DORMITORY D ON S.DORMITORY_ID = D.DID
+    		LEFT JOIN BUILDING B ON D.BUILDING_ID = B.BID
+       		WHERE 1 = 1
+       		<bind name="buildingId" value="bid+'%'" />
+       		<bind name="likeQueryKey" value="'%'+queryKey+'%'" />
+       		<if test="bid!=0">
+       			
+       			AND D.BUILDING_ID  = #{bid}
+       		</if>
+     		<if test='sexId=="男" or sexId=="女"'>
+      			AND S.GENDER = #{sexId}
+     		</if>       		
+       		<if test="status!=null">
+      			AND S.STATUS = #{status} 
+    			
+    		</if> 
+    		<if test="queryKey!=null and queryKey!=''">
+       			
+       			AND S.SID LIKE #{likeQueryKey} 
+       			OR S.SNAME LIKE #{likeQueryKey} 
+       			OR S.SGRADE LIKE #{likeQueryKey}
+       			OR S.SCLASS like #{likeQueryKey}
+       			OR D.DNO LIKE #{likeQueryKey}
+       			
+			</if>
+       		 ORDER BY SID ASC 
+	</select>	
 
 	
 </mapper>

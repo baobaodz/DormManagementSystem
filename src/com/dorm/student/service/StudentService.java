@@ -6,8 +6,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.dorm.building.model.Building;
 import com.dorm.dormadmin.model.DormAdmin;
 import com.dorm.dormitory.model.Dormitory;
+import com.dorm.repair.model.Repair;
 import com.dorm.student.model.Student;
 
 
@@ -18,6 +20,9 @@ public interface StudentService {
 	public List<Student> queryStudent();
 	public List<Student> getDistrStudent(String gender);
 	public List<Student> getOccupiedByDorm(int did);
+	public List<Building> getDistrBuildingByGender(String gender);
+	public List<Dormitory> getDistrDormitoryByBuilding(int bid);
+	
 	public Student getStudent(String sid);
 	public Student verifyStudent(String sid,String spassword);
 	public void modifyPwd(String sid,String spassword);
@@ -34,4 +39,15 @@ public interface StudentService {
 	
 	public List<Map<String,String>> getDormitoryOccupied();
 	public void updateOccupied(List<Map<String,String>> dormitoryOccupied);
+	
+	public int getStudentNumber(int bid,String sexId,String status,String queryKey);
+			
+	public List<Student> queryStudentByFilter(int bid,
+			String sexId,
+			String status,
+			String queryKey,
+			int currentPage,
+			int pageSize);			
+			
+			
 }

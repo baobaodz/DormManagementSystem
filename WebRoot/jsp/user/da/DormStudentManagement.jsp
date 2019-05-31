@@ -14,9 +14,8 @@
 	<link rel="stylesheet" href="../../../assets/vendor/linearicons/style.css">
 	<!-- MAIN CSS -->
 	<link rel="stylesheet" href="../../../assets/css/main.css">
-	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-	<link rel="stylesheet" href="../../../assets/css/demo.css">
 	<link rel="stylesheet" href="../../../css/flat.css">
+	<link rel="stylesheet" href="../../../css/bootoast.css">
 	<!-- GOOGLE FONTS -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<!-- ICONS -->
@@ -49,10 +48,10 @@
 										<button type="button" class="btn btn-primary modify-up" data-toggle="modal" data-target="#modifyBuilding"><i class="fa fa-edit"></i> 修改 </button>
 										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash"></i> 删除 </button>
 										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
-										<button type="button" class="btn btn-info "><i class="fa fa-refresh"></i> 分配宿舍 </button>
-										<button type="button" class="btn btn-info "><i class="fa fa-refresh"></i> 缺寝/晚归填报</button>
-										<button type="button" class="btn btn-info "><i class="fa fa-refresh"></i> 进出填报</button>
-										<button type="button" class="btn btn-info "><i class="fa fa-refresh"></i> 来访登记</button>
+										<button type="button" class="btn btn-info distribute" data-toggle="modal" data-target="#distributeStudent"><i class="fa fa-random"></i> 分配宿舍 </button>
+										<button type="button" class="btn btn-info "><i class="fa fa-calendar-times-o"></i> 缺寝/晚归填报</button>
+										<button type="button" class="btn btn-info "><i class="fa fa-window-restore"></i> 进出填报</button>
+										<button type="button" class="btn btn-info "><i class="fa fa-users"></i> 来访登记</button>
 									</p>
 									<div class="input-group" style="float:left;margin-right:8px;">
 										
@@ -74,21 +73,23 @@
 									<div class="statustype" style="float:left;margin-right:8px;">
 										<ul>
 											<li>
-												<label class="fancy-checkbox">
-													<input type="checkbox" id="0" name="checkStatus"><span>未入住</span>
+												<label class="fancy-radio" style="float:left;margin:7px;">
+													<input name="status" value="0" type="radio" class="status" checked>
+													<span><i></i>已入住</span>
 												</label>
 											</li>
 											<li>
-												<label class="fancy-checkbox">
-													<input type="checkbox" id="1" name="checkStatus"><span>已入住</span>
-												</label>
+												<label class="fancy-radio" style="float:left;margin: 7px;">
+													<input name="status" value="1" type="radio" class="status">
+													<span><i></i>未入住</span>
+												</label>												
 											</li>
 										</ul>
 									</div>
 									<p style="float:right;">
 									<button type="button" class="btn btn-info filter-query"><i class="fa fa-search"></i> 查询</button>
+									<button type="button" class="btn btn-primary filter-reset"><i class="fa fa-undo"></i>重置</button>
 									<button type="button" class="btn btn-info refresh" data-toggle="popover-x" data-target="#myPopover" data-placement="bottom bottom-right"><i class="fa fa-download"></i> 导出 </button>
-									<button type="button" class="btn btn-info refresh"><i class="fa fa-print"></i> 打印 </button>
 									</p>
 									<div class="input-group" style="float:right;margin-right:8px;width:200px">
 										<input type="text" value="" class="form-control search-key" placeholder="搜素">
@@ -223,6 +224,52 @@
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
 								</div><!-- /.modal -->
+								<!-- 分配学生模态框（Modal） -->
+								<div class="modal fade" id="distributeStudent" tabindex="-1" role="dialog" aria-labelledby="modifyModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="modifyModalLabel">学生管理  / 宿舍分配</h4>
+											</div>
+											<!--内容 -->
+											<div class="modal-body">
+												<form role="form" style="padding:8px;">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-user">&nbsp;</i> 宿舍楼</span>
+														<select class="form-control building-name">
+														
+														</select>
+													</div>
+													<br>
+													<div id="panel-scrolling-demo" class="panel" style="height:300px;">
+														<div class="panel-body" style="height:300px;">						
+															<table class="table table-hover">
+																<thead>
+																	<tr>
+																
+																		<th style="display:none">宿舍编号</th>
+																		<th>宿舍号</th>
+																		<th>性质</th>
+																		<th>已入住/总数</th>
+																		<th>操作</th>
+																	</tr>
+																</thead>
+																<tbody class="distrdormlist">
+															
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</form>	
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+												<button type="button" class="btn btn-primary" id="confirm">确定</button>			
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->
 								
 								<div class="panel-body">
 									<table class="table table-hover">
@@ -243,6 +290,7 @@
 												<th>状态</th>
 												<th>角色</th>
 												<th>所在宿舍</th>
+												<th>操作</th>
 												
 											</tr>
 										</thead>
@@ -250,11 +298,15 @@
 											
 										</tbody>
 									</table>
+									<div class="no-data">
+										<img src="http://resource.baobaodz.com/DMS/common/no_data.svg" style="width:30%;display:block;margin: 0 auto;">
+										<div class="text-center">还没有记录哦</div>
+									</div>									
 								</div>
 							</div>
 							<!-- END TABLE HOVER -->
 						
-						<div style="width: 100%;height:30px;text-align:right;padding-right: 15px;" >
+						<div class="page-leaf" style="width: 100%;height:30px;text-align:right;padding-right: 15px;" >
 						<span>共</span><span class="total-size">8</span><span>页&nbsp;</span>
 						<span>每页
 							<select class="page-size">
@@ -327,6 +379,7 @@
 	<script src="../../../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../../../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="../../../assets/scripts/klorofil-common.js"></script>
+	<script src="../../../js/bootoast.js"></script>
 
 
     <script type="text/javascript">
@@ -366,44 +419,9 @@
 			});
         }
        
-// 		queryStudent();
-// 		function queryStudent(){
-		
-// 			$.ajax({
-// 				url: "<%=request.getContextPath()%>/queryStudent",
-//      			type: "post",
-//      			dataType : "json",
-//      			contentType: "application/json;charset=utf-8",
-//      			data:JSON.stringify({}),
-//      			success:function(data){
-//      			 	for(var i =0; i<data.length; i++){
-     			 		
-//      			 		data[i].character = data[i].character==null?"":data[i].character;
-// 			     		$(".studentlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>"+
-// 							  data[i].sid+"</td><td>"+
-// 			     			  data[i].sname+"</td><td>"+
-// 			     			  data[i].gender+"</td><td>"+
-// 			     			  new Date(data[i].admission).toLocaleDateString()+"</td><td>"+
-// 			     			  data[i].sgrade+"</td><td>"+
-// 			     			  data[i].sclass+"</td><td>"+
-// 			     			  data[i].status+"</td><td>"+
-// 			     			  data[i].character+"</td><td>"+
-// 			     			  data[i].dormitory.building_id+"-"+data[i].dormitory.dno+"</td><td>"+
-// 			     			  "<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
-// 			     			  "<button type='button' class='more'>详情</button></td></tr>");
-			     			  	
-// 				 	}
-// 					clickModifyBuilding();
-// 					clickMoreInfo();				 	
-				 	
-// 				 }	
-// 		 	});		
-
-// 		}
 		//进入先查询楼宇号
 		function getBuildingId(bid){
 		
-			alert(bid);
 			$.ajax({
 				url: "<%=request.getContextPath()%>/getBuildingId",
      			type: "post",
@@ -417,13 +435,10 @@
 			     		$(".building-id").append("<option value='"+data[i]+"'>学生宿舍 "+data[i]+" 栋</option>");
 			     			  	
 				 	}
-				 	alert("bid:"+bid);
 				 	$(".building-id")[0].selectedIndex = bid;//设置默认楼号为管理员所负责楼号
-				 	$("input[name='checkStatus']").attr("checked",true);
 				 	$(".current-page").val("1");
 				 	getQueryParamterThenDo();//查询各参数值并执行
 				 	
-				 	getDormitoryNumber(bid);
 				 	
 				 }			
 			})
@@ -433,36 +448,29 @@
 		function getQueryParamterThenDo(){
 			var bid = $(".building-id").val();
 			var sexId = $(".sex-id").val();
-			var checkedStatusId = "";
-        	$("input[name='checkStatus']").each(function(e){
-            	
-                if($(this).prop("checked")){
-                	var statusId = $(this).attr("id");
-                	checkedStatusId +="," + statusId;
-                }
-            	
-        	})
+			var status=$("input:radio[name='status']:checked").val();
         	var queryKey = $(".search-key").val();
         		
-        	getApplicationNumber(bid,sexId,checkedStatusId,queryKey);		
+        	getStudentNumber(bid,sexId,status,queryKey);		
 		}	
 		//查询在过滤条件下的申请总数		
-		function getApplicationNumber(bid,typeId,startTime,endTime,checkedStatusId){
+		function getStudentNumber(bid,sexId,status,queryKey){
 		
 			$.ajax({
-				url: "<%=request.getContextPath()%>/getApplicationNumber",
+				url: "<%=request.getContextPath()%>/getStudentNumber",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
      				"bid" : bid,
-     				"typeId" : typeId,
-     				"startTime" : startTime,
-     				"endTime" : endTime,
-     				"checkedStatusId" : checkedStatusId
+     				"sexId" : sexId,
+     				"status" : status,
+     				"queryKey" : queryKey
      			}),
      			success:function(data){
      			
+        			bootoast({message: "学生数"+data,type: "success",position: "bottom-left",timeout: 2});
+
  			 		var totalSize = data;//每栋楼报修申请总数
 				 	var currentPage = $(".current-page").val();
 				 	var pageSize = $(".page-size").val();
@@ -472,65 +480,103 @@
 					$(".current-page").val(currentPage);
 					$(".total-size").text(totalPage);
 					
-				 	queryRepairApplication(bid,typeId,startTime,endTime,checkedStatusId,currentPage,pageSize);//分页查询
+				 	queryStudentByFilter(bid,sexId,status,queryKey,currentPage,pageSize);//分页查询
 				 }	
 		 	});			
 		}	
 		//查询并分页
-		function queryRepairApplication(bid,typeId,startTime,endTime,checkedStatusId,currentPage,pageSize){
+		function queryStudentByFilter(bid,sexId,status,queryKey,currentPage,pageSize){
 			$.ajax({
-				url: "<%=request.getContextPath()%>/queryRepairApplication",
+				url: "<%=request.getContextPath()%>/queryStudentByFilter",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
      				"bid": bid,
-     				"typeId": typeId,
-     				"startTime": startTime,
-     				"endTime": endTime,
-     				"checkedStatusId": checkedStatusId,
+     				"sexId": sexId,
+     				"status": status,
+     				"queryKey": queryKey,
      				"currentPage": currentPage,
      				"pageSize": pageSize
      			}),
      			success:function(data){
      			
      				if(data.length!=0){
-						$(".repair-list").empty();
+						$(".studentlist").empty();
      					$(".no-data").css("display","none");
      					$(".page-leaf").css("display","block");
-     			 		for(var i =0; i<data.length; i++){
-							data[i].handleadvice = data[i].handleadvice==null?"":data[i].handleadvice;
-							data[i].handler = data[i].handler==null?"":data[i].handler;
-							data[i].handletime = data[i].handletime==null?"":data[i].handletime;
-			     			$(".repair-list").append("<tr><td style='display:none'>"+
-			     			  	data[i].rid+"</td><td>"+
-			     			  	data[i].budno+"</td><td>"+
-			     			  	getRepairTypeName(data[i].rtype)+"</td><td>"+
-			     			  	data[i].rcause+"</td><td class='image-hover'><i class='fa fa-eye'></i><span style='display:none'>"+
-			     			  	data[i].rpicture+"</span></td><td>"+
-			     			  	data[i].reporttime+"</td><td>"+
-			     			  	data[i].reporter+"</td><td>"+
-			     			  	getRepairHandleStatusName(data[i].handlestatus)+"</td><td>"+
-			     			  	data[i].handleadvice+"</td><td>"+
-			     			  	data[i].handler+"</td><td>"+
-			     			  	data[i].handletime+"</td><td>"+
-			     			  	"<button type='button' class='handle-right' data-toggle='modal' data-target='#handleRepairApplication'>处理</button>"+
-			     			  	"</td></tr>");
+     					if(bid==0&&status=='1'){
+        			 		for(var i =0; i<data.length; i++){
+     			 				data[i].character = data[i].character==null?"":data[i].character;
+     			 				data[i].dormitory_id = data[i].dormitory_id==0?"":data[i].dormitory_id;
+     			 				data[i].status = data[i].status=='0'?"已入住":"未入住";
+     			 			
+			     				$(".studentlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>"+
+							  		data[i].sid+"</td><td>"+
+			     			  		data[i].sname+"</td><td>"+
+			     			  		data[i].gender+"</td><td>"+
+			     			  		new Date(data[i].admission).toLocaleDateString()+"</td><td>"+
+			     			  		data[i].sgrade+"</td><td>"+
+			     			  		data[i].sclass+"</td><td>"+
+			     			  		data[i].status+"</td><td>"+
+			     			  		data[i].character+"</td><td>"+
+			     			  		data[i].dormitory_id+"</td><td>"+
+			     			  	"<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
+			     			  	"<button type='button' class='more'>详情</button></td></tr>");  	
+			     			}				
+     					}else{
+       			 			for(var i =0; i<data.length; i++){
+     			 				data[i].character = data[i].character==null?"":data[i].character;
+     			 				data[i].status = data[i].status=='0'?"已入住":"未入住";
+			     				$(".studentlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>"+
+							  		data[i].sid+"</td><td>"+
+			     			  		data[i].sname+"</td><td>"+
+			     			  		data[i].gender+"</td><td>"+
+			     			  		new Date(data[i].admission).toLocaleDateString()+"</td><td>"+
+			     			  		data[i].sgrade+"</td><td>"+
+			     			  		data[i].sclass+"</td><td>"+
+			     			  		data[i].status+"</td><td>"+
+			     			  		data[i].character+"</td><td>"+
+			     			  		data[i].dormitory.building_id+"-"+data[i].dormitory.dno+"</td><td>"+
+			     			  		"<button type='button' class='modify-right' data-toggle='modal' data-target='#modifyBuilding'>修改</button>"+
+			     			  		"<button type='button' class='more'>详情</button></td></tr>");   					
+     					
+     						}
 			     		}
-			     		clickImageEye();
-			     		clickHandleRepair();
-			     		
-			     	
 			     		
 			     	}else{
-			     		$(".repair-list").empty();
+			     		$(".studentlist").empty();
 			     		$(".no-data").css("display","block");
 			     		$(".page-leaf").css("display","none");
 			     	}
+			     	clickUpButton();
 			     }
 		 	});	
 		
 		}
+		
+		pageConditionChange();	    //页数变化	
+// 		clickDeleteRepair();		//删除
+		clickQueryStudent(); 		//过滤查询
+// 		clickcloseModel();			//取消
+// 		clickExportRepair();	
+		//点击新建按钮在模态框中显示待分配楼宇
+		function clickQueryStudent(){
+			$(".filter-query").click(function(){
+				
+				getQueryParamterThenDo();
+			})
+
+		}
+
+		function pageConditionChange(){
+		
+			$(".current-page,.page-size").change(function(){
+		
+				getQueryParamterThenDo();
+			})	
+		
+		}	
 					        					
 
 		$(".page-previous,.page-next").click(function(){
@@ -549,7 +595,8 @@
 			}
 			$(".current-page").empty().val(currentPage);
 			var bid = $(".building-id").val();
-			getDormitoryNumber(bid);
+			
+			getQueryParamterThenDo();
 		
 		})
 		
@@ -608,7 +655,7 @@
 			     			  "<button type='button' class='more'>详情</button></td></tr>");
 			     			  	
 				 	}
-					clickModifyBuilding();
+					clickUpButton();
 					clickMoreInfo();				 	
 				 	
 				 }	
@@ -619,7 +666,7 @@
 		clickRefreshBuilding();
 		clickDeleteBuilding();
 		//点击修改按钮时弹出模态框
-		function clickModifyBuilding(){
+		function clickUpButton(){
 		
 			$(".modify-up").click(function(){
 			
@@ -654,6 +701,89 @@
         		
         	})
 		}
+			$(".distribute").click(function(){
+			
+				var i=0,checkbox = $("input[name='choose']");
+				checkbox.each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		i++;
+                	}
+        		}) 
+        		if(i==0){
+        			alert("请选择一个");
+        			return false;
+        		}
+        		checkbox.each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		var checkedSid = "";
+                		var tds = $(this).parent().parent().parent().find("td");
+                		var sid = tds.eq(1).text();
+                		var gender =tds.eq(3).text(); 
+                		checkedSid +=","+sid;
+                		getDistrBuildingByGender(gender);
+                	}
+            	
+        		})	
+        })		
+        function getDistrBuildingByGender(gender){
+        
+			$.ajax({
+				url: "<%=request.getContextPath()%>/getDistrBuildingByGender",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"gender": gender
+     			}),
+     			success:function(data){
+     			
+     				for(var i =0; i<data.length; i++){
+     					$(".building-name").append("<option value='"+data[i].bid+"'>"+data[i].bname+"</option>");
+     				
+     				}
+     				var bid = $(".building-name").val();
+     				alert(bid);
+     				getDistrDormitoryByBuilding(bid);
+									 
+     			}
+			
+			});			        
+        
+        }
+        function getDistrDormitoryByBuilding(bid){
+        
+			$.ajax({
+				url: "<%=request.getContextPath()%>/getDistrDormitoryByBuilding",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"bid": bid
+     			}),
+     			success:function(data){
+     			
+     				for(var i =0; i<data.length; i++){
+     					$(".distrdormlist").append("<tr><td style='display:none'>"+
+							  data[i].did+"</td><td>"+
+			     			  data[i].dno+"</td><td>"+
+			     			  data[i].category+"</td><td>"+
+			     			  data[i].occupied+"/"+data[i].capacity+"</td><td>"+
+			     			  "<label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>");
+     				
+     				}
+									 
+     			}
+			
+			});			        			
+			      
+        
+        
+        
+        
+        
+        }
 		function clickDeleteBuilding(){
 		
 			$(".delete-up").click(function(){
@@ -883,6 +1013,15 @@
 			
 			});	
 		})	
+		$(".filter-reset").click(function(){
+			$(".building-id").val($("#myBuildingId").val());
+			$("").attr("value","0");
+			$("input:radio[name='status']").eq(0).prop("checked",true);
+			$(".sex-id").val("0");
+			$(".search-key").val("");
+			getQueryParamterThenDo();
+		
+		})
 		function clickRefreshBuilding(){
 		
 			$(".refresh").click(function(){
@@ -911,6 +1050,8 @@
     		
     	
     	})
+    	$("#panel-scrolling-demo .slimScrollDiv").css("height","300px");
+    	$("#panel-scrolling-demo .slimScrollDiv .panel-body").css("height","300px");   	
 	}	
 </script>
 </body>
