@@ -82,7 +82,7 @@ public class StudentController {
 					XSSFCell start = sheet.getRow(i).getCell(3);
 					XSSFCell sgrade = sheet.getRow(i).getCell(4);
 					XSSFCell sclass = sheet.getRow(i).getCell(5);
-					XSSFCell status = sheet.getRow(i).getCell(6);
+					XSSFCell statusCell = sheet.getRow(i).getCell(6);
 					XSSFCell characterCell = sheet.getRow(i).getCell(7);
 					XSSFCell dormnameCell = sheet.getRow(i).getCell(8);
 					
@@ -111,6 +111,11 @@ public class StudentController {
 					if (sclass == null) {
 						errors.add("错误行："+(i+1)+",错误信息:班级----不能为空并且>0");
 						continue;
+					}
+					String status="";
+					if (statusCell != null) {
+						
+						status = statusCell.toString()=="已入住"?"0":"1";
 					}
 					String character = "";
 					if (characterCell != null) {

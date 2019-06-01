@@ -265,7 +265,7 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-												<button type="button" class="btn btn-primary" id="confirm">确定</button>			
+												<button type="button" class="btn btn-primary" id="distrConfirm">确定</button>			
 											</div>
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
@@ -511,7 +511,7 @@
      			 				data[i].dormitory_id = data[i].dormitory_id==0?"":data[i].dormitory_id;
      			 				data[i].status = data[i].status=='0'?"已入住":"未入住";
      			 			
-			     				$(".studentlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>"+
+			     				$(".studentlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='chooseStu'><span></span></label></td><td>"+
 							  		data[i].sid+"</td><td>"+
 			     			  		data[i].sname+"</td><td>"+
 			     			  		data[i].gender+"</td><td>"+
@@ -528,7 +528,7 @@
        			 			for(var i =0; i<data.length; i++){
      			 				data[i].character = data[i].character==null?"":data[i].character;
      			 				data[i].status = data[i].status=='0'?"已入住":"未入住";
-			     				$(".studentlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>"+
+			     				$(".studentlist").append("<tr><td><label class='fancy-checkbox'><input type='checkbox' name='chooseStu'><span></span></label></td><td>"+
 							  		data[i].sid+"</td><td>"+
 			     			  		data[i].sname+"</td><td>"+
 			     			  		data[i].gender+"</td><td>"+
@@ -670,7 +670,7 @@
 		
 			$(".modify-up").click(function(){
 			
-				var i=0,checbox = $("input[name='choose']");
+				var i=0,checbox = $("input[name='chooseStu']");
 				checbox.each(function(){//反选 
             	
                 	if($(this).prop("checked")){
@@ -678,7 +678,7 @@
                 	}
         		}) 
         		if(i==0||i>1){
-        			alert("请选择一个");
+        			bootoast({message: "请至少选择一个学生!",type: "warning",position: "bottom-left",timeout: 2});
         			return false;
         		}
         		checbox.each(function(){//反选 
@@ -693,9 +693,6 @@
 			})
         	$(".modify-right").click(function(){ 
         	
- 				//获取点击当前按钮所在行的第一列值，即楼宇编号
-				//var aid = $(this).parent().parent().children("td:first-Child").text();
-				//var aid = $(this).parents().children("td").eq(0).text();       	
         		var bid = $(this).parent().parent().find("td").eq(1).text();
         		showBuilding(bid);
         		
@@ -703,7 +700,7 @@
 		}
 			$(".distribute").click(function(){
 			
-				var i=0,checkbox = $("input[name='choose']");
+				var i=0,checkbox = $("input[name='chooseStu']");
 				checkbox.each(function(){//反选 
             	
                 	if($(this).prop("checked")){
@@ -711,22 +708,19 @@
                 	}
         		}) 
         		if(i==0){
-        			alert("请选择一个");
+         			bootoast({message: "请至少选择一个学生!",type: "warning",position: "bottom-left",timeout: 2});
         			return false;
         		}
-        		checkbox.each(function(){//反选 
+        		var checkedTds = $("input[name='chooseStu']:checked").eq(0).parent().parent().parent().find("td");
+        		if(checkedTds.eq(7).text()=="已入住"){
+         			bootoast({message: "已经入住，无需分配!",type: "warning",position: "bottom-left",timeout: 2});
+        			return false;
+        		}
+        		var gender = checkedTds.eq(3).text();
+                getDistrBuildingByGender(gender);
             	
-                	if($(this).prop("checked")){
-                		var checkedSid = "";
-                		var tds = $(this).parent().parent().parent().find("td");
-                		var sid = tds.eq(1).text();
-                		var gender =tds.eq(3).text(); 
-                		checkedSid +=","+sid;
-                		getDistrBuildingByGender(gender);
-                	}
-            	
-        		})	
         })		
+        
         function getDistrBuildingByGender(gender){
         
 			$.ajax({
@@ -744,7 +738,6 @@
      				
      				}
      				var bid = $(".building-name").val();
-     				alert(bid);
      				getDistrDormitoryByBuilding(bid);
 									 
      			}
@@ -764,26 +757,32 @@
      			}),
      			success:function(data){
      			
+     				$(".distrdormlist").empty();
      				for(var i =0; i<data.length; i++){
      					$(".distrdormlist").append("<tr><td style='display:none'>"+
 							  data[i].did+"</td><td>"+
 			     			  data[i].dno+"</td><td>"+
 			     			  data[i].category+"</td><td>"+
 			     			  data[i].occupied+"/"+data[i].capacity+"</td><td>"+
-			     			  "<label class='fancy-checkbox'><input type='checkbox' name='choose'><span></span></label></td><td>");
+			     			  "<label class='fancy-checkbox'><input type='checkbox' name='distrCheck'><span></span></label></td><td>");
      				
      				}
-									 
+							 
      			}
 			
 			});			        			
 			      
         
-        
-        
-        
-        
         }
+        $(".building-name").change(function(){
+        
+        	var bid = $(this).val();
+        	alert("bid:"+bid);
+        	getDistrDormitoryByBuilding(bid);
+        
+        })
+        
+        
 		function clickDeleteBuilding(){
 		
 			$(".delete-up").click(function(){
@@ -809,34 +808,56 @@
         		})	
 			})
 		}
- 
-		//模态框显示选定楼宇
-		function showBuilding(bid){
 		
+		//点击保存，提交新建请求
+		$("#distrConfirm").click(function(){
+		
+			var i=0,distrCheckBox = $("input[name='distrCheck']");
+			distrCheckBox.each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		i++;
+                	}
+        	}) 
+        	if(i==0||i>1){
+         		bootoast({message: "请选择一个!",type: "warning",position: "bottom-left",timeout: 2});
+        		return false;
+        	}
+        	var chooseBox = $("input[name='chooseStu']");
+        	var checkedSid = "";
+        	chooseBox.each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		
+                		var tds = $(this).parent().parent().parent().find("td");
+                		var sid = tds.eq(1).text();
+                		checkedSid +=","+sid;
+                	}
+            	
+        		})		
+        	
+			var checkedDorm = $("input[name='distrCheck']:checked");
+			var checkedDid = checkedDorm.parent().parent().parent().find("td").eq(0).text();
+			
+			alert("checkedSid:"+checkedSid);
+			alert("checkedDid:"+checkedDid);
+			
 			$.ajax({
-				url: "<%=request.getContextPath()%>/getBuilding",
+				url: "<%=request.getContextPath()%>/updateDistr",
      			type: "post",
-     			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
-     				"bid": bid
+     				"checkedSid": checkedSid,
+     				"checkedDid": checkedDid
      			}),
      			success:function(data){
      			
-					$("#modifyBuilding .bid").val(bid);
-					$("#modifyBuilding .bname").val(data.bname);
-					$("#modifyBuilding .attribute").val(data.attribute);
-					$("#modifyBuilding .location").val(data.location);
-					$("#modifyBuilding .description").val(data.description);
-					$("#modifyBuilding .imageinfo").val(data.imageinfo);     			
-					$("#modifyBuilding .managernumber").val(data.managernumber);     			
-				 
+     				alert("分配成功");
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/user/da/DormStudentManagement.jsp";
      			}
 			
-			});			
-		}
-				
-
+			});
+		})
 		//点击保存，提交新建请求
 		$("#save").click(function(){
 		
