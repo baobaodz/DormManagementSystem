@@ -51,7 +51,7 @@
 										<button type="button" class="btn btn-info distribute" data-toggle="modal" data-target="#distributeStudent"><i class="fa fa-random"></i> 分配宿舍 </button>
 										<button type="button" class="btn btn-info "><i class="fa fa-calendar-times-o"></i> 缺寝/晚归填报</button>
 										<button type="button" class="btn btn-info "><i class="fa fa-window-restore"></i> 进出填报</button>
-										<button type="button" class="btn btn-info "><i class="fa fa-users"></i> 来访登记</button>
+										<button type="button" class="btn btn-info add-visitor" data-toggle="modal" data-target="#addVisitor"><i class="fa fa-users"></i> 来访登记</button>
 									</p>
 									<div class="input-group" style="float:left;margin-right:8px;">
 										
@@ -224,6 +224,7 @@
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
 								</div><!-- /.modal -->
+								
 								<!-- 分配学生模态框（Modal） -->
 								<div class="modal fade" id="distributeStudent" tabindex="-1" role="dialog" aria-labelledby="modifyModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
@@ -270,7 +271,56 @@
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
 								</div><!-- /.modal -->
-								
+
+								<!-- 添加来访登记模态框（Modal） -->
+								<div class="modal fade" id="addVisitor" tabindex="-1" role="dialog" aria-labelledby="modifyModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="addModalLabel">来访管理  / 登记</h4>
+											</div>
+											<!--内容 -->
+											<div class="modal-body">
+												<form role="form" style="padding:8px;">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-building">&nbsp;</i> 来访者姓名</span>
+														<input class="form-control vname" placeholder="vname" type="text">
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-venus-mars">&nbsp;</i>与学生关系</span>
+														<select class="form-control vrelationship">
+															<option value="1">父母</option>
+															<option value="2">爷爷奶奶</option>
+															<option value="3">亲戚</option>
+															<option value="4">朋友</option>
+															<option value="5">同学</option>
+															<option value="6">其他</option>
+														</select>
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-map-marker">&nbsp;</i>&nbsp; 来访缘由</span>
+														<input class="form-control vreason" placeholder="vreason" type="text">
+													</div>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-map-marker">&nbsp;</i>&nbsp; 联系方式</span>
+														<input class="form-control vcontact" placeholder="vcontact" type="text">
+													</div>
+													<br>
+													<textarea class="form-control vnote" placeholder="备注" rows="4"></textarea>
+													<br>
+												</form>	
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+												<button type="button" class="btn btn-primary" id="visitorSave">确定</button>			
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->								
 								<div class="panel-body">
 									<table class="table table-hover">
 										<thead>
@@ -711,6 +761,7 @@
          			bootoast({message: "请至少选择一个学生!",type: "warning",position: "bottom-left",timeout: 2});
         			return false;
         		}
+        		
         		var checkedTds = $("input[name='chooseStu']:checked").eq(0).parent().parent().parent().find("td");
         		if(checkedTds.eq(7).text()=="已入住"){
          			bootoast({message: "已经入住，无需分配!",type: "warning",position: "bottom-left",timeout: 2});
@@ -858,37 +909,51 @@
 			
 			});
 		})
-		//点击保存，提交新建请求
-		$("#save").click(function(){
-		
-			var bid =$(".bid").val();
-			var bname =$(".bname").val();
-			var attribute =$(".attribute").val();
-			var location =$(".location").val();
-			var description =$(".description").val();
-			var imageinfo =$(".imageinfo").val();
-			var managernumber =$(".managernumber").val();
+		$(".add-visitor").click(function(){
 			
-			alert(bid+bname+attribute+location+description+imageinfo+managernumber);
+				var i=0,checkbox = $("input[name='chooseStu']");
+				checkbox.each(function(){//反选 
+            	
+                	if($(this).prop("checked")){
+                		i++;
+                	}
+        		}) 
+        		if(i==0){
+         			bootoast({message: "请选择一个学生!",type: "warning",position: "bottom-left",timeout: 2});
+        			return false;
+        		}
+//         		var checkedTds = $("input[name='chooseStu']:checked").eq(0).parent().parent().parent().find("td");
+        })				
+		
+		//点击保存，提交新建请求
+		$("#visitorSave").click(function(){
+		
+			var vname =$(".vname").val();
+			var vrelationship =$(".vrelationship").val();
+			var vreason =$(".vreason").val();
+			var vcontact =$(".vcontact").val();
+			var vnote =$(".vnote").val();
+			var student_id = $("input[name='chooseStu']:checked").parent().parent().parent().find("td").eq(1).text();
+			alert(vname+vrelationship+vreason+vcontact+vnote);
+			alert("student_id:"+student_id);
 			$.ajax({
-				url: "<%=request.getContextPath()%>/saveBuilding",
+				url: "<%=request.getContextPath()%>/saveVisitor",
      			type: "post",
      			dataType : "json",
      			contentType: "application/json;charset=utf-8",
      			data:JSON.stringify({
-     				"bid": bid,
-     				"bname": bname,
-     				"attribute": attribute,
-     				"location": location,
-     				"description": description,
-     				"imageinfo": imageinfo,
-     				"managernumber":managernumber
+     				"vname": vname,
+     				"vrelationship": vrelationship,
+     				"vreason": vreason,
+     				"vcontact": vcontact,
+     				"vnote": vnote,
+     				"student_id": student_id
+     				
      			}),
      			success:function(data){
      			
-     				alert("新增楼宇成功");
-     				saveDormitory(bid,attribute);
-				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
+     				alert("新增来访记录成功！");
+				 	window.location.href = "<%=request.getContextPath()%>/jsp/user/da/VisitorManagement.jsp";
 				 
      			}
 			
@@ -897,7 +962,7 @@
 		
 		
 		//点击保存，提交新建请求
-		$(".newDormitory").click(function(){
+		$(".save").click(function(){
 		
 			$.ajax({
 				url: "<%=request.getContextPath()%>/saveDormitory",
@@ -946,15 +1011,6 @@
 			
 			});			
 			
-		}
-		//点击详情按钮跳转到BuildingInfo页面
-		function clickMoreInfo(){
-		
-			$(".more").click(function(){ 
-			
-				var bid = $(this).parent().parent().find("td").eq(1).text();
-				window.location.href = "<%=request.getContextPath()%>/jsp/BuildingInfo.jsp?bid="+bid;
-			 });
 		}
 		
 		//复选框全选、反选
