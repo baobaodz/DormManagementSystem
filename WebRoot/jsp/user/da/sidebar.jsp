@@ -14,15 +14,15 @@
 					<ul class="nav">
 						<li><a href="<%=request.getContextPath()%>/jsp/user/da/index.jsp" class=""><i class="lnr lnr-home"></i> <span>系统设置</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/jsp/user/da/DormitoryManagement.jsp" class=""><i class="lnr lnr-chart-bars"></i> <span>宿舍管理</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/jsp/user/da/DormStudentManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>学生管理</span></a></li>
+						<li><a href="<%=request.getContextPath()%>/jsp/user/da/DormStudentManagement.jsp" class=""><i class="lnr lnr-user"></i> <span>学生管理</span></a></li>
 						<li>
-							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>日常管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-laptop-phone"></i><span>日常管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
 							<div id="subPages" class="collapse ">
 								<ul class="nav">
-									<li><a href="<%=request.getContextPath()%>/jsp/user/da/AbsenteeismManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>缺寝管理</span></a></li>
-									<li><a href="<%=request.getContextPath()%>/jsp/user/da/RepairManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>报修管理</span></a></li>
-									<li><a href="<%=request.getContextPath()%>/jsp/user/da/InOutManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>进出管理</span></a></li>
-									<li><a href="<%=request.getContextPath()%>/jsp/user/da/VisitorManagement.jsp" class=""><i class="lnr lnr-cog"></i> <span>来访管理</span></a></li>
+									<li><a href="<%=request.getContextPath()%>/jsp/user/da/AbsenteeismManagement.jsp" class=""><i class="fa fa-calendar-times-o"></i> <span>缺寝管理</span></a></li>
+									<li><a href="<%=request.getContextPath()%>/jsp/user/da/RepairManagement.jsp" class=""><i class="lnr lnr-heart-pulse"></i> <span>报修管理</span></a></li>
+									<li><a href="<%=request.getContextPath()%>/jsp/user/da/InOutManagement.jsp" class=""><i class="lnr lnr-exit"></i> <span>进出管理</span></a></li>
+									<li><a href="<%=request.getContextPath()%>/jsp/user/da/VisitorManagement.jsp" class=""><i class="lnr lnr-users"></i> <span>来访管理</span></a></li>
 								</ul>
 							</div>
 						</li>

@@ -606,10 +606,7 @@
 		}
 		
 		pageConditionChange();	    //页数变化	
-// 		clickDeleteRepair();		//删除
 		clickQueryStudent(); 		//过滤查询
-// 		clickcloseModel();			//取消
-// 		clickExportRepair();	
 		//点击新建按钮在模态框中显示待分配楼宇
 		function clickQueryStudent(){
 			$(".filter-query").click(function(){
@@ -905,6 +902,7 @@
      			
      				alert("分配成功");
 				 	window.location.href = "<%=request.getContextPath()%>/jsp/user/da/DormStudentManagement.jsp";
+     			
      			}
 			
 			});
@@ -934,8 +932,6 @@
 			var vcontact =$(".vcontact").val();
 			var vnote =$(".vnote").val();
 			var student_id = $("input[name='chooseStu']:checked").parent().parent().parent().find("td").eq(1).text();
-			alert(vname+vrelationship+vreason+vcontact+vnote);
-			alert("student_id:"+student_id);
 			$.ajax({
 				url: "<%=request.getContextPath()%>/saveVisitor",
      			type: "post",
@@ -952,8 +948,11 @@
      			}),
      			success:function(data){
      			
-     				alert("新增来访记录成功！");
-				 	window.location.href = "<%=request.getContextPath()%>/jsp/user/da/VisitorManagement.jsp";
+         			bootoast({message: "新增来访记录成功!",type: "success",position: "bottom-left",timeout: 2});
+				 	setTimeout(function(){
+						location.href="<%=request.getContextPath()%>/jsp/user/da/VisitorManagement.jsp";
+
+					},3000);
 				 
      			}
 			
@@ -975,7 +974,7 @@
      			}),
      			success:function(data){
      			
-     				alert("新增宿舍成功");
+     				
 				 	window.location.href = "<%=request.getContextPath()%>/jsp/admin/BuildingManagement.jsp";
 				 
      			}
