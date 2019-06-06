@@ -19,7 +19,7 @@
 							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-laptop-phone"></i><span>日常管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
 							<div id="subPages" class="collapse ">
 								<ul class="nav">
-									<li><a href="<%=request.getContextPath()%>/jsp/user/da/AbsenteeismManagement.jsp" class=""><i class="fa fa-calendar-times-o"></i> <span>缺寝管理</span></a></li>
+									<li><a href="<%=request.getContextPath()%>/jsp/user/da/LateManagement.jsp" class=""><i class="fa fa-calendar-times-o"></i> <span>晚归管理</span></a></li>
 									<li><a href="<%=request.getContextPath()%>/jsp/user/da/RepairManagement.jsp" class=""><i class="lnr lnr-heart-pulse"></i> <span>报修管理</span></a></li>
 									<li><a href="<%=request.getContextPath()%>/jsp/user/da/InOutManagement.jsp" class=""><i class="lnr lnr-exit"></i> <span>进出管理</span></a></li>
 									<li><a href="<%=request.getContextPath()%>/jsp/user/da/VisitorManagement.jsp" class=""><i class="lnr lnr-users"></i> <span>来访管理</span></a></li>

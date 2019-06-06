@@ -34,5 +34,5 @@ public interface RepairMapper {
 				@Param("startTime") String startTime,
 				@Param("endTime") String endTime,
 				@Param("checkedStatusId") String[] checkedStatusId);	
-					
+		public List<Map<String,Integer>> getPieDataByRtype();
 }

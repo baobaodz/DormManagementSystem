@@ -33,4 +33,5 @@ public interface RepairService {
 			String startTime,
 			String endTime,
 			String checkedStatusId);
+	public List<Map<String,Integer>> getPieDataByRtype();
 }

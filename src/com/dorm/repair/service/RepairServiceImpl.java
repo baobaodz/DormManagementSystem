@@ -85,6 +85,12 @@ public class RepairServiceImpl implements RepairService{
 		repairMapper.updateRepairStatus(rid, handlestatus);
 	}
 
+	@Override
+	public List<Map<String, Integer>> getPieDataByRtype() {
+		// TODO Auto-generated method stub
+		return repairMapper.getPieDataByRtype();
+	}
+
 
 
 

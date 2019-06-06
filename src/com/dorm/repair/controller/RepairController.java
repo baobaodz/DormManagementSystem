@@ -291,4 +291,17 @@ public class RepairController {
 	    
 		return map;
 	}	
+	/**
+	 * ∞¥Àﬁ…·¬•≤È—Ø±®–ﬁ…Í«Î
+	 * @param bid
+	 * @return int
+	 */
+	@RequestMapping(value="getPieDataByRtype",method = RequestMethod.POST)
+	@ResponseBody
+	public String getPieDataByRtype(@RequestBody Map<String,Object> map){
+		
+		List<Map<String, Integer>> rtypeList = repairService.getPieDataByRtype();
+		System.out.println(rtypeList);
+		return JSON.toJSON(rtypeList).toString();
+	}	
 }

@@ -49,7 +49,7 @@
 										<button type="button" class="btn btn-info delete-up"><i class="fa fa-trash"></i> 删除 </button>
 										<button type="button" class="btn btn-info refresh"><i class="fa fa-refresh"></i> 刷新 </button>
 										<button type="button" class="btn btn-info distribute" data-toggle="modal" data-target="#distributeStudent"><i class="fa fa-random"></i> 分配宿舍 </button>
-										<button type="button" class="btn btn-info "><i class="fa fa-calendar-times-o"></i> 缺寝/晚归填报</button>
+										<button type="button" class="btn btn-info add-laterecord" data-toggle="modal" data-target="#addLate"><i class="fa fa-calendar-times-o"></i> 晚归填报</button>
 										<button type="button" class="btn btn-info "><i class="fa fa-window-restore"></i> 进出填报</button>
 										<button type="button" class="btn btn-info add-visitor" data-toggle="modal" data-target="#addVisitor"><i class="fa fa-users"></i> 来访登记</button>
 									</p>
@@ -317,6 +317,34 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 												<button type="button" class="btn btn-primary" id="visitorSave">确定</button>			
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->								
+								<!-- 添加晚归记录模态框（Modal） -->
+								<div class="modal fade" id="addLate" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="addModalLabel">晚归管理  / 登记</h4>
+											</div>
+											<!--内容 -->
+											<div class="modal-body">
+												<form role="form" style="padding:8px;">
+												
+													<textarea class="form-control lcause" placeholder="晚归原因" rows="4"></textarea>
+													<br>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-map-marker">&nbsp;</i>&nbsp;备注</span>
+														<input class="form-control lnote" placeholder="lnote" type="text">
+													</div>
+													<br>
+												</form>	
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+												<button type="button" class="btn btn-primary" id="lateSave">确定</button>			
 											</div>
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
@@ -888,7 +916,6 @@
 			var checkedDid = checkedDorm.parent().parent().parent().find("td").eq(0).text();
 			
 			alert("checkedSid:"+checkedSid);
-			alert("checkedDid:"+checkedDid);
 			
 			$.ajax({
 				url: "<%=request.getContextPath()%>/updateDistr",
@@ -907,7 +934,7 @@
 			
 			});
 		})
-		$(".add-visitor").click(function(){
+		$(".add-visitor,.add-laterecord").click(function(){
 			
 				var i=0,checkbox = $("input[name='chooseStu']");
 				checkbox.each(function(){//反选 
@@ -920,7 +947,6 @@
          			bootoast({message: "请选择一个学生!",type: "warning",position: "bottom-left",timeout: 2});
         			return false;
         		}
-//         		var checkedTds = $("input[name='chooseStu']:checked").eq(0).parent().parent().parent().find("td");
         })				
 		
 		//点击保存，提交新建请求
@@ -951,6 +977,35 @@
          			bootoast({message: "新增来访记录成功!",type: "success",position: "bottom-left",timeout: 2});
 				 	setTimeout(function(){
 						location.href="<%=request.getContextPath()%>/jsp/user/da/VisitorManagement.jsp";
+
+					},3000);
+				 
+     			}
+			
+			});
+		})
+		//点击保存，提交新建请求
+		$("#lateSave").click(function(){
+		
+			var lcause =$(".lcause").val();
+			var lnote =$(".lnote").val();
+			var student_id = $("input[name='chooseStu']:checked").parent().parent().parent().find("td").eq(1).text();
+			$.ajax({
+				url: "<%=request.getContextPath()%>/saveLate",
+     			type: "post",
+     			dataType : "json",
+     			contentType: "application/json;charset=utf-8",
+     			data:JSON.stringify({
+     				"lcause": lcause,
+     				"lnote": lnote,
+     				"student_id": student_id
+     				
+     			}),
+     			success:function(data){
+     			
+         			bootoast({message: "新增晚归记录成功!",type: "success",position: "bottom-left",timeout: 2});
+				 	setTimeout(function(){
+						location.href="<%=request.getContextPath()%>/jsp/user/da/LateManagement.jsp";
 
 					},3000);
 				 

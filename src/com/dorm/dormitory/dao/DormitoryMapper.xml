@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!--查询宿舍 -->
 	<select id="getDormitory" parameterType="String" resultMap="DormitoryResultMap">
-		SELECT * FROM Dormitory D,BUILDING B where D.BUILDING_ID=B.BID AND daid = #{daid}
+		SELECT * FROM Dormitory D,BUILDING B where D.BUILDING_ID=B.BID AND did = #{did}
 	</select>
 	<!--添加指定楼宇 -->
 	<insert id="saveDormitory" parameterType="java.util.List">

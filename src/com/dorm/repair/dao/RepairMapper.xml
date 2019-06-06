@@ -121,7 +121,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
        		 ORDER BY RID ASC 
 	</select>
-	
-
+	<select id="getPieDataByRtype"  resultType="java.util.Map">
+		SELECT RTYPE name,COUNT(*) y FROM REPAIR GROUP BY RTYPE
+	</select>
 
 </mapper>
